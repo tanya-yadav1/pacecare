@@ -13,3 +13,16 @@
 - [x] Verify accessible labels, keyboard use, reduced motion, mobile layouts, persistence, and route metadata.
 - [x] Replace the PACE abstract mark with an original human-centered logo and matching favicon.
 - [x] Repair “Hear instructions” with reliable spoken audio in embedded previews and clear playback feedback.
+
+## PACE Senior-First Competition Experience
+
+- [x] Replace the human figure with the approved P-and-flowing-path logo, compact app icon, and full three-line wordmark.
+- [x] Reframe the app around Check → Personalize → Practice → Track → Prepare.
+- [x] Replace home and navigation with four calm choices and Today's PACE.
+- [x] Build the five-part PACE Check, snapshot comparisons, and report selection.
+- [x] Upgrade My PACE, Move, Wellness, and optional Music journeys.
+- [x] Add PACE Guide, My Journey notes, My Care, and user-controlled PACE Circle.
+- [x] Upgrade My PACE Report and its print/share controls.
+- [x] Add persisted Senior Mode accessibility settings.
+- [x] Add the isolated 60–90 second PACE Demo route.
+- [x] Verify the complete senior journey on desktop and mobile.

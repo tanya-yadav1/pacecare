@@ -26,6 +26,15 @@ export type WellnessObservation = {
   value?: string;
 };
 
+export type PersonalNote = { id: string; date: string; text: string };
+export type AccessibilityPreferences = {
+  textSize: "standard" | "large" | "extra-large";
+  highContrast: boolean;
+  voiceInstructions: boolean;
+  reducedMotion: boolean;
+  screenReaderSupport: boolean;
+};
+
 type WellnessState = {
   name: string;
   cadence: number | null;
@@ -41,6 +50,11 @@ type WellnessState = {
   observations: WellnessObservation[];
   doctorQuestions: string[];
   medications: string[];
+  personalNotes: PersonalNote[];
+  careTeam: string[];
+  circleSharing: string[];
+  reportObservationIds: string[];
+  accessibility: AccessibilityPreferences;
   setCadence: (cadence: number) => void;
   setTargetCadence: (cadence: number | null) => void;
   toggleSong: (song: MusicFavorite) => void;
@@ -51,9 +65,15 @@ type WellnessState = {
   setPreferredActivities: (activities: string[]) => void;
   setAvailableMinutes: (minutes: number) => void;
   addSession: (session: Omit<WellnessSession, "id" | "date">) => void;
-  addObservation: (observation: Omit<WellnessObservation, "id" | "date">) => void;
+  addObservation: (observation: Omit<WellnessObservation, "id" | "date">) => string;
   setDoctorQuestions: (questions: string[]) => void;
   setMedications: (medications: string[]) => void;
+  addPersonalNote: (text: string) => void;
+  removePersonalNote: (id: string) => void;
+  setCareTeam: (members: string[]) => void;
+  setCircleSharing: (members: string[]) => void;
+  setReportObservationIds: (ids: string[]) => void;
+  setAccessibility: (preferences: AccessibilityPreferences) => void;
 };
 
 const WellnessContext = createContext<WellnessState | null>(null);
@@ -73,6 +93,11 @@ export function LumaStrideWellnessProvider({ children }: { children: ReactNode }
   const [observations, setObservations] = useState<WellnessObservation[]>([]);
   const [doctorQuestions, setDoctorQuestionsState] = useState<string[]>([]);
   const [medications, setMedicationsState] = useState<string[]>([]);
+  const [personalNotes, setPersonalNotes] = useState<PersonalNote[]>([]);
+  const [careTeam, setCareTeamState] = useState<string[]>([]);
+  const [circleSharing, setCircleSharingState] = useState<string[]>([]);
+  const [reportObservationIds, setReportObservationIdsState] = useState<string[]>([]);
+  const [accessibility, setAccessibilityState] = useState<AccessibilityPreferences>({ textSize: "standard", highContrast: false, voiceInstructions: false, reducedMotion: false, screenReaderSupport: true });
 
   useEffect(() => {
     try {
@@ -91,12 +116,24 @@ export function LumaStrideWellnessProvider({ children }: { children: ReactNode }
       setObservations(Array.isArray(saved.observations) ? saved.observations : []);
       setDoctorQuestionsState(Array.isArray(saved.doctorQuestions) ? saved.doctorQuestions : []);
       setMedicationsState(Array.isArray(saved.medications) ? saved.medications : []);
+      setPersonalNotes(Array.isArray(saved.personalNotes) ? saved.personalNotes : []);
+      setCareTeamState(Array.isArray(saved.careTeam) ? saved.careTeam : []);
+      setCircleSharingState(Array.isArray(saved.circleSharing) ? saved.circleSharing : []);
+      setReportObservationIdsState(Array.isArray(saved.reportObservationIds) ? saved.reportObservationIds : []);
+      if (saved.accessibility && typeof saved.accessibility === "object") setAccessibilityState({ textSize: saved.accessibility["textSize"] ?? "standard", highContrast: Boolean(saved.accessibility["highContrast"]), voiceInstructions: Boolean(saved.accessibility["voiceInstructions"]), reducedMotion: Boolean(saved.accessibility["reducedMotion"]), screenReaderSupport: saved.accessibility["screenReaderSupport"] !== false });
     } catch { /* use friendly defaults */ }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 2, cadence, targetCadence, favoriteSongs, favoriteArtists, favoriteGenres, musicService, goals, preferredActivities, availableMinutes, sessions, observations, doctorQuestions, medications }));
-  }, [cadence, targetCadence, favoriteSongs, favoriteArtists, favoriteGenres, musicService, goals, preferredActivities, availableMinutes, sessions, observations, doctorQuestions, medications]);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 3, cadence, targetCadence, favoriteSongs, favoriteArtists, favoriteGenres, musicService, goals, preferredActivities, availableMinutes, sessions, observations, doctorQuestions, medications, personalNotes, careTeam, circleSharing, reportObservationIds, accessibility }));
+  }, [cadence, targetCadence, favoriteSongs, favoriteArtists, favoriteGenres, musicService, goals, preferredActivities, availableMinutes, sessions, observations, doctorQuestions, medications, personalNotes, careTeam, circleSharing, reportObservationIds, accessibility]);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    root.dataset["textSize"] = accessibility.textSize;
+    root.classList.toggle("high-contrast", accessibility.highContrast);
+    root.classList.toggle("reduce-motion", accessibility.reducedMotion);
+  }, [accessibility]);
 
   const value = useMemo<WellnessState>(() => ({
     name: "Tanya",
@@ -113,6 +150,11 @@ export function LumaStrideWellnessProvider({ children }: { children: ReactNode }
     observations,
     doctorQuestions,
     medications,
+    personalNotes,
+    careTeam,
+    circleSharing,
+    reportObservationIds,
+    accessibility,
     setCadence: (value) => setCadenceState(Math.max(30, Math.min(180, Math.round(value)))),
     setTargetCadence: (value) => setTargetCadenceState(value === null ? null : Math.max(30, Math.min(180, Math.round(value)))),
     toggleSong: (song) => setFavoriteSongs((current) => current.some((item) => item.id === song.id) ? current.filter((item) => item.id !== song.id) : [...current, song]),
@@ -123,10 +165,16 @@ export function LumaStrideWellnessProvider({ children }: { children: ReactNode }
     setPreferredActivities: setPreferredActivitiesState,
     setAvailableMinutes: (minutes) => setAvailableMinutesState([5, 10, 20, 30].includes(minutes) ? minutes : 10),
     addSession: (session) => setSessions((current) => [{ ...session, id: crypto.randomUUID(), date: new Date().toISOString() }, ...current].slice(0, 100)),
-    addObservation: (observation) => setObservations((current) => [{ ...observation, id: crypto.randomUUID(), date: new Date().toISOString() }, ...current].slice(0, 100)),
+    addObservation: (observation) => { const id = crypto.randomUUID(); setObservations((current) => [{ ...observation, id, date: new Date().toISOString() }, ...current].slice(0, 100)); return id; },
     setDoctorQuestions: setDoctorQuestionsState,
     setMedications: setMedicationsState,
-  }), [cadence, targetCadence, favoriteSongs, favoriteArtists, favoriteGenres, musicService, goals, preferredActivities, availableMinutes, sessions, observations, doctorQuestions, medications]);
+    addPersonalNote: (text) => setPersonalNotes((current) => [{ id: crypto.randomUUID(), date: new Date().toISOString(), text }, ...current].slice(0, 100)),
+    removePersonalNote: (id) => setPersonalNotes((current) => current.filter((note) => note.id !== id)),
+    setCareTeam: setCareTeamState,
+    setCircleSharing: setCircleSharingState,
+    setReportObservationIds: setReportObservationIdsState,
+    setAccessibility: setAccessibilityState,
+  }), [cadence, targetCadence, favoriteSongs, favoriteArtists, favoriteGenres, musicService, goals, preferredActivities, availableMinutes, sessions, observations, doctorQuestions, medications, personalNotes, careTeam, circleSharing, reportObservationIds, accessibility]);
 
   return <WellnessContext.Provider value={value}>{children}</WellnessContext.Provider>;
 }
