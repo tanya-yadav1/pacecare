@@ -59,27 +59,31 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-surface: var(--surface);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --font-sans: "Atkinson Hyperlegible", Arial, sans-serif;
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
+  --radius: 0.5rem;
+  --background: oklch(0.965 0.008 245);
+  --foreground: oklch(0.18 0.055 250);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.129 0.042 264.695);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
+  --primary: oklch(0.29 0.105 250);
   --primary-foreground: oklch(0.984 0.003 247.858);
   --secondary: oklch(0.968 0.007 247.896);
   --secondary-foreground: oklch(0.208 0.042 265.755);
   --muted: oklch(0.968 0.007 247.896);
   --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
+  --accent: oklch(0.82 0.17 82);
+  --accent-foreground: oklch(0.2 0.05 250);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
+  --border: oklch(0.73 0.025 245);
   --input: oklch(0.929 0.013 255.508);
   --ring: oklch(0.704 0.04 256.788);
   --chart-1: oklch(0.646 0.222 41.116);
@@ -95,6 +99,9 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
+  --surface: oklch(1 0 0);
+  --success: oklch(0.52 0.15 150);
+  --success-foreground: oklch(1 0 0);
 }
 
 .dark {
@@ -140,5 +147,40 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-size: 18px;
+    line-height: 1.55;
   }
+  h1 { font-size: clamp(2.25rem, 5vw, 4.5rem); font-weight: 800; line-height: 1.04; }
+  h2 { font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 800; line-height: 1.15; }
+  h3 { font-size: 1.25rem; font-weight: 800; }
+  button, a, input, textarea { min-height: 44px; }
 }
+
+@layer components {
+  .page { @apply mx-auto w-full max-w-screen-2xl px-4 py-10 sm:px-7 lg:py-14; }
+  .eyebrow { @apply mb-3 text-sm font-extrabold uppercase text-primary; }
+  .lead { @apply mt-5 max-w-3xl text-xl text-muted-foreground sm:text-2xl; }
+  .nav-link { @apply rounded-md px-3 py-3 text-base font-bold text-primary hover:bg-secondary; }
+  .nav-link-active { @apply bg-primary text-primary-foreground hover:bg-primary; }
+  .stat-pill { @apply flex min-h-12 items-center gap-2 rounded-md border-2 border-border bg-background px-3 text-primary; }
+  .stat-pill span { @apply flex flex-col text-sm leading-tight; }
+  .stat-pill small { @apply hidden text-xs sm:block; }
+  .stat-pill svg { @apply h-6 w-6; }
+  .celebration { @apply fixed inset-x-0 top-32 z-[60] flex min-h-20 items-center justify-center gap-4 bg-primary px-5 py-4 text-center text-xl font-extrabold text-primary-foreground shadow-xl; animation: slide-down .35s ease-out; }
+  .chat-panel { @apply w-[min(92vw,25rem)] overflow-hidden rounded-lg border-2 border-primary bg-surface shadow-2xl; }
+  .chat-parker { @apply mr-8 rounded-lg rounded-bl-none bg-secondary p-3 text-base; }
+  .chat-user { @apply ml-8 rounded-lg rounded-br-none bg-primary p-3 text-base text-primary-foreground; }
+  .avatar-frame { @apply relative overflow-hidden rounded-full border-4 border-primary bg-surface shadow-lg; }
+  .avatar-frame img { @apply h-full w-full object-cover; }
+  .skin-leopard { background-image: radial-gradient(circle, oklch(0.25 0.04 70) 18%, transparent 20%); background-color: oklch(0.82 0.15 80); background-size: 24px 24px; }
+  .skin-leopard img { mix-blend-mode: multiply; }
+  .skin-holiday { background: repeating-linear-gradient(45deg, oklch(0.48 0.17 25) 0 14px, oklch(0.93 0 0) 14px 28px, oklch(0.48 0.16 150) 28px 42px); }
+  .skin-holiday img { mix-blend-mode: multiply; }
+  .section-band { @apply border-y border-border bg-surface; }
+  .feature-card { @apply rounded-lg border-2 border-border bg-card p-5 shadow-sm; }
+  .choice { @apply flex min-h-14 cursor-pointer items-center gap-3 rounded-md border-2 border-border bg-surface px-4 font-bold hover:border-primary; }
+  .choice-active { @apply border-primary bg-secondary; }
+}
+@keyframes slide-down { from { transform: translateY(-100%); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }

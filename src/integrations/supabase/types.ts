@@ -14,7 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      vitamove_profiles: {
+        Row: {
+          active_skin: string
+          exercise_preference: string
+          id: string
+          motor_challenges: string[]
+          movement_claimed: boolean
+          therapy_claimed: boolean
+          updated_at: string
+          user_id: string
+          wellness_stars: number
+        }
+        Insert: {
+          active_skin?: string
+          exercise_preference?: string
+          id?: string
+          motor_challenges?: string[]
+          movement_claimed?: boolean
+          therapy_claimed?: boolean
+          updated_at?: string
+          user_id: string
+          wellness_stars?: number
+        }
+        Update: {
+          active_skin?: string
+          exercise_preference?: string
+          id?: string
+          motor_challenges?: string[]
+          movement_claimed?: boolean
+          therapy_claimed?: boolean
+          updated_at?: string
+          user_id?: string
+          wellness_stars?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
