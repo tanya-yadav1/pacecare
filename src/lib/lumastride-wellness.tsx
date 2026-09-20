@@ -120,7 +120,7 @@ export function LumaStrideWellnessProvider({ children }: { children: ReactNode }
       setCareTeamState(Array.isArray(saved.careTeam) ? saved.careTeam : []);
       setCircleSharingState(Array.isArray(saved.circleSharing) ? saved.circleSharing : []);
       setReportObservationIdsState(Array.isArray(saved.reportObservationIds) ? saved.reportObservationIds : []);
-      if (saved.accessibility && typeof saved.accessibility === "object") setAccessibilityState({ textSize: saved.accessibility.textSize ?? "standard", highContrast: Boolean(saved.accessibility.highContrast), voiceInstructions: Boolean(saved.accessibility.voiceInstructions), reducedMotion: Boolean(saved.accessibility.reducedMotion), screenReaderSupport: saved.accessibility.screenReaderSupport !== false });
+      if (saved.accessibility && typeof saved.accessibility === "object") setAccessibilityState({ textSize: saved.accessibility["textSize"] ?? "standard", highContrast: Boolean(saved.accessibility["highContrast"]), voiceInstructions: Boolean(saved.accessibility["voiceInstructions"]), reducedMotion: Boolean(saved.accessibility["reducedMotion"]), screenReaderSupport: saved.accessibility["screenReaderSupport"] !== false });
     } catch { /* use friendly defaults */ }
   }, []);
 
