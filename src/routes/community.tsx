@@ -34,7 +34,7 @@ const seedPosts = [
 function Community() {
   const { awardCommunity, skin } = useVitaMove();
   const [tab, setTab] = useState<"leaderboard" | "circles">("leaderboard");
-  const [posts, setPosts] = useState(seedPosts);
+  const [posts, setPosts] = useState<{ id: number; author: string; skin: "classic" | "leopard" | "holiday"; text: string }[]>(seedPosts);
   const [draft, setDraft] = useState("");
 
   return (

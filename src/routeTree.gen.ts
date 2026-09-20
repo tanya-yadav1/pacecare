@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AssessmentRouteImport } from './routes/assessment'
 import { Route as ClinicianRouteImport } from './routes/clinician'
+import { Route as CommunityRouteImport } from './routes/community'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as RewardsRouteImport } from './routes/rewards'
 import { Route as TherapyRouteImport } from './routes/therapy'
@@ -29,6 +30,11 @@ const AssessmentRoute = AssessmentRouteImport.update({
 const ClinicianRoute = ClinicianRouteImport.update({
   id: '/clinician',
   path: '/clinician',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommunityRoute = CommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/assessment': typeof AssessmentRoute
   '/clinician': typeof ClinicianRoute
+  '/community': typeof CommunityRoute
   '/dashboard': typeof DashboardRoute
   '/rewards': typeof RewardsRoute
   '/therapy': typeof TherapyRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/assessment': typeof AssessmentRoute
   '/clinician': typeof ClinicianRoute
+  '/community': typeof CommunityRoute
   '/dashboard': typeof DashboardRoute
   '/rewards': typeof RewardsRoute
   '/therapy': typeof TherapyRoute
@@ -68,6 +76,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/assessment': typeof AssessmentRoute
   '/clinician': typeof ClinicianRoute
+  '/community': typeof CommunityRoute
   '/dashboard': typeof DashboardRoute
   '/rewards': typeof RewardsRoute
   '/therapy': typeof TherapyRoute
@@ -75,15 +84,28 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/assessment' | '/clinician' | '/dashboard' | '/rewards' | '/therapy'
+    | '/'
+    | '/assessment'
+    | '/clinician'
+    | '/community'
+    | '/dashboard'
+    | '/rewards'
+    | '/therapy'
   fileRoutesByTo: FileRoutesByTo
   to:
-    '/' | '/assessment' | '/clinician' | '/dashboard' | '/rewards' | '/therapy'
+    | '/'
+    | '/assessment'
+    | '/clinician'
+    | '/community'
+    | '/dashboard'
+    | '/rewards'
+    | '/therapy'
   id:
     | '__root__'
     | '/'
     | '/assessment'
     | '/clinician'
+    | '/community'
     | '/dashboard'
     | '/rewards'
     | '/therapy'
@@ -93,6 +115,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AssessmentRoute: typeof AssessmentRoute
   ClinicianRoute: typeof ClinicianRoute
+  CommunityRoute: typeof CommunityRoute
   DashboardRoute: typeof DashboardRoute
   RewardsRoute: typeof RewardsRoute
   TherapyRoute: typeof TherapyRoute
@@ -119,6 +142,13 @@ declare module '@tanstack/react-router' {
       path: '/clinician'
       fullPath: '/clinician'
       preLoaderRoute: typeof ClinicianRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/community': {
+      id: '/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof CommunityRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -149,6 +179,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AssessmentRoute: AssessmentRoute,
   ClinicianRoute: ClinicianRoute,
+  CommunityRoute: CommunityRoute,
   DashboardRoute: DashboardRoute,
   RewardsRoute: RewardsRoute,
   TherapyRoute: TherapyRoute,
