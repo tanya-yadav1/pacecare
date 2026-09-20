@@ -1,10 +1,13 @@
 # Roadmap
 
-- [x] Simplify the everyday home around Walk with Music, Exercise, Voice & Sing, and Relax.
-- [x] Build one-tap walking cadence assessment with sensor support and manual fallback.
-- [x] Build My Music favorites, rhythm matching, service preference, and therapist target controls.
-- [x] Add simplified Relax and My Progress screens.
-- [x] Rebrand VitaMove with a more creative name and matching accessible logo/favicon.
-- [x] Simplify global navigation while retaining advanced clinical tools under More.
-- [x] Verify accessibility, mobile layout, persistence, and core interactions.
-- [x] Elevate the identity to the distinctive AsterStep name for the judging presentation.
+- [ ] Restore the VitaMove identity and plain-language wellness positioning.
+- [ ] Replace home and navigation with four primary choices, My Day, Doctor Visit, Help, and secondary education.
+- [ ] Turn existing tests into short, skippable app-based observations with safe, non-diagnostic summaries and dated history.
+- [ ] Build goal-based Move & Exercise sessions with 5/10/20/30-minute choices and optional rhythm or music.
+- [ ] Build Mind & Body activity categories with plain-language purpose, ability options, safety, and completion feedback.
+- [ ] Add My Day recommendations based on goals, preferences, difficulty, and available time.
+- [ ] Expand My Progress around activity history, practice minutes, and reported symptoms.
+- [ ] Add a concise Prepare for My Doctor Visit report with optional questions and medications.
+- [ ] Add high-level Treatment Information with medication-change safeguards.
+- [ ] Add persistent Need Help guidance for urgent symptoms and safe exits from activities.
+- [ ] Verify accessible labels, keyboard use, reduced motion, mobile layouts, persistence, and route metadata.
