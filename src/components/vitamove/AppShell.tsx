@@ -15,7 +15,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
    <div className="bg-primary px-4 py-2 text-center text-sm font-semibold text-primary-foreground">Disclaimer: VitaMove is a supportive wellness tool. It does not replace professional medical care.</div>
    <div className="mx-auto flex min-h-20 max-w-screen-2xl items-center gap-4 px-4 lg:px-7">
     <Link to="/" aria-label="VitaMove home"><Brand compact /></Link>
-    <nav className="ml-auto hidden items-center gap-1 xl:flex" aria-label="Main navigation">{nav.map(([to,label])=><Link key={to} to={to} className={`nav-link ${path===to?"nav-link-active":""}`}>{label}</Link>)}</nav>
+    <nav className="ml-auto hidden flex-wrap items-center justify-end gap-x-1 gap-y-1 xl:flex" aria-label="Main navigation">{nav.map(([to,label])=><Link key={to} to={to} className={`nav-link ${path===to?"nav-link-active":""}`}>{label}</Link>)}</nav>
     <div className="ml-auto flex items-center gap-2 xl:ml-4"><div className="stat-pill"><Flame className="text-destructive" aria-hidden/><span><b>7-Day</b><small>Streak</small></span></div><div className="stat-pill"><Star className="fill-accent text-accent-foreground" aria-hidden/><span><b>{stars}</b><small>Wellness Stars</small></span></div><Button variant="outline" size="iconLg" className="xl:hidden" onClick={()=>setMobile(!mobile)} aria-label="Open navigation"><Menu/></Button></div>
    </div>
    {mobile&&<nav className="grid grid-cols-2 gap-2 border-t bg-surface p-4 xl:hidden">{nav.map(([to,label])=><Link key={to} to={to} onClick={()=>setMobile(false)} className="nav-link">{label}</Link>)}</nav>}
