@@ -16,12 +16,12 @@
 
 ## PACE Senior-First Competition Experience
 
-- [ ] Reframe the app around Check → Personalize → Practice → Track → Prepare.
-- [ ] Replace home and navigation with four calm choices and Today's PACE.
-- [ ] Build the five-part PACE Check, snapshot comparisons, and report selection.
-- [ ] Upgrade My PACE, Move, Wellness, and optional Music journeys.
-- [ ] Add PACE Guide, My Journey notes, My Care, and user-controlled PACE Circle.
-- [ ] Upgrade My PACE Report and its print/share controls.
-- [ ] Add persisted Senior Mode accessibility settings.
-- [ ] Add the isolated 60–90 second PACE Demo route.
+- [x] Reframe the app around Check → Personalize → Practice → Track → Prepare.
+- [x] Replace home and navigation with four calm choices and Today's PACE.
+- [x] Build the five-part PACE Check, snapshot comparisons, and report selection.
+- [x] Upgrade My PACE, Move, Wellness, and optional Music journeys.
+- [x] Add PACE Guide, My Journey notes, My Care, and user-controlled PACE Circle.
+- [x] Upgrade My PACE Report and its print/share controls.
+- [x] Add persisted Senior Mode accessibility settings.
+- [x] Add the isolated 60–90 second PACE Demo route.
 - [ ] Verify the complete senior journey on desktop and mobile.

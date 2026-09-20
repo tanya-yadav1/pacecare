@@ -65,7 +65,7 @@ type WellnessState = {
   setPreferredActivities: (activities: string[]) => void;
   setAvailableMinutes: (minutes: number) => void;
   addSession: (session: Omit<WellnessSession, "id" | "date">) => void;
-  addObservation: (observation: Omit<WellnessObservation, "id" | "date">) => void;
+  addObservation: (observation: Omit<WellnessObservation, "id" | "date">) => string;
   setDoctorQuestions: (questions: string[]) => void;
   setMedications: (medications: string[]) => void;
   addPersonalNote: (text: string) => void;
@@ -165,7 +165,7 @@ export function LumaStrideWellnessProvider({ children }: { children: ReactNode }
     setPreferredActivities: setPreferredActivitiesState,
     setAvailableMinutes: (minutes) => setAvailableMinutesState([5, 10, 20, 30].includes(minutes) ? minutes : 10),
     addSession: (session) => setSessions((current) => [{ ...session, id: crypto.randomUUID(), date: new Date().toISOString() }, ...current].slice(0, 100)),
-    addObservation: (observation) => setObservations((current) => [{ ...observation, id: crypto.randomUUID(), date: new Date().toISOString() }, ...current].slice(0, 100)),
+    addObservation: (observation) => { const id = crypto.randomUUID(); setObservations((current) => [{ ...observation, id, date: new Date().toISOString() }, ...current].slice(0, 100)); return id; },
     setDoctorQuestions: setDoctorQuestionsState,
     setMedications: setMedicationsState,
     addPersonalNote: (text) => setPersonalNotes((current) => [{ id: crypto.randomUUID(), date: new Date().toISOString(), text }, ...current].slice(0, 100)),
