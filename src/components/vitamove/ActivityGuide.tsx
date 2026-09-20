@@ -9,7 +9,7 @@ type ActivityGuideProps = {
   purpose: string;
   minutes: number;
   steps: { title: string; detail: string }[];
-  musicLabel?: string;
+  musicLabel?: string | undefined;
 };
 
 export function ActivityGuide({ category, title, purpose, minutes, steps, musicLabel }: ActivityGuideProps) {
