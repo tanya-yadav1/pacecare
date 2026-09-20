@@ -11,4 +11,4 @@
 - [x] Add high-level Treatment Information with medication-change safeguards.
 - [x] Add persistent Need Help guidance for urgent symptoms and safe exits from activities.
 - [x] Verify accessible labels, keyboard use, reduced motion, mobile layouts, persistence, and route metadata.
-- [ ] Replace the PACE abstract mark with an original human-centered logo and matching favicon.
+- [x] Replace the PACE abstract mark with an original human-centered logo and matching favicon.
