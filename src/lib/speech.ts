@@ -29,7 +29,7 @@ export async function speakInstructions(text: string) {
     const view = new DataView(bytes.buffer, bytes.byteOffset, usable);
     for (let index = 0; index < samples.length; index += 1) samples[index] = view.getInt16(index * 2, true) / 32768;
     const buffer = context.createBuffer(1, samples.length, 24000);
-    buffer.copyToChannel(samples);
+    buffer.getChannelData(0).set(samples);
     const source = context.createBufferSource();
     source.buffer = buffer;
     source.connect(context.destination);
