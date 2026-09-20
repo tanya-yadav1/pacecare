@@ -67,6 +67,7 @@ function Remedies() {
 
   return (
     <div className="page">
+      <span className="page-tag page-tag-treatment">Treatment</span>
       <p className="eyebrow">Adaptive Physical Remedies</p>
       <h1>A routine built from your own results.</h1>
       <p className="lead">

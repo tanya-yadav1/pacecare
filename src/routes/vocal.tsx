@@ -27,6 +27,7 @@ const prompts = [
 function VocalTherapies() {
   return (
     <div className="page">
+      <span className="page-tag page-tag-treatment">Treatment</span>
       <p className="eyebrow">Vocal & Digital Therapies</p>
       <h1>Louder voice. Nimbler hands.</h1>
       <div className="mt-9 grid gap-6 xl:grid-cols-2">

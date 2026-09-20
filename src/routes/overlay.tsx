@@ -35,6 +35,7 @@ function Overlay() {
   const { scores } = useTestScores();
   return (
     <div className="page">
+      <span className="page-tag page-tag-diagnosis">Diagnosis</span>
       <p className="eyebrow">Clinical Data Overlay</p>
       <h1>Pre-therapy versus post-therapy, side by side.</h1>
       <p className="lead">Every therapy session is overlaid on the baseline screening so symptom reduction is visible at a glance.</p>
