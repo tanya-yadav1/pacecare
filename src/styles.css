@@ -102,6 +102,14 @@
   --surface: oklch(1 0 0);
   --success: oklch(0.52 0.15 150);
   --success-foreground: oklch(1 0 0);
+  --walk: oklch(0.55 0.14 151);
+  --walk-foreground: oklch(0.99 0.01 150);
+  --exercise: oklch(0.50 0.13 245);
+  --exercise-foreground: oklch(0.99 0.01 245);
+  --voice: oklch(0.62 0.15 62);
+  --voice-foreground: oklch(0.18 0.04 55);
+  --relax: oklch(0.68 0.10 195);
+  --relax-foreground: oklch(0.16 0.04 210);
 }
 
 .dark {
@@ -181,8 +189,82 @@
   .feature-card { @apply rounded-lg border-2 border-border bg-card p-5 shadow-sm; }
   .choice { @apply flex min-h-14 cursor-pointer items-center gap-3 rounded-md border-2 border-border bg-surface px-4 font-bold hover:border-primary; }
   .choice-active { @apply border-primary bg-secondary; }
+  .home-simple { @apply mx-auto max-w-5xl px-5 py-10 sm:px-8 sm:py-16; }
+  .home-welcome { @apply mb-10 flex items-center gap-5; }
+  .home-welcome > svg { @apply h-14 w-14 shrink-0 text-accent sm:h-20 sm:w-20; }
+  .home-welcome h1 { @apply text-4xl sm:text-5xl; }
+  .home-welcome p { @apply mt-2 text-2xl font-bold text-muted-foreground; }
+  .home-actions { @apply grid gap-5 sm:grid-cols-2; }
+  .home-action { @apply flex min-h-40 items-center gap-5 rounded-lg px-6 py-8 text-2xl font-black shadow-md transition-transform focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring sm:min-h-48 sm:text-3xl; }
+  .home-action:hover { transform: translateY(-3px); }
+  .home-action svg { @apply h-14 w-14 shrink-0 sm:h-16 sm:w-16; }
+  .home-action-walk { background: var(--walk); color: var(--walk-foreground); }
+  .home-action-exercise { background: var(--exercise); color: var(--exercise-foreground); }
+  .home-action-voice { background: var(--voice); color: var(--voice-foreground); }
+  .home-action-relax { background: var(--relax); color: var(--relax-foreground); }
+  .home-secondary { @apply mt-7 grid gap-4 sm:grid-cols-2; }
+  .home-secondary a { @apply min-h-20 text-xl; }
+  .simple-page { @apply mx-auto min-h-[calc(100vh-8rem)] max-w-3xl px-5 py-8 sm:px-8 sm:py-12; }
+  .simple-page.wide { @apply max-w-5xl; }
+  .simple-back { @apply mb-8 inline-flex items-center gap-1 text-lg font-extrabold text-primary; }
+  .simple-back svg { @apply h-6 w-6; }
+  .simple-center { @apply flex flex-col items-center text-center; }
+  .simple-center h1 { @apply max-w-3xl text-4xl sm:text-5xl; }
+  .simple-page-icon { @apply mb-6 h-20 w-20 text-primary; }
+  .simple-lead { @apply my-5 max-w-2xl text-xl font-semibold text-muted-foreground sm:text-2xl; }
+  .simple-note { @apply mb-6 rounded-md bg-muted px-4 py-3 font-bold; }
+  .simple-stack { @apply mt-5 flex w-full max-w-xl flex-col gap-4; }
+  .simple-stack > * { @apply min-h-20 text-xl; }
+  .step-tap { @apply mt-6 flex min-h-96 w-full max-w-xl flex-col items-center justify-center gap-3 rounded-lg border-4 border-primary bg-surface p-8 text-primary shadow-lg; }
+  .step-tap .step-time { @apply text-7xl font-black; }
+  .step-tap strong { @apply my-4 flex items-center gap-3 text-2xl; }
+  .step-tap strong svg { @apply h-10 w-10; }
+  .step-tap small { @apply text-base font-bold text-muted-foreground; }
+  .step-tap b { @apply text-3xl; }
+  .cadence-result { @apply mt-4 block text-primary; }
+  .simple-heading { @apply mb-8 flex items-center gap-5; }
+  .simple-heading .simple-page-icon { @apply mb-0 shrink-0; }
+  .simple-heading h1 { @apply text-4xl sm:text-5xl; }
+  .simple-heading p { @apply mt-2 text-xl font-semibold text-muted-foreground; }
+  .music-settings, .therapist-setting { @apply mb-8 rounded-lg border-2 border-border bg-surface p-5 sm:p-7; }
+  .music-settings label { @apply flex flex-col gap-2 text-xl font-extrabold; }
+  .music-settings select { @apply min-h-14 rounded-md border-2 border-input bg-background px-4 text-lg; }
+  .music-settings p, .therapist-setting p { @apply mt-3 text-muted-foreground; }
+  .music-search h2, .therapist-setting h2 { @apply text-2xl; }
+  .search-box { @apply my-4 flex items-center gap-3 rounded-md border-2 border-input bg-surface px-4; }
+  .search-box input { @apply min-h-14 border-0 text-lg shadow-none; }
+  .song-list { @apply grid gap-3; }
+  .song-row { @apply flex items-center justify-between gap-4 rounded-lg border-2 border-border bg-surface p-5; }
+  .song-row p { @apply text-muted-foreground; }
+  .song-row b { @apply text-success; }
+  .music-grid { @apply my-9 grid gap-5 lg:grid-cols-3; }
+  .music-group { @apply rounded-lg border-2 border-border bg-surface p-5; }
+  .music-group h2 { @apply mb-4 flex items-center gap-2 text-xl; }
+  .music-group h2 svg { @apply h-7 w-7 text-primary; }
+  .music-group p { @apply flex flex-col border-t py-3; }
+  .music-group p:first-of-type { @apply border-t-0; }
+  .music-group span, .empty-music { @apply text-sm text-muted-foreground; }
+  .therapist-setting > div { @apply mt-5 flex flex-col gap-3 sm:flex-row; }
+  .therapist-setting input { @apply min-h-14 text-lg; }
+  .breathing-circle { @apply my-9 flex h-64 w-64 flex-col items-center justify-center rounded-full border-8 border-primary bg-secondary; }
+  .breathing-circle strong { @apply text-2xl; }
+  .breathing-circle span { @apply mt-2 text-lg font-bold text-muted-foreground; }
+  .breathing-circle.is-breathing { animation: breathe 10s ease-in-out infinite; }
+  .progress-list { @apply mt-8 grid w-full gap-4; }
+  .progress-list article { @apply grid grid-cols-[auto_1fr] items-center gap-x-4 rounded-lg border-2 border-border bg-surface p-5 text-left sm:grid-cols-[auto_1fr_auto]; }
+  .progress-list svg { @apply row-span-2 h-10 w-10 text-primary sm:row-span-1; }
+  .progress-list span { @apply text-xl font-bold; }
+  .progress-list strong { @apply text-lg text-primary; }
+  .more-menu { @apply relative; }
+  .more-menu summary { @apply flex min-h-12 cursor-pointer list-none items-center gap-1 rounded-md px-4 font-bold text-muted-foreground; }
+  .more-menu[open] summary { @apply bg-secondary text-primary; }
+  .more-menu > div { @apply absolute right-0 top-full grid w-60 overflow-hidden rounded-md border-2 border-border bg-surface p-2 shadow-xl; }
+  .more-menu > div a { @apply rounded-md px-4 py-3 font-bold hover:bg-secondary; }
+  .mobile-simple-nav { @apply grid max-h-[70vh] grid-cols-2 gap-2 overflow-y-auto border-t bg-surface p-4 lg:hidden; }
+  .mobile-simple-nav a { @apply rounded-md border border-border px-4 py-3 font-bold; }
 }
 @keyframes slide-down { from { transform: translateY(-100%); opacity: 0; } }
+@keyframes breathe { 0%, 100% { transform: scale(.88); } 50% { transform: scale(1.05); } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
 
 @layer components {

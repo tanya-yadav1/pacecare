@@ -7,9 +7,9 @@ import { useTestScores } from "@/lib/vitamove-tests";
 export const Route = createFileRoute("/screening")({
   head: () => ({
     meta: [
-      { title: "Multi-Modal Screening — VitaMove" },
+      { title: "Multi-Modal Screening — AsterStep" },
       { name: "description", content: "Motor, vocal and cognitive Parkinson's screening tests in one guided flow." },
-      { property: "og:title", content: "Multi-Modal Screening — VitaMove" },
+      { property: "og:title", content: "Multi-Modal Screening — AsterStep" },
       { property: "og:description", content: "Motor, vocal and cognitive Parkinson's screening tests in one guided flow." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

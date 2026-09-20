@@ -7,9 +7,9 @@ import { useTestScores } from "@/lib/vitamove-tests";
 export const Route = createFileRoute("/remedies")({
   head: () => ({
     meta: [
-      { title: "Adaptive Physical Remedies — VitaMove" },
+      { title: "Adaptive Physical Remedies — AsterStep" },
       { name: "description", content: "Routines that adapt to your motor and cognitive screening results, with a visual metronome." },
-      { property: "og:title", content: "Adaptive Physical Remedies — VitaMove" },
+      { property: "og:title", content: "Adaptive Physical Remedies — AsterStep" },
       { property: "og:description", content: "Routines that adapt to your motor and cognitive screening results, with a visual metronome." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
