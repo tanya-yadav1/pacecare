@@ -10,33 +10,92 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AssessmentRouteImport } from './routes/assessment'
+import { Route as ClinicianRouteImport } from './routes/clinician'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as RewardsRouteImport } from './routes/rewards'
+import { Route as TherapyRouteImport } from './routes/therapy'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AssessmentRoute = AssessmentRouteImport.update({
+  id: '/assessment',
+  path: '/assessment',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClinicianRoute = ClinicianRouteImport.update({
+  id: '/clinician',
+  path: '/clinician',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RewardsRoute = RewardsRouteImport.update({
+  id: '/rewards',
+  path: '/rewards',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TherapyRoute = TherapyRouteImport.update({
+  id: '/therapy',
+  path: '/therapy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/assessment': typeof AssessmentRoute
+  '/clinician': typeof ClinicianRoute
+  '/dashboard': typeof DashboardRoute
+  '/rewards': typeof RewardsRoute
+  '/therapy': typeof TherapyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/assessment': typeof AssessmentRoute
+  '/clinician': typeof ClinicianRoute
+  '/dashboard': typeof DashboardRoute
+  '/rewards': typeof RewardsRoute
+  '/therapy': typeof TherapyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/assessment': typeof AssessmentRoute
+  '/clinician': typeof ClinicianRoute
+  '/dashboard': typeof DashboardRoute
+  '/rewards': typeof RewardsRoute
+  '/therapy': typeof TherapyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    '/' | '/assessment' | '/clinician' | '/dashboard' | '/rewards' | '/therapy'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    '/' | '/assessment' | '/clinician' | '/dashboard' | '/rewards' | '/therapy'
+  id:
+    | '__root__'
+    | '/'
+    | '/assessment'
+    | '/clinician'
+    | '/dashboard'
+    | '/rewards'
+    | '/therapy'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AssessmentRoute: typeof AssessmentRoute
+  ClinicianRoute: typeof ClinicianRoute
+  DashboardRoute: typeof DashboardRoute
+  RewardsRoute: typeof RewardsRoute
+  TherapyRoute: typeof TherapyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +107,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/assessment': {
+      id: '/assessment'
+      path: '/assessment'
+      fullPath: '/assessment'
+      preLoaderRoute: typeof AssessmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/clinician': {
+      id: '/clinician'
+      path: '/clinician'
+      fullPath: '/clinician'
+      preLoaderRoute: typeof ClinicianRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rewards': {
+      id: '/rewards'
+      path: '/rewards'
+      fullPath: '/rewards'
+      preLoaderRoute: typeof RewardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/therapy': {
+      id: '/therapy'
+      path: '/therapy'
+      fullPath: '/therapy'
+      preLoaderRoute: typeof TherapyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AssessmentRoute: AssessmentRoute,
+  ClinicianRoute: ClinicianRoute,
+  DashboardRoute: DashboardRoute,
+  RewardsRoute: RewardsRoute,
+  TherapyRoute: TherapyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
