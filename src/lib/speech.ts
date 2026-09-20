@@ -13,7 +13,6 @@ export async function speakInstructions(text: string) {
   if (!player) {
     player = new Audio();
     player.preload = "auto";
-    player.playsInline = true;
   }
   player.pause();
   player.currentTime = 0;
