@@ -25,8 +25,14 @@ function Symptoms() {
   const [saved, setSaved] = useState(false);
   const [speechStatus, setSpeechStatus] = useState<"idle" | "speaking" | "error">("idle");
   const [speechError, setSpeechError] = useState("");
+  const [shareStatus, setShareStatus] = useState("");
   const save = () => { if (!category || !answer) return; addObservation({ category, note: `${category}: ${answer}`, value: answer }); setSaved(true); };
-  const share = async () => { const text = `${category ?? "Movement"} app-based observation: ${answer ?? "not completed"}. This is not a medical diagnosis.`; if (navigator.share) await navigator.share({ title: "PACE observation", text }); else await navigator.clipboard?.writeText(text); };
+  const share = async () => {
+    const text = `${category ?? "Movement"} app-based observation: ${answer ?? "not completed"}. This is not a medical diagnosis.`;
+    setShareStatus("");
+    try { if (navigator.share) await navigator.share({ title: "PACE observation", text }); else { await navigator.clipboard?.writeText(text); setShareStatus("Assessment copied."); } }
+    catch (error) { if (error instanceof DOMException && error.name === "AbortError") return; try { await navigator.clipboard?.writeText(text); setShareStatus("Assessment copied instead."); } catch { setShareStatus("Sharing is unavailable on this device."); } }
+  };
   const speak = async () => {
     if (!category || speechStatus === "speaking") return;
     setSpeechStatus("speaking"); setSpeechError("");
@@ -38,7 +44,7 @@ function Symptoms() {
     <section className="guided-check"><p className="eyebrow">App-based observation</p><h1>{category}</h1><p className="simple-lead">{descriptions[category]}</p><Button variant="outline" size="xl" onClick={speak} disabled={speechStatus === "speaking"}><Volume2/>{speechStatus === "speaking" ? "Playing instructions…" : "Hear instructions"}</Button><p role="status" aria-live="polite">{speechStatus === "speaking" ? "Audio is playing. Check your device volume if you cannot hear it." : speechStatus === "error" ? speechError : ""}</p><div className="activity-question"><span>During the past week, how noticeable was this?</span><div className="feeling-grid">{["Not noticeable", "A little", "Quite noticeable"].map((item) => <Button key={item} size="xl" variant={answer === item ? "default" : "outline"} onClick={() => setAnswer(item)}>{item}</Button>)}</div></div>
       {category === "Walking" && <Button size="xl" variant="outline" asChild><Link to="/walk">Optional: check walking cadence</Link></Button>}
       {category === "Voice and speech" && <Button size="xl" variant="outline" asChild><Link to="/vocal"><Mic/>Optional: voice activity</Link></Button>}
-      <div className="activity-actions"><Button size="xl" variant="ghost" onClick={() => { setCategory(null); setAnswer(null); }}><SkipForward/>Skip</Button><Button size="xl" disabled={!answer || saved} onClick={save}>{saved ? <><Check/>Saved</> : "Save Assessment"}</Button><Button size="xl" variant="outline" onClick={share}><Share2/>Share with My Doctor</Button></div>
+      <div className="activity-actions"><Button size="xl" variant="ghost" onClick={() => { setCategory(null); setAnswer(null); }}><SkipForward/>Skip</Button><Button size="xl" disabled={!answer || saved} onClick={save}>{saved ? <><Check/>Saved</> : "Save Assessment"}</Button><Button size="xl" variant="outline" onClick={share}><Share2/>Share with My Doctor</Button></div><p role="status" aria-live="polite">{shareStatus}</p>
       {saved && <div className="assessment-summary"><h2>Thank you.</h2><p>Your responses show movement changes that may be worth discussing with a healthcare professional.</p><p>This saved item is an app-based observation. It is not a medical diagnosis.</p></div>}
     </section>}
   </div>;
