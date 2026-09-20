@@ -14,8 +14,12 @@ import { Route as AssessmentRouteImport } from './routes/assessment'
 import { Route as ClinicianRouteImport } from './routes/clinician'
 import { Route as CommunityRouteImport } from './routes/community'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as OverlayRouteImport } from './routes/overlay'
+import { Route as RemediesRouteImport } from './routes/remedies'
 import { Route as RewardsRouteImport } from './routes/rewards'
+import { Route as ScreeningRouteImport } from './routes/screening'
 import { Route as TherapyRouteImport } from './routes/therapy'
+import { Route as VocalRouteImport } from './routes/vocal'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -42,14 +46,34 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OverlayRoute = OverlayRouteImport.update({
+  id: '/overlay',
+  path: '/overlay',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RemediesRoute = RemediesRouteImport.update({
+  id: '/remedies',
+  path: '/remedies',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RewardsRoute = RewardsRouteImport.update({
   id: '/rewards',
   path: '/rewards',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ScreeningRoute = ScreeningRouteImport.update({
+  id: '/screening',
+  path: '/screening',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TherapyRoute = TherapyRouteImport.update({
   id: '/therapy',
   path: '/therapy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VocalRoute = VocalRouteImport.update({
+  id: '/vocal',
+  path: '/vocal',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -59,8 +83,12 @@ export interface FileRoutesByFullPath {
   '/clinician': typeof ClinicianRoute
   '/community': typeof CommunityRoute
   '/dashboard': typeof DashboardRoute
+  '/overlay': typeof OverlayRoute
+  '/remedies': typeof RemediesRoute
   '/rewards': typeof RewardsRoute
+  '/screening': typeof ScreeningRoute
   '/therapy': typeof TherapyRoute
+  '/vocal': typeof VocalRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -68,8 +96,12 @@ export interface FileRoutesByTo {
   '/clinician': typeof ClinicianRoute
   '/community': typeof CommunityRoute
   '/dashboard': typeof DashboardRoute
+  '/overlay': typeof OverlayRoute
+  '/remedies': typeof RemediesRoute
   '/rewards': typeof RewardsRoute
+  '/screening': typeof ScreeningRoute
   '/therapy': typeof TherapyRoute
+  '/vocal': typeof VocalRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -78,8 +110,12 @@ export interface FileRoutesById {
   '/clinician': typeof ClinicianRoute
   '/community': typeof CommunityRoute
   '/dashboard': typeof DashboardRoute
+  '/overlay': typeof OverlayRoute
+  '/remedies': typeof RemediesRoute
   '/rewards': typeof RewardsRoute
+  '/screening': typeof ScreeningRoute
   '/therapy': typeof TherapyRoute
+  '/vocal': typeof VocalRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -89,8 +125,12 @@ export interface FileRouteTypes {
     | '/clinician'
     | '/community'
     | '/dashboard'
+    | '/overlay'
+    | '/remedies'
     | '/rewards'
+    | '/screening'
     | '/therapy'
+    | '/vocal'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -98,8 +138,12 @@ export interface FileRouteTypes {
     | '/clinician'
     | '/community'
     | '/dashboard'
+    | '/overlay'
+    | '/remedies'
     | '/rewards'
+    | '/screening'
     | '/therapy'
+    | '/vocal'
   id:
     | '__root__'
     | '/'
@@ -107,8 +151,12 @@ export interface FileRouteTypes {
     | '/clinician'
     | '/community'
     | '/dashboard'
+    | '/overlay'
+    | '/remedies'
     | '/rewards'
+    | '/screening'
     | '/therapy'
+    | '/vocal'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -117,8 +165,12 @@ export interface RootRouteChildren {
   ClinicianRoute: typeof ClinicianRoute
   CommunityRoute: typeof CommunityRoute
   DashboardRoute: typeof DashboardRoute
+  OverlayRoute: typeof OverlayRoute
+  RemediesRoute: typeof RemediesRoute
   RewardsRoute: typeof RewardsRoute
+  ScreeningRoute: typeof ScreeningRoute
   TherapyRoute: typeof TherapyRoute
+  VocalRoute: typeof VocalRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -158,6 +210,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/overlay': {
+      id: '/overlay'
+      path: '/overlay'
+      fullPath: '/overlay'
+      preLoaderRoute: typeof OverlayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/remedies': {
+      id: '/remedies'
+      path: '/remedies'
+      fullPath: '/remedies'
+      preLoaderRoute: typeof RemediesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/rewards': {
       id: '/rewards'
       path: '/rewards'
@@ -165,11 +231,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RewardsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/screening': {
+      id: '/screening'
+      path: '/screening'
+      fullPath: '/screening'
+      preLoaderRoute: typeof ScreeningRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/therapy': {
       id: '/therapy'
       path: '/therapy'
       fullPath: '/therapy'
       preLoaderRoute: typeof TherapyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vocal': {
+      id: '/vocal'
+      path: '/vocal'
+      fullPath: '/vocal'
+      preLoaderRoute: typeof VocalRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -181,8 +261,12 @@ const rootRouteChildren: RootRouteChildren = {
   ClinicianRoute: ClinicianRoute,
   CommunityRoute: CommunityRoute,
   DashboardRoute: DashboardRoute,
+  OverlayRoute: OverlayRoute,
+  RemediesRoute: RemediesRoute,
   RewardsRoute: RewardsRoute,
+  ScreeningRoute: ScreeningRoute,
   TherapyRoute: TherapyRoute,
+  VocalRoute: VocalRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
