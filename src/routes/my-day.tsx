@@ -2,6 +2,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { AudioLines, ChevronLeft, Footprints, Heart, PersonStanding } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLumaStrideWellness } from "@/lib/lumastride-wellness";
+import { durations } from "@/lib/wellness-content";
+
+const helpChoices = ["Walking", "Balance", "Tremor", "Stiffness", "Exercise", "Voice", "Wellness"];
+const enjoyChoices = ["Walking", "Yoga", "Dance", "Music", "Stretching", "Tai Chi", "Other"];
 
 export const Route = createFileRoute("/my-day")({ head: () => ({ meta: [
   { title: "My Day — Kindora" }, { name: "description", content: "A small, personalized wellness plan for today." },
@@ -9,7 +13,9 @@ export const Route = createFileRoute("/my-day")({ head: () => ({ meta: [
 ] }), component: MyDay });
 
 function MyDay() {
-  const { goals, preferredActivities, availableMinutes, sessions } = useLumaStrideWellness();
+  const state = useLumaStrideWellness();
+  const { goals, preferredActivities, availableMinutes, sessions } = state;
+  if (!goals.length || !preferredActivities.length) return <div className="simple-page wide"><Link to="/" className="simple-back"><ChevronLeft/>Home</Link><p className="eyebrow">My Day</p><h1>Let’s find a simple place to start.</h1><section className="quick-setup"><h2>What would you like help with?</h2><div className="duration-row">{helpChoices.map((item) => <Button key={item} size="xl" variant={goals.includes(item) ? "default" : "outline"} onClick={() => state.setGoals(goals.includes(item) ? goals.filter((goal) => goal !== item) : [...goals, item])}>{item}</Button>)}</div><h2>What activities do you enjoy?</h2><div className="duration-row">{enjoyChoices.map((item) => <Button key={item} size="xl" variant={preferredActivities.includes(item) ? "default" : "outline"} onClick={() => state.setPreferredActivities(preferredActivities.includes(item) ? preferredActivities.filter((activity) => activity !== item) : [...preferredActivities, item])}>{item}</Button>)}</div><h2>How much time do you have today?</h2><div className="duration-row">{durations.map((value) => <Button key={value} size="xl" variant={availableMinutes === value ? "default" : "outline"} onClick={() => state.setAvailableMinutes(value)}>{value} min</Button>)}</div><p className="simple-note">Choose at least one goal and one activity. Your choices save automatically.</p></section></div>;
   const difficult = sessions.find((session) => session.feeling === "Difficult");
   const firstGoal = goals[0] ?? "Walking";
   const preferred = preferredActivities[0] ?? "Gentle Yoga";

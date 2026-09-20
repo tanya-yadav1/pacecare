@@ -320,6 +320,7 @@
   .empty-state { @apply mt-4 text-muted-foreground; }
   .help-panel { @apply w-[min(92vw,28rem)] space-y-4 rounded-lg border-2 border-destructive bg-surface p-5 shadow-2xl; }
   .help-panel > div:first-child { @apply border-b border-border pb-3; }
+  .quick-setup { @apply mt-8 space-y-7 border-t-4 border-primary bg-surface p-5 sm:p-7; }
   @media print { header, .simple-back, .activity-actions, .help-panel, .fixed { display: none !important; } main { padding-top: 0 !important; } .simple-page { max-width: none; } }
 }
 @keyframes slide-down { from { transform: translateY(-100%); opacity: 0; } }
