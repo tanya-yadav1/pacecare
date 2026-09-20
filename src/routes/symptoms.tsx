@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { symptomCategories } from "@/lib/wellness-content";
 import { useLumaStrideWellness } from "@/lib/lumastride-wellness";
+import { speakInstructions } from "@/lib/speech";
 
 export const Route = createFileRoute("/symptoms")({
   head: () => ({ meta: [
@@ -22,12 +23,19 @@ function Symptoms() {
   const [category, setCategory] = useState<string | null>(null);
   const [answer, setAnswer] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
+  const [speechStatus, setSpeechStatus] = useState<"idle" | "speaking" | "error">("idle");
+  const [speechError, setSpeechError] = useState("");
   const save = () => { if (!category || !answer) return; addObservation({ category, note: `${category}: ${answer}`, value: answer }); setSaved(true); };
   const share = async () => { const text = `${category ?? "Movement"} app-based observation: ${answer ?? "not completed"}. This is not a medical diagnosis.`; if (navigator.share) await navigator.share({ title: "PACE observation", text }); else await navigator.clipboard?.writeText(text); };
-  const speak = () => { if (!category || !("speechSynthesis" in window)) return; window.speechSynthesis.cancel(); window.speechSynthesis.speak(new SpeechSynthesisUtterance(`${category}. ${descriptions[category]}`)); };
+  const speak = async () => {
+    if (!category || speechStatus === "speaking") return;
+    setSpeechStatus("speaking"); setSpeechError("");
+    try { await speakInstructions(`${category}. ${descriptions[category]}`); setSpeechStatus("idle"); }
+    catch (error) { setSpeechError(error instanceof Error ? error.message : "Spoken instructions are unavailable right now."); setSpeechStatus("error"); }
+  };
   return <div className="simple-page wide"><Link to="/" className="simple-back"><ChevronLeft/>Home</Link>
     {!category ? <><p className="eyebrow">Guided self-assessment</p><h1>What would you like to check?</h1><p className="simple-lead">Choose one. Each check is short, and you can skip anything you cannot safely do.</p><div className="choice-grid">{symptomCategories.map((item) => <Button key={item} variant="outline" size="xl" onClick={() => setCategory(item)}>{item}<ChevronRight/></Button>)}</div><p className="observation-note">These are app-based observations, not a medical diagnosis or neurological examination.</p></> :
-    <section className="guided-check"><p className="eyebrow">App-based observation</p><h1>{category}</h1><p className="simple-lead">{descriptions[category]}</p><Button variant="outline" size="xl" onClick={speak}><Volume2/>Hear instructions</Button><div className="activity-question"><span>During the past week, how noticeable was this?</span><div className="feeling-grid">{["Not noticeable", "A little", "Quite noticeable"].map((item) => <Button key={item} size="xl" variant={answer === item ? "default" : "outline"} onClick={() => setAnswer(item)}>{item}</Button>)}</div></div>
+    <section className="guided-check"><p className="eyebrow">App-based observation</p><h1>{category}</h1><p className="simple-lead">{descriptions[category]}</p><Button variant="outline" size="xl" onClick={speak} disabled={speechStatus === "speaking"}><Volume2/>{speechStatus === "speaking" ? "Playing instructions…" : "Hear instructions"}</Button><p role="status" aria-live="polite">{speechStatus === "speaking" ? "Audio is playing. Check your device volume if you cannot hear it." : speechStatus === "error" ? speechError : ""}</p><div className="activity-question"><span>During the past week, how noticeable was this?</span><div className="feeling-grid">{["Not noticeable", "A little", "Quite noticeable"].map((item) => <Button key={item} size="xl" variant={answer === item ? "default" : "outline"} onClick={() => setAnswer(item)}>{item}</Button>)}</div></div>
       {category === "Walking" && <Button size="xl" variant="outline" asChild><Link to="/walk">Optional: check walking cadence</Link></Button>}
       {category === "Voice and speech" && <Button size="xl" variant="outline" asChild><Link to="/vocal"><Mic/>Optional: voice activity</Link></Button>}
       <div className="activity-actions"><Button size="xl" variant="ghost" onClick={() => { setCategory(null); setAnswer(null); }}><SkipForward/>Skip</Button><Button size="xl" disabled={!answer || saved} onClick={save}>{saved ? <><Check/>Saved</> : "Save Assessment"}</Button><Button size="xl" variant="outline" onClick={share}><Share2/>Share with My Doctor</Button></div>
