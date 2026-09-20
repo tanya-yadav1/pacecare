@@ -12,4 +12,4 @@
 - [x] Add persistent Need Help guidance for urgent symptoms and safe exits from activities.
 - [x] Verify accessible labels, keyboard use, reduced motion, mobile layouts, persistence, and route metadata.
 - [x] Replace the PACE abstract mark with an original human-centered logo and matching favicon.
-- [x] Repair “Hear instructions” with reliable spoken audio and clear playback feedback.
+- [ ] Repair “Hear instructions” with reliable spoken audio in embedded previews and clear playback feedback.

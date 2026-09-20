@@ -13,6 +13,12 @@ export async function speakInstructions(text: string) {
 
   const context = new AudioContextClass({ sampleRate: 24000 });
   await context.resume();
+  const unlocker = context.createOscillator();
+  const silentGain = context.createGain();
+  silentGain.gain.value = 0;
+  unlocker.connect(silentGain);
+  silentGain.connect(context.destination);
+  unlocker.start();
   let playhead = 0;
   let pending = new Uint8Array(0);
   let receivedAudio = false;
@@ -34,6 +40,7 @@ export async function speakInstructions(text: string) {
     source.buffer = buffer;
     source.connect(context.destination);
     playhead = playhead === 0 ? context.currentTime + 0.05 : Math.max(playhead, context.currentTime);
+    void context.resume();
     source.start(playhead);
     playhead += buffer.duration;
     receivedAudio = true;
@@ -68,6 +75,7 @@ export async function speakInstructions(text: string) {
   }
   if (!receivedAudio || !completed) throw new Error("Spoken instructions could not be completed.");
   const remainingSeconds = Math.max(0, playhead - context.currentTime);
-  await new Promise((resolve) => window.setTimeout(resolve, remainingSeconds * 1000 + 100));
+  await new Promise((resolve) => window.setTimeout(resolve, remainingSeconds * 1000 + 150));
+  unlocker.stop();
   await context.close();
 }
