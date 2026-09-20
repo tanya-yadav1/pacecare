@@ -204,6 +204,13 @@
   .home-action-relax { background: var(--relax); color: var(--relax-foreground); }
   .home-secondary { @apply mt-7 grid gap-4 sm:grid-cols-2; }
   .home-secondary a { @apply min-h-20 text-xl; }
+  .home-intro { @apply mb-8 border-l-8 border-accent pl-5; }
+  .home-intro > p:first-child { @apply text-lg font-bold text-muted-foreground; }
+  .home-intro h1 { @apply mt-2 text-5xl text-primary sm:text-7xl; }
+  .home-intro h2 { @apply mt-2 text-2xl sm:text-3xl; }
+  .home-intro > p:last-child { @apply mt-4 max-w-3xl text-lg text-muted-foreground sm:text-xl; }
+  .home-question { @apply mb-5 text-2xl; }
+  .doctor-visit-button { @apply mt-6 min-h-20 w-full text-xl; }
   .simple-page { @apply mx-auto min-h-[calc(100vh-8rem)] max-w-3xl px-5 py-8 sm:px-8 sm:py-12; }
   .simple-page.wide { @apply max-w-5xl; }
   .simple-back { @apply mb-8 inline-flex items-center gap-1 text-lg font-extrabold text-primary; }
@@ -262,6 +269,59 @@
   .more-menu > div a { @apply rounded-md px-4 py-3 font-bold hover:bg-secondary; }
   .mobile-simple-nav { @apply grid max-h-[70vh] grid-cols-2 gap-2 overflow-y-auto border-t bg-surface p-4 lg:hidden; }
   .mobile-simple-nav a { @apply rounded-md border border-border px-4 py-3 font-bold; }
+  .choice-grid { @apply mt-7 grid gap-3 sm:grid-cols-2; }
+  .choice-grid > * { @apply min-h-20 justify-between whitespace-normal text-left text-xl; }
+  .duration-row { @apply mt-5 flex flex-wrap gap-3; }
+  .start-panel { @apply mt-8 flex flex-col items-start justify-between gap-5 border-y-2 border-border bg-surface px-5 py-7 sm:flex-row sm:items-center; }
+  .start-panel.stacked { @apply items-start; }
+  .advanced-rhythm { @apply mt-7 border-t border-border pt-5; }
+  .advanced-rhythm summary { @apply flex cursor-pointer items-center gap-2 font-bold text-primary; }
+  .activity-grid { @apply mt-7 grid gap-4 sm:grid-cols-2; }
+  .activity-grid > * { @apply h-auto min-h-28 items-start justify-start whitespace-normal p-5 text-left; }
+  .activity-grid svg { @apply mt-1 h-9 w-9; }
+  .activity-grid span { @apply flex flex-col; }
+  .activity-grid strong { @apply text-xl; }
+  .activity-grid small { @apply mt-1 text-base font-medium opacity-80; }
+  .activity-guide { @apply mt-7 space-y-6; }
+  .activity-question { @apply border-l-4 border-primary bg-surface p-5; }
+  .activity-question > span, .step-count { @apply text-sm font-extrabold uppercase text-primary; }
+  .activity-question p { @apply mt-2 text-lg; }
+  .activity-actions, .entry-row { @apply flex flex-wrap gap-3; }
+  .feeling-grid { @apply mt-4 grid gap-3 sm:grid-cols-3; }
+  .feeling-grid > * { @apply min-h-16 whitespace-normal; }
+  .safety-note, .observation-note, .report-disclaimer { @apply border-l-4 border-accent bg-muted p-4; }
+  .completion { @apply text-center; }
+  .completion > svg { @apply mx-auto h-16 w-16 text-success; }
+  .guided-check { @apply max-w-3xl; }
+  .assessment-summary { @apply mt-6 border-2 border-primary bg-secondary p-5; }
+  .day-list { @apply my-7 grid gap-4; }
+  .day-list a { @apply flex min-h-24 items-center gap-4 rounded-lg border-2 border-border bg-surface p-5 hover:border-primary; }
+  .day-list svg { @apply h-10 w-10 text-primary; }
+  .day-list span { @apply flex flex-col; }
+  .day-list strong { @apply text-xl; }
+  .report-grid { @apply my-8 grid gap-6 lg:grid-cols-2; }
+  .report-section { @apply border-t-4 border-primary bg-surface p-5; }
+  .report-section h2 { @apply text-2xl; }
+  .report-section ul { @apply mt-4 space-y-3; }
+  .report-section li { @apply flex items-center justify-between gap-3 border-t border-border pt-3; }
+  .entry-row { @apply mt-4 flex-nowrap; }
+  .info-list { @apply my-8 grid gap-3; }
+  .info-list details { @apply border-2 border-border bg-surface p-5; }
+  .info-list summary { @apply flex cursor-pointer items-center gap-3 text-xl font-extrabold; }
+  .info-list p { @apply mt-4 text-lg; }
+  .progress-summary { @apply my-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5; }
+  .progress-summary article { @apply flex flex-col border-t-4 border-primary bg-surface p-4; }
+  .progress-summary svg { @apply h-8 w-8 text-primary; }
+  .progress-summary strong { @apply mt-3 text-3xl; }
+  .history-section { @apply mt-8 border-t-2 border-border pt-6; }
+  .history-section article { @apply mt-3 flex gap-3 bg-surface p-4; }
+  .history-section article svg { @apply h-7 w-7 shrink-0 text-primary; }
+  .history-section article div { @apply flex flex-col; }
+  .empty-state { @apply mt-4 text-muted-foreground; }
+  .help-panel { @apply w-[min(92vw,28rem)] space-y-4 rounded-lg border-2 border-destructive bg-surface p-5 shadow-2xl; }
+  .help-panel > div:first-child { @apply border-b border-border pb-3; }
+  .quick-setup { @apply mt-8 space-y-7 border-t-4 border-primary bg-surface p-5 sm:p-7; }
+  @media print { header, .simple-back, .activity-actions, .help-panel, .fixed { display: none !important; } main { padding-top: 0 !important; } .simple-page { max-width: none; } }
 }
 @keyframes slide-down { from { transform: translateY(-100%); opacity: 0; } }
 @keyframes breathe { 0%, 100% { transform: scale(.88); } 50% { transform: scale(1.05); } }

@@ -14,14 +14,20 @@ import { Route as AssessmentRouteImport } from './routes/assessment'
 import { Route as ClinicianRouteImport } from './routes/clinician'
 import { Route as CommunityRouteImport } from './routes/community'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as DoctorVisitRouteImport } from './routes/doctor-visit'
+import { Route as MindBodyRouteImport } from './routes/mind-body'
+import { Route as MoveRouteImport } from './routes/move'
 import { Route as MusicRouteImport } from './routes/music'
+import { Route as MyDayRouteImport } from './routes/my-day'
 import { Route as OverlayRouteImport } from './routes/overlay'
 import { Route as ProgressRouteImport } from './routes/progress'
 import { Route as RelaxRouteImport } from './routes/relax'
 import { Route as RemediesRouteImport } from './routes/remedies'
 import { Route as RewardsRouteImport } from './routes/rewards'
 import { Route as ScreeningRouteImport } from './routes/screening'
+import { Route as SymptomsRouteImport } from './routes/symptoms'
 import { Route as TherapyRouteImport } from './routes/therapy'
+import { Route as TreatmentInfoRouteImport } from './routes/treatment-info'
 import { Route as VocalRouteImport } from './routes/vocal'
 import { Route as WalkRouteImport } from './routes/walk'
 
@@ -50,9 +56,29 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DoctorVisitRoute = DoctorVisitRouteImport.update({
+  id: '/doctor-visit',
+  path: '/doctor-visit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MindBodyRoute = MindBodyRouteImport.update({
+  id: '/mind-body',
+  path: '/mind-body',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MoveRoute = MoveRouteImport.update({
+  id: '/move',
+  path: '/move',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MusicRoute = MusicRouteImport.update({
   id: '/music',
   path: '/music',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MyDayRoute = MyDayRouteImport.update({
+  id: '/my-day',
+  path: '/my-day',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OverlayRoute = OverlayRouteImport.update({
@@ -85,9 +111,19 @@ const ScreeningRoute = ScreeningRouteImport.update({
   path: '/screening',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SymptomsRoute = SymptomsRouteImport.update({
+  id: '/symptoms',
+  path: '/symptoms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TherapyRoute = TherapyRouteImport.update({
   id: '/therapy',
   path: '/therapy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TreatmentInfoRoute = TreatmentInfoRouteImport.update({
+  id: '/treatment-info',
+  path: '/treatment-info',
   getParentRoute: () => rootRouteImport,
 } as any)
 const VocalRoute = VocalRouteImport.update({
@@ -107,14 +143,20 @@ export interface FileRoutesByFullPath {
   '/clinician': typeof ClinicianRoute
   '/community': typeof CommunityRoute
   '/dashboard': typeof DashboardRoute
+  '/doctor-visit': typeof DoctorVisitRoute
+  '/mind-body': typeof MindBodyRoute
+  '/move': typeof MoveRoute
   '/music': typeof MusicRoute
+  '/my-day': typeof MyDayRoute
   '/overlay': typeof OverlayRoute
   '/progress': typeof ProgressRoute
   '/relax': typeof RelaxRoute
   '/remedies': typeof RemediesRoute
   '/rewards': typeof RewardsRoute
   '/screening': typeof ScreeningRoute
+  '/symptoms': typeof SymptomsRoute
   '/therapy': typeof TherapyRoute
+  '/treatment-info': typeof TreatmentInfoRoute
   '/vocal': typeof VocalRoute
   '/walk': typeof WalkRoute
 }
@@ -124,14 +166,20 @@ export interface FileRoutesByTo {
   '/clinician': typeof ClinicianRoute
   '/community': typeof CommunityRoute
   '/dashboard': typeof DashboardRoute
+  '/doctor-visit': typeof DoctorVisitRoute
+  '/mind-body': typeof MindBodyRoute
+  '/move': typeof MoveRoute
   '/music': typeof MusicRoute
+  '/my-day': typeof MyDayRoute
   '/overlay': typeof OverlayRoute
   '/progress': typeof ProgressRoute
   '/relax': typeof RelaxRoute
   '/remedies': typeof RemediesRoute
   '/rewards': typeof RewardsRoute
   '/screening': typeof ScreeningRoute
+  '/symptoms': typeof SymptomsRoute
   '/therapy': typeof TherapyRoute
+  '/treatment-info': typeof TreatmentInfoRoute
   '/vocal': typeof VocalRoute
   '/walk': typeof WalkRoute
 }
@@ -142,14 +190,20 @@ export interface FileRoutesById {
   '/clinician': typeof ClinicianRoute
   '/community': typeof CommunityRoute
   '/dashboard': typeof DashboardRoute
+  '/doctor-visit': typeof DoctorVisitRoute
+  '/mind-body': typeof MindBodyRoute
+  '/move': typeof MoveRoute
   '/music': typeof MusicRoute
+  '/my-day': typeof MyDayRoute
   '/overlay': typeof OverlayRoute
   '/progress': typeof ProgressRoute
   '/relax': typeof RelaxRoute
   '/remedies': typeof RemediesRoute
   '/rewards': typeof RewardsRoute
   '/screening': typeof ScreeningRoute
+  '/symptoms': typeof SymptomsRoute
   '/therapy': typeof TherapyRoute
+  '/treatment-info': typeof TreatmentInfoRoute
   '/vocal': typeof VocalRoute
   '/walk': typeof WalkRoute
 }
@@ -161,14 +215,20 @@ export interface FileRouteTypes {
     | '/clinician'
     | '/community'
     | '/dashboard'
+    | '/doctor-visit'
+    | '/mind-body'
+    | '/move'
     | '/music'
+    | '/my-day'
     | '/overlay'
     | '/progress'
     | '/relax'
     | '/remedies'
     | '/rewards'
     | '/screening'
+    | '/symptoms'
     | '/therapy'
+    | '/treatment-info'
     | '/vocal'
     | '/walk'
   fileRoutesByTo: FileRoutesByTo
@@ -178,14 +238,20 @@ export interface FileRouteTypes {
     | '/clinician'
     | '/community'
     | '/dashboard'
+    | '/doctor-visit'
+    | '/mind-body'
+    | '/move'
     | '/music'
+    | '/my-day'
     | '/overlay'
     | '/progress'
     | '/relax'
     | '/remedies'
     | '/rewards'
     | '/screening'
+    | '/symptoms'
     | '/therapy'
+    | '/treatment-info'
     | '/vocal'
     | '/walk'
   id:
@@ -195,14 +261,20 @@ export interface FileRouteTypes {
     | '/clinician'
     | '/community'
     | '/dashboard'
+    | '/doctor-visit'
+    | '/mind-body'
+    | '/move'
     | '/music'
+    | '/my-day'
     | '/overlay'
     | '/progress'
     | '/relax'
     | '/remedies'
     | '/rewards'
     | '/screening'
+    | '/symptoms'
     | '/therapy'
+    | '/treatment-info'
     | '/vocal'
     | '/walk'
   fileRoutesById: FileRoutesById
@@ -213,14 +285,20 @@ export interface RootRouteChildren {
   ClinicianRoute: typeof ClinicianRoute
   CommunityRoute: typeof CommunityRoute
   DashboardRoute: typeof DashboardRoute
+  DoctorVisitRoute: typeof DoctorVisitRoute
+  MindBodyRoute: typeof MindBodyRoute
+  MoveRoute: typeof MoveRoute
   MusicRoute: typeof MusicRoute
+  MyDayRoute: typeof MyDayRoute
   OverlayRoute: typeof OverlayRoute
   ProgressRoute: typeof ProgressRoute
   RelaxRoute: typeof RelaxRoute
   RemediesRoute: typeof RemediesRoute
   RewardsRoute: typeof RewardsRoute
   ScreeningRoute: typeof ScreeningRoute
+  SymptomsRoute: typeof SymptomsRoute
   TherapyRoute: typeof TherapyRoute
+  TreatmentInfoRoute: typeof TreatmentInfoRoute
   VocalRoute: typeof VocalRoute
   WalkRoute: typeof WalkRoute
 }
@@ -262,11 +340,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/doctor-visit': {
+      id: '/doctor-visit'
+      path: '/doctor-visit'
+      fullPath: '/doctor-visit'
+      preLoaderRoute: typeof DoctorVisitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mind-body': {
+      id: '/mind-body'
+      path: '/mind-body'
+      fullPath: '/mind-body'
+      preLoaderRoute: typeof MindBodyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/move': {
+      id: '/move'
+      path: '/move'
+      fullPath: '/move'
+      preLoaderRoute: typeof MoveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/music': {
       id: '/music'
       path: '/music'
       fullPath: '/music'
       preLoaderRoute: typeof MusicRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/my-day': {
+      id: '/my-day'
+      path: '/my-day'
+      fullPath: '/my-day'
+      preLoaderRoute: typeof MyDayRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/overlay': {
@@ -311,11 +417,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ScreeningRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/symptoms': {
+      id: '/symptoms'
+      path: '/symptoms'
+      fullPath: '/symptoms'
+      preLoaderRoute: typeof SymptomsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/therapy': {
       id: '/therapy'
       path: '/therapy'
       fullPath: '/therapy'
       preLoaderRoute: typeof TherapyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/treatment-info': {
+      id: '/treatment-info'
+      path: '/treatment-info'
+      fullPath: '/treatment-info'
+      preLoaderRoute: typeof TreatmentInfoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/vocal': {
@@ -341,14 +461,20 @@ const rootRouteChildren: RootRouteChildren = {
   ClinicianRoute: ClinicianRoute,
   CommunityRoute: CommunityRoute,
   DashboardRoute: DashboardRoute,
+  DoctorVisitRoute: DoctorVisitRoute,
+  MindBodyRoute: MindBodyRoute,
+  MoveRoute: MoveRoute,
   MusicRoute: MusicRoute,
+  MyDayRoute: MyDayRoute,
   OverlayRoute: OverlayRoute,
   ProgressRoute: ProgressRoute,
   RelaxRoute: RelaxRoute,
   RemediesRoute: RemediesRoute,
   RewardsRoute: RewardsRoute,
   ScreeningRoute: ScreeningRoute,
+  SymptomsRoute: SymptomsRoute,
   TherapyRoute: TherapyRoute,
+  TreatmentInfoRoute: TreatmentInfoRoute,
   VocalRoute: VocalRoute,
   WalkRoute: WalkRoute,
 }
