@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { VitaMoveProvider } from "../lib/vitamove-state";
 import { AppShell } from "../components/vitamove/AppShell";
+import { LumaStrideWellnessProvider } from "../lib/lumastride-wellness";
 
 function NotFoundComponent() {
   return (
@@ -79,11 +80,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "VitaMove Parkinson's" },
-      { name: "description", content: "Personalized movement and daily wellness support for life with Parkinson's." },
-      { name: "author", content: "VitaMove Parkinson's" },
-      { property: "og:title", content: "VitaMove Parkinson's" },
-      { property: "og:description", content: "Personalized movement and daily wellness support for life with Parkinson's." },
+      { title: "LumaStride Wellness" },
+      { name: "description", content: "Simple movement, voice, music, and relaxation support for people living with Parkinson's." },
+      { name: "author", content: "LumaStride Wellness" },
+      { property: "og:title", content: "LumaStride Wellness" },
+      { property: "og:description", content: "Simple daily wellness support for people living with Parkinson's." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -92,7 +93,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.png", type: "image/png" },
     ],
   }),
   shellComponent: RootShell,
@@ -120,7 +121,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <VitaMoveProvider><AppShell><Outlet /></AppShell></VitaMoveProvider>
+      <VitaMoveProvider><LumaStrideWellnessProvider><AppShell><Outlet /></AppShell></LumaStrideWellnessProvider></VitaMoveProvider>
     </QueryClientProvider>
   );
 }
