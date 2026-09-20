@@ -30,6 +30,7 @@ import { Route as TherapyRouteImport } from './routes/therapy'
 import { Route as TreatmentInfoRouteImport } from './routes/treatment-info'
 import { Route as VocalRouteImport } from './routes/vocal'
 import { Route as WalkRouteImport } from './routes/walk'
+import { Route as ApiSpeechRouteImport } from './routes/api/speech'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -136,6 +137,11 @@ const WalkRoute = WalkRouteImport.update({
   path: '/walk',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiSpeechRoute = ApiSpeechRouteImport.update({
+  id: '/api/speech',
+  path: '/api/speech',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -159,6 +165,7 @@ export interface FileRoutesByFullPath {
   '/treatment-info': typeof TreatmentInfoRoute
   '/vocal': typeof VocalRoute
   '/walk': typeof WalkRoute
+  '/api/speech': typeof ApiSpeechRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -182,6 +189,7 @@ export interface FileRoutesByTo {
   '/treatment-info': typeof TreatmentInfoRoute
   '/vocal': typeof VocalRoute
   '/walk': typeof WalkRoute
+  '/api/speech': typeof ApiSpeechRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -206,6 +214,7 @@ export interface FileRoutesById {
   '/treatment-info': typeof TreatmentInfoRoute
   '/vocal': typeof VocalRoute
   '/walk': typeof WalkRoute
+  '/api/speech': typeof ApiSpeechRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -231,6 +240,7 @@ export interface FileRouteTypes {
     | '/treatment-info'
     | '/vocal'
     | '/walk'
+    | '/api/speech'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -254,6 +264,7 @@ export interface FileRouteTypes {
     | '/treatment-info'
     | '/vocal'
     | '/walk'
+    | '/api/speech'
   id:
     | '__root__'
     | '/'
@@ -277,6 +288,7 @@ export interface FileRouteTypes {
     | '/treatment-info'
     | '/vocal'
     | '/walk'
+    | '/api/speech'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -301,6 +313,7 @@ export interface RootRouteChildren {
   TreatmentInfoRoute: typeof TreatmentInfoRoute
   VocalRoute: typeof VocalRoute
   WalkRoute: typeof WalkRoute
+  ApiSpeechRoute: typeof ApiSpeechRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -452,6 +465,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WalkRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/speech': {
+      id: '/api/speech'
+      path: '/api/speech'
+      fullPath: '/api/speech'
+      preLoaderRoute: typeof ApiSpeechRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -477,6 +497,7 @@ const rootRouteChildren: RootRouteChildren = {
   TreatmentInfoRoute: TreatmentInfoRoute,
   VocalRoute: VocalRoute,
   WalkRoute: WalkRoute,
+  ApiSpeechRoute: ApiSpeechRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
