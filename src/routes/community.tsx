@@ -8,10 +8,10 @@ import { useVitaMove } from "@/lib/vitamove-state";
 export const Route = createFileRoute("/community")({
   head: () => ({
     meta: [
-      { title: "Community Hub — AsterStep" },
-      { name: "description", content: "Leaderboard and supportive circles for the AsterStep Parkinson's community." },
-      { property: "og:title", content: "Community Hub — AsterStep" },
-      { property: "og:description", content: "Leaderboard and supportive circles for the AsterStep Parkinson's community." },
+      { title: "Community Hub — Kindora" },
+      { name: "description", content: "Leaderboard and supportive circles for the Kindora Parkinson's community." },
+      { property: "og:title", content: "Community Hub — Kindora" },
+      { property: "og:description", content: "Leaderboard and supportive circles for the Kindora Parkinson's community." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

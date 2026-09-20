@@ -7,8 +7,8 @@ import { useLumaStrideWellness } from "@/lib/lumastride-wellness";
 
 export const Route = createFileRoute("/symptoms")({
   head: () => ({ meta: [
-    { title: "Check My Symptoms — ClearStep" }, { name: "description", content: "Short, non-diagnostic self-assessments and app-based movement observations." },
-    { property: "og:title", content: "Check My Symptoms — ClearStep" }, { property: "og:description", content: "Short self-assessments to help prepare for a healthcare conversation." },
+    { title: "Check My Symptoms — Kindora" }, { name: "description", content: "Short, non-diagnostic self-assessments and app-based movement observations." },
+    { property: "og:title", content: "Check My Symptoms — Kindora" }, { property: "og:description", content: "Short self-assessments to help prepare for a healthcare conversation." },
     { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
   ] }), component: Symptoms,
 });
@@ -23,7 +23,7 @@ function Symptoms() {
   const [answer, setAnswer] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
   const save = () => { if (!category || !answer) return; addObservation({ category, note: `${category}: ${answer}`, value: answer }); setSaved(true); };
-  const share = async () => { const text = `${category ?? "Movement"} app-based observation: ${answer ?? "not completed"}. This is not a medical diagnosis.`; if (navigator.share) await navigator.share({ title: "ClearStep observation", text }); else await navigator.clipboard?.writeText(text); };
+  const share = async () => { const text = `${category ?? "Movement"} app-based observation: ${answer ?? "not completed"}. This is not a medical diagnosis.`; if (navigator.share) await navigator.share({ title: "Kindora observation", text }); else await navigator.clipboard?.writeText(text); };
   const speak = () => { if (!category || !("speechSynthesis" in window)) return; window.speechSynthesis.cancel(); window.speechSynthesis.speak(new SpeechSynthesisUtterance(`${category}. ${descriptions[category]}`)); };
   return <div className="simple-page wide"><Link to="/" className="simple-back"><ChevronLeft/>Home</Link>
     {!category ? <><p className="eyebrow">Guided self-assessment</p><h1>What would you like to check?</h1><p className="simple-lead">Choose one. Each check is short, and you can skip anything you cannot safely do.</p><div className="choice-grid">{symptomCategories.map((item) => <Button key={item} variant="outline" size="xl" onClick={() => setCategory(item)}>{item}<ChevronRight/></Button>)}</div><p className="observation-note">These are app-based observations, not a medical diagnosis or neurological examination.</p></> :

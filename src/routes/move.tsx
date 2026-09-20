@@ -7,8 +7,8 @@ import { durations, goals, sessionSteps } from "@/lib/wellness-content";
 import { useLumaStrideWellness } from "@/lib/lumastride-wellness";
 
 export const Route = createFileRoute("/move")({ head: () => ({ meta: [
-  { title: "Move & Exercise — ClearStep" }, { name: "description", content: "Choose a goal and begin a short, ability-appropriate wellness activity." },
-  { property: "og:title", content: "Move & Exercise — ClearStep" }, { property: "og:description", content: "Simple movement sessions for the time you have today." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
+  { title: "Move & Exercise — Kindora" }, { name: "description", content: "Choose a goal and begin a short, ability-appropriate wellness activity." },
+  { property: "og:title", content: "Move & Exercise — Kindora" }, { property: "og:description", content: "Simple movement sessions for the time you have today." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
 ] }), component: Move });
 
 function Move() {

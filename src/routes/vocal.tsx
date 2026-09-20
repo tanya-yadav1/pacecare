@@ -6,9 +6,9 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/vocal")({
   head: () => ({
     meta: [
-      { title: "Vocal & Digital Therapies — AsterStep" },
+      { title: "Vocal & Digital Therapies — Kindora" },
       { name: "description", content: "Speech rehabilitation with live loudness feedback plus finger agility mini-games." },
-      { property: "og:title", content: "Vocal & Digital Therapies — AsterStep" },
+      { property: "og:title", content: "Vocal & Digital Therapies — Kindora" },
       { property: "og:description", content: "Speech rehabilitation with live loudness feedback plus finger agility mini-games." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
