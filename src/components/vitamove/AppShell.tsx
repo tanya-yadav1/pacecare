@@ -5,7 +5,11 @@ import { Brand } from "./Brand";
 import { useVitaMove } from "@/lib/vitamove-state";
 import { Button } from "@/components/ui/button";
 
-const nav = [["/screening","Multi-Modal Screening"],["/remedies","Adaptive Remedies"],["/vocal","Vocal & Digital"],["/overlay","Clinical Data Overlay"],["/dashboard","Dashboard"],["/assessment","Screening Hub"],["/therapy","Movement Therapy"],["/rewards","Rewards"],["/clinician","Clinician View"],["/community","Community"]] as const;
+const groups = [
+ { name: "Diagnosis", cls: "nav-diagnosis", links: [["/screening","Multi-Modal Screening"],["/assessment","Risk Screener & Tests"],["/overlay","Clinical Data Overlay"],["/clinician","Clinician View"]] },
+ { name: "Treatments", cls: "nav-treatment", links: [["/remedies","Adaptive Remedies"],["/vocal","Vocal & Digital"],["/therapy","Movement Therapy"],["/community","Community"]] },
+ { name: "", cls: "", links: [["/dashboard","Dashboard"],["/rewards","Rewards"]] },
+] as const;
 export function AppShell({ children }: { children: React.ReactNode }) {
  const { stars, parkerOpen, setParkerOpen, messages, sendToParker, banner, dismissBanner } = useVitaMove();
  const [mobile, setMobile] = useState(false); const [text, setText] = useState("");
