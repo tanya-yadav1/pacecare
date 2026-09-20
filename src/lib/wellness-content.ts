@@ -3,9 +3,11 @@ import { Accessibility, Activity, Armchair, AudioLines, Bike, Brain, Dumbbell, F
 export const goals = [
   { name: "Walking", Icon: Footprints }, { name: "Balance", Icon: Scale },
   { name: "Strength", Icon: Dumbbell }, { name: "Posture", Icon: PersonStanding },
-  { name: "Flexibility", Icon: StretchHorizontal }, { name: "Daily Movement", Icon: Accessibility },
-  { name: "Hand Coordination", Icon: Hand }, { name: "Voice", Icon: AudioLines },
+  { name: "Flexibility", Icon: StretchHorizontal }, { name: "Coordination", Icon: Hand },
+  { name: "Mobility", Icon: Accessibility },
 ] as const;
+
+export const personalGoals = ["Walking", "Balance", "Strength", "Flexibility", "Posture", "Hands", "Voice", "Independence", "Relaxation"] as const;
 
 export const mindActivities = [
   { name: "Yoga", Icon: PersonStanding, purpose: "Gentle yoga can be part of an exercise and wellness routine.", options: ["Beginner", "Seated", "Gentle", "Balance-focused", "Flexibility-focused", "Relaxation"] },
