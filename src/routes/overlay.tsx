@@ -6,9 +6,9 @@ import { useTestScores } from "@/lib/vitamove-tests";
 export const Route = createFileRoute("/overlay")({
   head: () => ({
     meta: [
-      { title: "Clinical Data Overlay — Kindora" },
+      { title: "Clinical Data Overlay — PACE" },
       { name: "description", content: "Pre-therapy versus post-therapy motor, speech and cognitive analytics." },
-      { property: "og:title", content: "Clinical Data Overlay — Kindora" },
+      { property: "og:title", content: "Clinical Data Overlay — PACE" },
       { property: "og:description", content: "Pre-therapy versus post-therapy motor, speech and cognitive analytics." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

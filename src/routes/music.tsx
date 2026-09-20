@@ -7,9 +7,9 @@ import { useLumaStrideWellness, type MusicFavorite } from "@/lib/lumastride-well
 
 export const Route = createFileRoute("/music")({
   head: () => ({ meta: [
-    { title: "Optional Music — Kindora" },
+    { title: "Optional Music — PACE" },
     { name: "description", content: "Save music you enjoy and find songs close to your walking rhythm." },
-    { property: "og:title", content: "Optional Music — Kindora" },
+    { property: "og:title", content: "Optional Music — PACE" },
     { property: "og:description", content: "Personalized music and rhythm support for movement practice." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },
@@ -36,7 +36,7 @@ function Music() {
     <header className="simple-heading"><Music2 className="simple-page-icon"/><div><h1>My Music</h1><p>Personalized music and rhythm support for movement practice.</p></div></header>
     <section className="music-settings" aria-label="Music preferences">
       <label>Music service or library<select value={state.musicService} onChange={(event) => state.setMusicService(event.target.value)}><option>None selected</option><option>Apple Music</option><option>Spotify</option><option>YouTube Music</option><option>My device library</option></select></label>
-      <p>Connections depend on services available on your device. Kindora does not download or redistribute songs.</p>
+      <p>Connections depend on services available on your device. PACE does not download or redistribute songs.</p>
     </section>
     <section className="music-search">
       <h2>Find a song</h2><div className="search-box"><Search/><Input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Song, artist, or genre" aria-label="Search songs"/></div>

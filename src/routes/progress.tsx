@@ -3,8 +3,8 @@ import { Activity, AudioLines, ChevronLeft, Footprints, PersonStanding, Scale } 
 import { useLumaStrideWellness } from "@/lib/lumastride-wellness";
 
 export const Route = createFileRoute("/progress")({ head: () => ({ meta: [
-  { title: "My Progress — Kindora" }, { name: "description", content: "A simple view of your activity, practice, reported symptoms, and app-based observations." },
-  { property: "og:title", content: "My Progress — Kindora" }, { property: "og:description", content: "Review your wellness practice and app-based observations over time." },
+  { title: "My Progress — PACE" }, { name: "description", content: "A simple view of your activity, practice, reported symptoms, and app-based observations." },
+  { property: "og:title", content: "My Progress — PACE" }, { property: "og:description", content: "Review your wellness practice and app-based observations over time." },
   { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
 ] }), component: Progress });
 

@@ -6,9 +6,9 @@ import { useLumaStrideWellness } from "@/lib/lumastride-wellness";
 
 export const Route = createFileRoute("/walk")({
   head: () => ({ meta: [
-    { title: "Walking Observation — Kindora" },
+    { title: "Walking Observation — PACE" },
     { name: "description", content: "Find a comfortable walking rhythm and choose music for movement practice." },
-    { property: "og:title", content: "Walking Observation — Kindora" },
+    { property: "og:title", content: "Walking Observation — PACE" },
     { property: "og:description", content: "Personalized music and rhythm support for movement practice." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },
