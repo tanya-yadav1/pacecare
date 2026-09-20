@@ -25,4 +25,4 @@
 - [x] Upgrade My PACE Report and its print/share controls.
 - [x] Add persisted Senior Mode accessibility settings.
 - [x] Add the isolated 60–90 second PACE Demo route.
-- [ ] Verify the complete senior journey on desktop and mobile.
+- [x] Verify the complete senior journey on desktop and mobile.
