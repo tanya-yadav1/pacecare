@@ -1,6 +1,6 @@
 # Roadmap
 
-- [ ] Introduce a distinctive name without “move” or “step,” a non-figurative original logo/favicon, and plain-language wellness positioning.
+- [ ] Introduce a distinctive name without “move” or “step,” a creative non-figurative original logo/favicon in a fresh contrasting palette, and plain-language wellness positioning.
 - [ ] Replace home and navigation with four primary choices, My Day, Doctor Visit, Help, and secondary education.
 - [ ] Turn existing tests into short, skippable app-based observations with safe, non-diagnostic summaries and dated history.
 - [ ] Build goal-based Move & Exercise sessions with 5/10/20/30-minute choices and optional rhythm or music.
