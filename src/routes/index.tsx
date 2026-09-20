@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useLumaStrideWellness } from "@/lib/lumastride-wellness";
 
 export const Route = createFileRoute("/")({
- head:()=>({meta:[{title:"LumaStride — Simple Daily Wellness Support"},{name:"description",content:"Simple movement, voice, music, and relaxation support for people living with Parkinson's."},{property:"og:title",content:"LumaStride — Simple Daily Wellness Support"},{property:"og:description",content:"Simple movement, voice, music, and relaxation support for people living with Parkinson's."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary_large_image"}]}), component: Home
+ head:()=>({meta:[{title:"AsterStep — Move to Your Own Rhythm"},{name:"description",content:"Simple movement, voice, music, and relaxation support for people living with Parkinson's."},{property:"og:title",content:"AsterStep — Move to Your Own Rhythm"},{property:"og:description",content:"Simple movement, voice, music, and relaxation support for people living with Parkinson's."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary_large_image"}]}), component: Home
 });
 function Home(){
  const { name } = useLumaStrideWellness();

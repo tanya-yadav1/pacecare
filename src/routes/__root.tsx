@@ -80,10 +80,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "LumaStride Wellness" },
+      { title: "AsterStep Wellness" },
       { name: "description", content: "Simple movement, voice, music, and relaxation support for people living with Parkinson's." },
-      { name: "author", content: "LumaStride Wellness" },
-      { property: "og:title", content: "LumaStride Wellness" },
+      { name: "author", content: "AsterStep Wellness" },
+      { property: "og:title", content: "AsterStep Wellness" },
       { property: "og:description", content: "Simple daily wellness support for people living with Parkinson's." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

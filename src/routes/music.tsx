@@ -1,15 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronLeft, Heart, Music2, Search, Star } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLumaStrideWellness, type MusicFavorite } from "@/lib/lumastride-wellness";
 
 export const Route = createFileRoute("/music")({
   head: () => ({ meta: [
-    { title: "My Music — LumaStride" },
+    { title: "My Music — AsterStep" },
     { name: "description", content: "Save music you enjoy and find songs close to your walking rhythm." },
-    { property: "og:title", content: "My Music — LumaStride" },
+    { property: "og:title", content: "My Music — AsterStep" },
     { property: "og:description", content: "Personalized music and rhythm support for movement practice." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },
@@ -36,7 +36,7 @@ function Music() {
     <header className="simple-heading"><Music2 className="simple-page-icon"/><div><h1>My Music</h1><p>Personalized music and rhythm support for movement practice.</p></div></header>
     <section className="music-settings" aria-label="Music preferences">
       <label>Music service or library<select value={state.musicService} onChange={(event) => state.setMusicService(event.target.value)}><option>None selected</option><option>Apple Music</option><option>Spotify</option><option>YouTube Music</option><option>My device library</option></select></label>
-      <p>Connections depend on services available on your device. LumaStride does not download or redistribute songs.</p>
+      <p>Connections depend on services available on your device. AsterStep does not download or redistribute songs.</p>
     </section>
     <section className="music-search">
       <h2>Find a song</h2><div className="search-box"><Search/><Input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Song, artist, or genre" aria-label="Search songs"/></div>
@@ -65,6 +65,6 @@ function SongRow({ song, target, favorite, toggle }: { song: MusicFavorite; targ
   return <article className="song-row"><div><h3>{song.title}</h3><p>{song.artist} · {song.genre} · {song.bpm ? `${song.bpm} BPM` : "Tempo unavailable"}</p><b>{matchLabel(song.bpm, target)}</b></div><Button size="iconLg" variant={favorite ? "amber" : "outline"} onClick={toggle} aria-label={`${favorite ? "Remove" : "Add"} ${song.title} ${favorite ? "from" : "to"} favorites`}><Heart className={favorite ? "fill-current" : ""}/></Button></article>;
 }
 
-function MusicGroup({ icon, title, songs }: { icon: React.ReactNode; title: string; songs: MusicFavorite[] }) {
+function MusicGroup({ icon, title, songs }: { icon: ReactNode; title: string; songs: MusicFavorite[] }) {
   return <section className="music-group"><h2>{icon}{title}</h2>{songs.length ? songs.map((song) => <p key={song.id}><strong>{song.title}</strong><span>{song.artist}</span></p>) : <p className="empty-music">Nothing saved here yet.</p>}</section>;
 }

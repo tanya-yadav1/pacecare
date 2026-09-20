@@ -14,9 +14,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const quietPage = ["/", "/walk", "/music", "/relax", "/progress"].includes(path);
   return <div className="min-h-screen bg-background">
    <header className="fixed inset-x-0 top-0 z-40 border-b border-border bg-surface shadow-sm">
-    <div className="bg-primary px-4 py-2 text-center text-xs font-semibold text-primary-foreground sm:text-sm">LumaStride supports wellness and does not replace professional medical care.</div>
+    <div className="bg-primary px-4 py-2 text-center text-xs font-semibold text-primary-foreground sm:text-sm">AsterStep supports wellness and does not replace professional medical care.</div>
     <div className="mx-auto flex min-h-20 max-w-screen-xl items-center gap-4 px-4 lg:px-7">
-     <Link to="/" aria-label="LumaStride home"><Brand compact /></Link>
+     <Link to="/" aria-label="AsterStep home"><Brand compact /></Link>
      <nav className="ml-auto hidden items-center gap-1 lg:flex" aria-label="Main navigation"><Link to="/" className={`nav-link ${path==="/"?"nav-link-active":""}`}><Home/> Home</Link>{everyday.slice(0,4).map(([to,label])=><Link key={to} to={to} className={`nav-link ${path===to?"nav-link-active":""}`}>{label}</Link>)}<details className="more-menu"><summary>More <ChevronDown/></summary><div>{[...everyday.slice(4),...more].map(([to,label])=><Link key={to} to={to} className={path===to?"nav-link-active":""}>{label}</Link>)}</div></details></nav>
      <div className="ml-auto lg:hidden"><Button variant="outline" size="iconLg" onClick={()=>setMobile(!mobile)} aria-label="Open navigation">{mobile?<X/>:<Menu/>}</Button></div>
    </div>

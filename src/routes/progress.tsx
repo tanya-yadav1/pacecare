@@ -3,8 +3,8 @@ import { ChevronLeft, Footprints, Heart, Music2 } from "lucide-react";
 import { useLumaStrideWellness } from "@/lib/lumastride-wellness";
 
 export const Route = createFileRoute("/progress")({ head: () => ({ meta: [
-  { title: "My Progress — LumaStride" }, { name: "description", content: "A simple view of your saved walking rhythm and music." },
-  { property: "og:title", content: "My Progress — LumaStride" }, { property: "og:description", content: "A simple view of your saved walking rhythm and music." },
+  { title: "My Progress — AsterStep" }, { name: "description", content: "A simple view of your saved walking rhythm and music." },
+  { property: "og:title", content: "My Progress — AsterStep" }, { property: "og:description", content: "A simple view of your saved walking rhythm and music." },
   { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
 ] }), component: Progress });
 

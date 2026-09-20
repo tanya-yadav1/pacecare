@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/relax")({ head: () => ({ meta: [
-  { title: "Relax — LumaStride" }, { name: "description", content: "A simple guided breathing pause." },
-  { property: "og:title", content: "Relax — LumaStride" }, { property: "og:description", content: "A simple guided breathing pause." },
+  { title: "Relax — AsterStep" }, { name: "description", content: "A simple guided breathing pause." },
+  { property: "og:title", content: "Relax — AsterStep" }, { property: "og:description", content: "A simple guided breathing pause." },
   { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
 ] }), component: Relax });
 
