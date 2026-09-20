@@ -8,8 +8,6 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode, Suspense } from "react";
-import { VitaMoveProvider } from "./lib/vitamove-state";
-import { AppShell } from "./components/vitamove/AppShell";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
