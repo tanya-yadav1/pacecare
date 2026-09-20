@@ -16,6 +16,7 @@
 
 ## PACE Senior-First Competition Experience
 
+- [ ] Replace the human figure with the approved P-and-flowing-path logo, compact app icon, and full three-line wordmark.
 - [x] Reframe the app around Check → Personalize → Practice → Track → Prepare.
 - [x] Replace home and navigation with four calm choices and Today's PACE.
 - [x] Build the five-part PACE Check, snapshot comparisons, and report selection.
