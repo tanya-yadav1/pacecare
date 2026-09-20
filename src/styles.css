@@ -192,6 +192,18 @@
   .nav-link-active {
     @apply border-primary bg-primary/5 text-primary;
   }
+  .nav-group-label {
+    @apply mr-1 rounded-sm px-2 py-1 text-xs font-extrabold uppercase tracking-widest;
+  }
+  .nav-group-label.nav-diagnosis { @apply bg-primary text-primary-foreground; }
+  .nav-group-label.nav-treatment { @apply bg-success text-success-foreground; }
+  .nav-link.nav-diagnosis { @apply text-primary; }
+  .nav-link.nav-diagnosis.nav-link-active { @apply border-primary bg-primary text-primary-foreground; }
+  .nav-link.nav-treatment { @apply text-success; }
+  .nav-link.nav-treatment.nav-link-active { @apply border-success bg-success text-success-foreground; }
+  .page-tag { @apply mb-3 inline-block rounded-sm px-3 py-1 text-sm font-extrabold uppercase tracking-widest; }
+  .page-tag-diagnosis { @apply bg-primary text-primary-foreground; }
+  .page-tag-treatment { @apply bg-success text-success-foreground; }
   .stat-pill {
     @apply flex items-center gap-2 rounded-full border-2 border-primary/20 bg-surface px-3 py-1 shadow-sm;
   }
