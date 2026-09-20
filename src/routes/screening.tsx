@@ -29,6 +29,7 @@ function Screening() {
   const { scores } = useTestScores();
   return (
     <div className="page">
+      <span className="page-tag page-tag-diagnosis">Diagnosis</span>
       <p className="eyebrow">Multi-Modal Screening (Detection)</p>
       <h1>Three quick tests. One clear picture.</h1>
       <p className="lead">Measure bradykinesia, tremor amplitude, vocal intensity and executive processing speed in under five minutes.</p>

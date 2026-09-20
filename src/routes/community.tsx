@@ -39,6 +39,7 @@ function Community() {
 
   return (
     <div className="page">
+      <span className="page-tag page-tag-treatment">Treatment</span>
       <p className="eyebrow">Community Hub</p>
       <h1>Move together, stay encouraged.</h1>
 
