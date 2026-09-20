@@ -7,8 +7,8 @@ import { mindActivities } from "@/lib/wellness-content";
 import { useLumaStrideWellness } from "@/lib/lumastride-wellness";
 
 export const Route = createFileRoute("/mind-body")({ head: () => ({ meta: [
-  { title: "Mind & Body — Kindora" }, { name: "description", content: "Gentle yoga, tai chi, stretching, breathing, meditation, relaxation, dance, and optional music." },
-  { property: "og:title", content: "Mind & Body — Kindora" }, { property: "og:description", content: "Choose a gentle wellness activity that suits your ability." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
+  { title: "Mind & Body — PACE" }, { name: "description", content: "Gentle yoga, tai chi, stretching, breathing, meditation, relaxation, dance, and optional music." },
+  { property: "og:title", content: "Mind & Body — PACE" }, { property: "og:description", content: "Choose a gentle wellness activity that suits your ability." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
 ] }), component: MindBody });
 
 function MindBody() {

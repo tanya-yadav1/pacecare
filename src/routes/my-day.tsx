@@ -8,8 +8,8 @@ const helpChoices = ["Walking", "Balance", "Tremor", "Stiffness", "Exercise", "V
 const enjoyChoices = ["Walking", "Yoga", "Dance", "Music", "Stretching", "Tai Chi", "Other"];
 
 export const Route = createFileRoute("/my-day")({ head: () => ({ meta: [
-  { title: "My Day — Kindora" }, { name: "description", content: "A small, personalized wellness plan for today." },
-  { property: "og:title", content: "My Day — Kindora" }, { property: "og:description", content: "A few simple activities based on your goals and available time." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
+  { title: "My Day — PACE" }, { name: "description", content: "A small, personalized wellness plan for today." },
+  { property: "og:title", content: "My Day — PACE" }, { property: "og:description", content: "A few simple activities based on your goals and available time." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
 ] }), component: MyDay });
 
 function MyDay() {

@@ -80,10 +80,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Kindora Wellness" },
+      { title: "PACE — Parkinson's Adaptive Care and Exercise" },
       { name: "description", content: "Understand your movement, practice evidence-informed wellness activities, and prepare for healthcare conversations." },
-      { name: "author", content: "Kindora Wellness" },
-      { property: "og:title", content: "Kindora Wellness" },
+      { name: "author", content: "PACE — Parkinson's Adaptive Care and Exercise" },
+      { property: "og:title", content: "PACE — Parkinson's Adaptive Care and Exercise" },
       { property: "og:description", content: "A friendly app for movement understanding, wellness practice, and healthcare preparation." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

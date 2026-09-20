@@ -7,9 +7,9 @@ import { useTestScores } from "@/lib/vitamove-tests";
 export const Route = createFileRoute("/screening")({
   head: () => ({
     meta: [
-      { title: "Advanced App Observations — Kindora" },
+      { title: "Advanced App Observations — PACE" },
       { name: "description", content: "Optional app-based motor, vocal, and memory observations that do not provide a diagnosis." },
-      { property: "og:title", content: "Advanced App Observations — Kindora" },
+      { property: "og:title", content: "Advanced App Observations — PACE" },
       { property: "og:description", content: "Optional app-based observations to support a healthcare conversation." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
