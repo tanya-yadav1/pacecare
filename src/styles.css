@@ -292,11 +292,11 @@
   .advanced-rhythm[open] .advanced-only { @apply block; }
   .advanced-rhythm summary { @apply flex cursor-pointer items-center gap-2 font-bold text-primary; }
   .activity-grid { @apply mt-7 grid gap-4 sm:grid-cols-2; }
-  .activity-grid > * { @apply h-auto min-h-28 items-start justify-start whitespace-normal p-5 text-left; }
+  .activity-grid > * { @apply h-auto min-h-28 min-w-0 max-w-full items-start justify-start overflow-hidden whitespace-normal p-5 text-left; }
   .activity-grid svg { @apply mt-1 h-9 w-9; }
-  .activity-grid span { @apply flex flex-col; }
+  .activity-grid span { @apply flex min-w-0 flex-col overflow-hidden whitespace-normal; }
   .activity-grid strong { @apply text-xl; }
-  .activity-grid small { @apply mt-1 text-base font-medium opacity-80; }
+  .activity-grid small { @apply mt-1 whitespace-normal break-words text-base font-medium opacity-80; }
   .activity-guide { @apply mt-7 space-y-6; }
   .activity-question { @apply border-l-4 border-primary bg-surface p-5; }
   .activity-question > span, .step-count { @apply text-sm font-extrabold uppercase text-primary; }
