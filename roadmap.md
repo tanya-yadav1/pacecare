@@ -6,5 +6,5 @@
 - [x] Add simplified Relax and My Progress screens.
 - [x] Rebrand VitaMove with a more creative name and matching accessible logo/favicon.
 - [x] Simplify global navigation while retaining advanced clinical tools under More.
-- [ ] Verify accessibility, mobile layout, persistence, and core interactions.
+- [x] Verify accessibility, mobile layout, persistence, and core interactions.
 - [x] Elevate the identity to the distinctive AsterStep name for the judging presentation.
