@@ -10,7 +10,9 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AccessibilityRouteImport } from './routes/accessibility'
 import { Route as AssessmentRouteImport } from './routes/assessment'
+import { Route as CareRouteImport } from './routes/care'
 import { Route as ClinicianRouteImport } from './routes/clinician'
 import { Route as CommunityRouteImport } from './routes/community'
 import { Route as DashboardRouteImport } from './routes/dashboard'
@@ -20,6 +22,7 @@ import { Route as MoveRouteImport } from './routes/move'
 import { Route as MusicRouteImport } from './routes/music'
 import { Route as MyDayRouteImport } from './routes/my-day'
 import { Route as OverlayRouteImport } from './routes/overlay'
+import { Route as PaceDemoRouteImport } from './routes/pace-demo'
 import { Route as ProgressRouteImport } from './routes/progress'
 import { Route as RelaxRouteImport } from './routes/relax'
 import { Route as RemediesRouteImport } from './routes/remedies'
@@ -37,9 +40,19 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AccessibilityRoute = AccessibilityRouteImport.update({
+  id: '/accessibility',
+  path: '/accessibility',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AssessmentRoute = AssessmentRouteImport.update({
   id: '/assessment',
   path: '/assessment',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareRoute = CareRouteImport.update({
+  id: '/care',
+  path: '/care',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ClinicianRoute = ClinicianRouteImport.update({
@@ -85,6 +98,11 @@ const MyDayRoute = MyDayRouteImport.update({
 const OverlayRoute = OverlayRouteImport.update({
   id: '/overlay',
   path: '/overlay',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaceDemoRoute = PaceDemoRouteImport.update({
+  id: '/pace-demo',
+  path: '/pace-demo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProgressRoute = ProgressRouteImport.update({
@@ -145,7 +163,9 @@ const ApiSpeechRoute = ApiSpeechRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/accessibility': typeof AccessibilityRoute
   '/assessment': typeof AssessmentRoute
+  '/care': typeof CareRoute
   '/clinician': typeof ClinicianRoute
   '/community': typeof CommunityRoute
   '/dashboard': typeof DashboardRoute
@@ -155,6 +175,7 @@ export interface FileRoutesByFullPath {
   '/music': typeof MusicRoute
   '/my-day': typeof MyDayRoute
   '/overlay': typeof OverlayRoute
+  '/pace-demo': typeof PaceDemoRoute
   '/progress': typeof ProgressRoute
   '/relax': typeof RelaxRoute
   '/remedies': typeof RemediesRoute
@@ -169,7 +190,9 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/accessibility': typeof AccessibilityRoute
   '/assessment': typeof AssessmentRoute
+  '/care': typeof CareRoute
   '/clinician': typeof ClinicianRoute
   '/community': typeof CommunityRoute
   '/dashboard': typeof DashboardRoute
@@ -179,6 +202,7 @@ export interface FileRoutesByTo {
   '/music': typeof MusicRoute
   '/my-day': typeof MyDayRoute
   '/overlay': typeof OverlayRoute
+  '/pace-demo': typeof PaceDemoRoute
   '/progress': typeof ProgressRoute
   '/relax': typeof RelaxRoute
   '/remedies': typeof RemediesRoute
@@ -194,7 +218,9 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/accessibility': typeof AccessibilityRoute
   '/assessment': typeof AssessmentRoute
+  '/care': typeof CareRoute
   '/clinician': typeof ClinicianRoute
   '/community': typeof CommunityRoute
   '/dashboard': typeof DashboardRoute
@@ -204,6 +230,7 @@ export interface FileRoutesById {
   '/music': typeof MusicRoute
   '/my-day': typeof MyDayRoute
   '/overlay': typeof OverlayRoute
+  '/pace-demo': typeof PaceDemoRoute
   '/progress': typeof ProgressRoute
   '/relax': typeof RelaxRoute
   '/remedies': typeof RemediesRoute
@@ -220,7 +247,9 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/accessibility'
     | '/assessment'
+    | '/care'
     | '/clinician'
     | '/community'
     | '/dashboard'
@@ -230,6 +259,7 @@ export interface FileRouteTypes {
     | '/music'
     | '/my-day'
     | '/overlay'
+    | '/pace-demo'
     | '/progress'
     | '/relax'
     | '/remedies'
@@ -244,7 +274,9 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/accessibility'
     | '/assessment'
+    | '/care'
     | '/clinician'
     | '/community'
     | '/dashboard'
@@ -254,6 +286,7 @@ export interface FileRouteTypes {
     | '/music'
     | '/my-day'
     | '/overlay'
+    | '/pace-demo'
     | '/progress'
     | '/relax'
     | '/remedies'
@@ -268,7 +301,9 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/accessibility'
     | '/assessment'
+    | '/care'
     | '/clinician'
     | '/community'
     | '/dashboard'
@@ -278,6 +313,7 @@ export interface FileRouteTypes {
     | '/music'
     | '/my-day'
     | '/overlay'
+    | '/pace-demo'
     | '/progress'
     | '/relax'
     | '/remedies'
@@ -293,7 +329,9 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AccessibilityRoute: typeof AccessibilityRoute
   AssessmentRoute: typeof AssessmentRoute
+  CareRoute: typeof CareRoute
   ClinicianRoute: typeof ClinicianRoute
   CommunityRoute: typeof CommunityRoute
   DashboardRoute: typeof DashboardRoute
@@ -303,6 +341,7 @@ export interface RootRouteChildren {
   MusicRoute: typeof MusicRoute
   MyDayRoute: typeof MyDayRoute
   OverlayRoute: typeof OverlayRoute
+  PaceDemoRoute: typeof PaceDemoRoute
   ProgressRoute: typeof ProgressRoute
   RelaxRoute: typeof RelaxRoute
   RemediesRoute: typeof RemediesRoute
@@ -325,11 +364,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/accessibility': {
+      id: '/accessibility'
+      path: '/accessibility'
+      fullPath: '/accessibility'
+      preLoaderRoute: typeof AccessibilityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/assessment': {
       id: '/assessment'
       path: '/assessment'
       fullPath: '/assessment'
       preLoaderRoute: typeof AssessmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/care': {
+      id: '/care'
+      path: '/care'
+      fullPath: '/care'
+      preLoaderRoute: typeof CareRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/clinician': {
@@ -393,6 +446,13 @@ declare module '@tanstack/react-router' {
       path: '/overlay'
       fullPath: '/overlay'
       preLoaderRoute: typeof OverlayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pace-demo': {
+      id: '/pace-demo'
+      path: '/pace-demo'
+      fullPath: '/pace-demo'
+      preLoaderRoute: typeof PaceDemoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/progress': {
@@ -477,7 +537,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AccessibilityRoute: AccessibilityRoute,
   AssessmentRoute: AssessmentRoute,
+  CareRoute: CareRoute,
   ClinicianRoute: ClinicianRoute,
   CommunityRoute: CommunityRoute,
   DashboardRoute: DashboardRoute,
@@ -487,6 +549,7 @@ const rootRouteChildren: RootRouteChildren = {
   MusicRoute: MusicRoute,
   MyDayRoute: MyDayRoute,
   OverlayRoute: OverlayRoute,
+  PaceDemoRoute: PaceDemoRoute,
   ProgressRoute: ProgressRoute,
   RelaxRoute: RelaxRoute,
   RemediesRoute: RemediesRoute,

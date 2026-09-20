@@ -130,7 +130,7 @@ export function LumaStrideWellnessProvider({ children }: { children: ReactNode }
 
   useEffect(() => {
     const root = document.documentElement;
-    root.dataset.textSize = accessibility.textSize;
+    root.dataset["textSize"] = accessibility.textSize;
     root.classList.toggle("high-contrast", accessibility.highContrast);
     root.classList.toggle("reduce-motion", accessibility.reducedMotion);
   }, [accessibility]);

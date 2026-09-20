@@ -24,6 +24,8 @@ const scenes = [
 ];
 
 function PaceDemo() {
-  const [scene, setScene] = useState(0); const item = scenes[scene] ?? scenes[0]; const Icon = item.icon;
+  const [scene, setScene] = useState(0); const item = scenes[scene];
+  if (!item) return null;
+  const Icon = item.icon;
   return <div className="demo-page"><p className="demo-label">PACE Demo · Sample data</p><div className="demo-stage">{Icon === Brand ? <Brand/> : <Icon aria-hidden/>}<h1>{item.title}</h1><p>{item.text}</p>{scene < scenes.length - 1 ? <Button size="xl" variant="amber" onClick={() => setScene(scene + 1)}>Continue <ArrowRight/></Button> : <Button size="xl" asChild><Link to="/">Open PACE</Link></Button>}<div className="demo-progress" aria-label={`Step ${scene + 1} of ${scenes.length}`}>{scenes.map((_, index) => <span key={index} className={index <= scene ? "is-active" : ""}/>)}</div></div></div>;
 }
