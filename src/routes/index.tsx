@@ -1,24 +1,12 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
+import { ArrowRight, Check, Lock, ShieldCheck, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { AvatarFigure } from "@/components/vitamove/Brand";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
-  component: Index,
+ head:()=>({meta:[{title:"VitaMove Parkinson's — Daily Movement Support"},{name:"description",content:"Personalized movement, daily support, and progress tracking for life with Parkinson's."},{property:"og:title",content:"VitaMove Parkinson's — Daily Movement Support"},{property:"og:description",content:"Personalized movement, daily support, and progress tracking for life with Parkinson's."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary_large_image"}]}), component: Home
 });
-
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
+function Home(){ const [open,setOpen]=useState(false); return <><section className="page grid min-h-[68vh] items-center gap-10 lg:grid-cols-[1.25fr_.75fr]"><div><p className="eyebrow">Move with confidence, every day</p><h1>Support built around your movement.</h1><p className="lead">Personalized movement, daily support, and progress tracking for life with Parkinson’s.</p><div className="mt-8 flex flex-wrap gap-4"><Button variant="amber" size="xl" onClick={()=>setOpen(true)}>Begin Onboarding <ArrowRight/></Button><Button variant="outline" size="xl" asChild><a href="/dashboard">View Dashboard</a></Button></div><div className="mt-10 grid gap-3 sm:grid-cols-3">{[[ShieldCheck,"Clear & accessible"],[Sparkles,"Personalized plans"],[Check,"Progress that motivates"]].map(([I,t])=><div key={String(t)} className="flex items-center gap-2 font-bold"><I className="text-success"/>{t as string}</div>)}</div></div><div className="flex justify-center"><AvatarFigure className="h-72 w-72 sm:h-96 sm:w-96"/></div></section>{open&&<Onboarding onClose={()=>setOpen(false)}/>}</>}
+function Onboarding({onClose}:{onClose:()=>void}){const nav=useNavigate();const[step,setStep]=useState(0);const[challenges,setChallenges]=useState<string[]>([]);const[pref,setPref]=useState("Seated");const steps=["Your needs","Movement style","Meet Parker","Ready"];
+ const toggle=(x:string)=>setChallenges(c=>c.includes(x)?c.filter(i=>i!==x):[...c,x]); return <div className="fixed inset-0 z-[70] overflow-y-auto bg-overlay p-3 sm:p-8" role="dialog" aria-modal="true" aria-label="Profile setup"><div className="mx-auto max-w-3xl rounded-lg bg-surface shadow-2xl"><div className="border-b p-5"><div className="mb-3 flex justify-between"><b>Profile setup</b><span>Step {step+1} of 4</span></div><div className="h-3 overflow-hidden rounded-full bg-muted"><div className="h-full bg-success transition-all" style={{width:`${(step+1)*25}%`}}/></div></div><div className="min-h-96 p-6 sm:p-9">{step===0&&<><h2>What affects your movement?</h2><p className="lead text-lg">Choose all that apply.</p><div className="mt-7 grid gap-3">{["Tremors","Stiffness","Balance"].map(x=><button key={x} className={`choice ${challenges.includes(x)?"choice-active":""}`} onClick={()=>toggle(x)}><span className="grid h-7 w-7 place-items-center rounded border-2">{challenges.includes(x)&&<Check/>}</span>{x}</button>)}</div></>}{step===1&&<><h2>How do you like to move?</h2><div className="mt-7 grid gap-4 sm:grid-cols-2">{["Seated","Dance"].map(x=><button key={x} onClick={()=>setPref(x)} className={`feature-card min-h-36 text-left ${pref===x?"border-primary bg-secondary":""}`}><h3>{x}</h3><p>{x==="Seated"?"Stable, supported movement from a chair.":"Rhythm-led full-body movement."}</p></button>)}</div></>}{step===2&&<div className="text-center"><h2>Initialize your companion</h2><AvatarFigure className="mx-auto my-6 h-48 w-48"/><h3>Parker is ready</h3><p className="mt-2">Your blue-and-green movement companion will celebrate progress and help you navigate.</p><div className="mt-6 grid gap-3 sm:grid-cols-2"><div className="feature-card"><Lock className="mx-auto"/><b>Leopard Skin</b><p>40 more stars to unlock</p></div><div className="feature-card"><Lock className="mx-auto"/><b>Seasonal Outfit</b><p>Premium tier locked</p></div></div></div>}{step===3&&<div className="text-center"><Check className="mx-auto h-20 w-20 rounded-full bg-success p-4 text-success-foreground"/><h2 className="mt-5">Your plan is ready</h2><p className="lead mx-auto text-lg">We’ll prioritize {challenges.join(", ")||"comfortable movement"} with {pref.toLowerCase()} activities.</p><Button className="mt-8" variant="amber" size="xl" onClick={()=>nav({to:"/assessment"})}>Continue to Clinical Assessment <ArrowRight/></Button></div>}</div><div className="flex justify-between border-t p-5"><Button variant="outline" onClick={()=>step===0?onClose():setStep(s=>s-1)}>{step===0?"Close":"Back"}</Button>{step<3&&<Button variant="amber" onClick={()=>setStep(s=>s+1)}>Continue <ArrowRight/></Button>}</div></div></div>}
