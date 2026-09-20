@@ -1,41 +1,49 @@
-# VitaMove Wellness simplified experience
+# VitaMove focused wellness experience
 
 ## Goal
-Redesign the everyday experience for an older adult living with Parkinson’s: large choices, plain language, one decision per screen, and no medical claims about music. Preserve the existing clinical and advanced tools behind a secondary “More” area rather than crowding the home screen.
+Make VitaMove feel like one friendly app that helps a person understand movement, stay active, and prepare useful information for a healthcare professional—without diagnosing, prescribing, or presenting app observations as medical examinations.
 
-## What will change
+## Experience structure
 
-### 1. Calm, minimal home
-- Replace onboarding and statistics with “Good morning, Tanya,” “What would you like to do?”, and four large actions: Walk with Music, Exercise, Voice & Sing, and Relax.
-- Add simple My Music and My Progress links below the four actions.
-- Simplify the fixed header to the VitaMove brand, Home, and a clearly labeled More menu for existing screening, clinical, rewards, and community tools.
-- Keep the medical disclaimer visible but quieter. Hide stars and Parker from the everyday home and walking flow so they do not compete for attention.
+### 1. Clear identity and navigation
+- Restore the **VitaMove** name with “Understand your movement. Move with confidence.”
+- Replace the current home actions with four large choices: **Check My Symptoms**, **Move & Exercise**, **Mind & Body**, and **My Progress**.
+- Add a prominent **Prepare for My Doctor Visit** action, a simple **My Day** entry, and a persistent **Need Help?** button.
+- Keep advanced existing pages available in a quiet secondary menu rather than on the everyday home screen. Music will only appear as an optional activity tool.
 
-### 2. One-tap walking flow
-- Add a dedicated Walk with Music screen with one decision at a time.
-- If a saved walking rhythm exists, continue directly to music choices.
-- Otherwise offer Use My Usual Rhythm or Help Me Find My Rhythm.
-- “Find My Rhythm” runs a clear 30-second assessment, using device motion events where permission and support exist, with a large tap-for-each-step fallback.
-- Calculate and save approximate steps per minute locally, with a plain-language explanation and no medical claims.
+### 2. Guided symptom checks
+- Reuse the existing tapping, spiral, walking, voice, and balance-capable patterns inside a calmer assessment center covering the requested symptom categories.
+- Present one short check at a time with: what it is, simple instructions, Start, Skip, Save Assessment, and Share with My Doctor.
+- Request microphone, motion, or camera access only after the user chooses a related check.
+- Save dated user responses and measurements as **App-based observations** in browser storage, with the non-diagnostic summary: “Your responses show movement changes that may be worth discussing with a healthcare professional.”
+- Remove diagnostic labels, disease-range conclusions, and language implying equivalence to a neurological examination.
 
-### 3. My Music
-- Add search, favorite songs, artists, genres, and an optional music-service/library choice.
-- Use demo catalog metadata only; do not download, stream, or redistribute copyrighted audio.
-- Group saved items into Favorite songs, Songs that match my rhythm, and Songs I enjoy most.
-- Compare reliable song BPM to the saved cadence using friendly labels such as Great rhythm match and Close rhythm match.
-- Add a therapist-configurable target rhythm field with clear wording that no single BPM is right for everyone.
+### 3. Move & Exercise
+- Add the goal selector for Walking, Balance, Strength, Posture, Flexibility, Daily Movement, Hand Coordination, and Voice.
+- Let the user choose 5, 10, 20, or 30 minutes, then immediately show a short session such as warm-up, practice, balance, and cool-down.
+- Reuse the existing movement demonstrations and voice/hand activities where appropriate.
+- Follow the same four-step activity pattern: **What is this? Why might I do it? Start/Complete. How did it feel?**
+- Offer rhythm and music only through optional actions such as **Add Rhythm** or **Play Music**, with advanced tempo controls behind **Personalize Rhythm**.
 
-### 4. Supporting everyday screens
-- Route Exercise to the existing guided movement experience and Voice & Sing to the existing voice practice.
-- Add a simple Relax screen with large breathing and quiet-time controls.
-- Add a simplified My Progress screen showing only useful recent activity and saved walking rhythm.
+### 4. Mind & Body and My Day
+- Create simple Yoga, Tai Chi, Dance, Stretching, Breathing, Meditation, Relaxation, and Music choices.
+- Include plain-language purpose, Beginner/Seated/Gentle or other relevant ability choices, and brief safety guidance without medical promises.
+- Build **My Day** as a small “Your wellness plan” list based on saved goals, favorite activities, available time, recent sessions, and reported difficulty. It will suggest wellness activities, not medical treatment.
 
-### 5. Accessibility and validation
-- Use 18px+ text, large tap targets, high contrast, generous spacing, visible focus states, reduced-motion support, and responsive layouts.
-- Add unique page metadata for every new screen.
-- Verify desktop and mobile home, rhythm assessment fallback, saved-rhythm shortcut, favorites, rhythm matching, and navigation.
+### 5. Progress and doctor preparation
+- Expand My Progress to show dated app observations, reported symptoms, sessions, minutes, walking, yoga, voice, and balance practice in simple lists rather than a clinical dashboard.
+- Record completion and “How did it feel?” feedback for activities.
+- Build a concise doctor-visit report containing selected assessment history, observations, user-entered questions, optional medications, and activity history.
+- Support printing and the device share sheet where available, and always display: “This report is intended to help you communicate with your healthcare professional. It is not a medical diagnosis.”
+
+### 6. Information and safety
+- Add Treatment Information pages for Medication, Physical Therapy, Occupational Therapy, Speech Therapy, Exercise, Surgical Options, Lifestyle & Wellness, and Clinical Trials.
+- Keep content high-level; never provide doses or tell someone to start, stop, or change medication.
+- Add urgent guidance for falls, severe dizziness, chest pain, severe shortness of breath, or sudden severe neurological symptoms, directing the user to appropriate medical or emergency help instead of an exercise.
 
 ## Technical details
-- Store the user’s display name, baseline cadence, optional therapist target, favorites, genres, artists, and service preference in a small React provider persisted in browser storage.
-- Use DeviceMotion events only after an explicit user action; automatically expose manual tapping when unsupported or denied.
-- Keep the existing TanStack routes and advanced feature pages intact, while reducing their prominence in the primary navigation.
+- Extend the existing wellness provider with versioned browser persistence for preferences, available time, activity history, symptom reports, assessment history, questions, and optional medication entries.
+- Preserve existing working routes and interactive tools; wrap or relabel them for the new simpler flows instead of rewriting their mechanics.
+- Add focused routes for `/symptoms`, `/move`, `/mind-body`, `/my-day`, `/doctor-visit`, and `/treatment-info`, each with unique metadata.
+- Replace unsafe non-null assertions in any touched assessment code and use existing semantic tokens and Button components.
+- Validate desktop and mobile navigation, permission prompts, skip paths, assessment saving, session completion, persistence, report printing/sharing, keyboard focus, screen-reader labels, and reduced motion.
