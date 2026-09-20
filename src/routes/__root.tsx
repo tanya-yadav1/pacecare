@@ -13,12 +13,14 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { VitaMoveProvider } from "../lib/vitamove-state";
 import { AppShell } from "../components/vitamove/AppShell";
+import { Brand } from "../components/vitamove/Brand";
 import { LumaStrideWellnessProvider } from "../lib/lumastride-wellness";
 
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
+        <div className="mb-6 flex justify-center"><Brand /></div>
         <h1 className="text-7xl font-bold text-foreground">404</h1>
         <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
         <p className="mt-2 text-sm text-muted-foreground">
@@ -47,6 +49,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
+        <div className="mb-6 flex justify-center"><Brand /></div>
         <h1 className="text-xl font-semibold tracking-tight text-foreground">
           This page didn't load
         </h1>
@@ -93,7 +96,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.png", type: "image/png" },
+      { rel: "icon", href: "/favicon.png?v=pace-human", type: "image/png", sizes: "64x64" },
+      { rel: "shortcut icon", href: "/favicon.png?v=pace-human", type: "image/png" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png?v=pace-human", sizes: "180x180" },
     ],
   }),
   shellComponent: RootShell,
