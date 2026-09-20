@@ -6,9 +6,9 @@ import { useLumaStrideWellness } from "@/lib/lumastride-wellness";
 
 export const Route = createFileRoute("/walk")({
   head: () => ({ meta: [
-    { title: "Walk with Music — AsterStep" },
+    { title: "Walking Observation — Kindora" },
     { name: "description", content: "Find a comfortable walking rhythm and choose music for movement practice." },
-    { property: "og:title", content: "Walk with Music — AsterStep" },
+    { property: "og:title", content: "Walking Observation — Kindora" },
     { property: "og:description", content: "Personalized music and rhythm support for movement practice." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },
@@ -93,9 +93,9 @@ function Walk() {
       <Activity className="simple-page-icon" aria-hidden />
       <h1>Your walking rhythm is about<br/><strong className="cadence-result">{cadence} steps/minute.</strong></h1>
       <p className="simple-lead">We’ll use this rhythm to help choose music for your walking practice.</p>
-      <p className="simple-note">This is a personal practice guide, not a medical recommendation.</p>
+       <p className="simple-note">App-based observation. This is not a medical diagnosis or a substitute for a neurological examination.</p>
       <div className="simple-stack">
-        <Button size="xl" variant="amber" onClick={() => navigate({ to: "/music" })}>Choose My Music</Button>
+         <Button size="xl" variant="amber" onClick={() => navigate({ to: "/move" })}>Use in Walking Practice</Button>
         <Button size="xl" variant="outline" onClick={() => setStage("measure")}>Measure Again</Button>
       </div>
     </section>}

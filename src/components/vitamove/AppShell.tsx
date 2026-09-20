@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { BookOpen, CalendarDays, ChevronDown, CircleHelp, FileHeart, Home, Menu, Send, X } from "lucide-react";
+import { CalendarDays, ChevronDown, CircleHelp, FileHeart, Home, Menu, Send, X } from "lucide-react";
 import { useState } from "react";
 import { Brand } from "./Brand";
 import { useVitaMove } from "@/lib/vitamove-state";

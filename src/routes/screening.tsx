@@ -7,10 +7,10 @@ import { useTestScores } from "@/lib/vitamove-tests";
 export const Route = createFileRoute("/screening")({
   head: () => ({
     meta: [
-      { title: "Multi-Modal Screening — AsterStep" },
-      { name: "description", content: "Motor, vocal and cognitive Parkinson's screening tests in one guided flow." },
-      { property: "og:title", content: "Multi-Modal Screening — AsterStep" },
-      { property: "og:description", content: "Motor, vocal and cognitive Parkinson's screening tests in one guided flow." },
+      { title: "Advanced App Observations — Kindora" },
+      { name: "description", content: "Optional app-based motor, vocal, and memory observations that do not provide a diagnosis." },
+      { property: "og:title", content: "Advanced App Observations — Kindora" },
+      { property: "og:description", content: "Optional app-based observations to support a healthcare conversation." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -29,10 +29,10 @@ function Screening() {
   const { scores } = useTestScores();
   return (
     <div className="page">
-      <span className="page-tag page-tag-diagnosis">Diagnosis</span>
-      <p className="eyebrow">Multi-Modal Screening (Detection)</p>
-      <h1>Three quick tests. One clear picture.</h1>
-      <p className="lead">Measure bradykinesia, tremor amplitude, vocal intensity and executive processing speed in under five minutes.</p>
+      <span className="page-tag page-tag-diagnosis">App-based observation</span>
+      <p className="eyebrow">Optional advanced checks</p>
+      <h1>Three short observations.</h1>
+      <p className="lead">These phone-based activities may help you notice changes to discuss with a healthcare professional. They do not diagnose Parkinson’s or replace a neurological examination.</p>
 
       <div className="mt-8 flex flex-wrap gap-3">
         {tabs.map((t) => (
@@ -126,7 +126,7 @@ function TapTest() {
       </Button>
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
         <div className="feature-card"><b>Valid alternations</b><strong className="block text-4xl">{taps}</strong></div>
-        <div className="feature-card"><b>Mean interval</b><strong className="block text-4xl">{mean ? Math.round(mean) : 0} ms</strong><small>Slower intervals suggest bradykinesia.</small></div>
+         <div className="feature-card"><b>Mean interval</b><strong className="block text-4xl">{mean ? Math.round(mean) : 0} ms</strong><small>App-based observation for comparison over time.</small></div>
       </div>
     </section>
   );
@@ -209,7 +209,7 @@ function SpiralTest() {
       <div className="mt-4 feature-card">
         <b>Extracted tremor amplitude</b>
         <strong className="block text-4xl">{amplitude === null ? "—" : `${amplitude} px`}</strong>
-        <small>{amplitude === null ? "Trace the spiral to measure line deviation." : amplitude > 3 ? "Elevated deviation: consistent with tremor." : "Low deviation: steady line control."}</small>
+         <small>{amplitude === null ? "Trace the spiral to observe line deviation." : "Saved as an app-based line-control observation."}</small>
       </div>
     </section>
   );
@@ -296,7 +296,7 @@ function VocalTest() {
       {!running && avg > 0 && (
         <p className="mt-5 flex items-center gap-2 font-extrabold">
           <Activity className="text-primary" />
-          {avg < 45 ? "Reduced vocal intensity detected — consistent with hypophonia." : "Vocal intensity within a healthy demo range."}
+           Voice volume recorded as an app-based observation for comparison over time.
         </p>
       )}
     </section>
