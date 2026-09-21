@@ -101,7 +101,7 @@ function SeniorHome() {
   return (
     <div className="senior-home">
       <div className="voice-bar">
-        <Button className="voice-bar-button" size="xl" onClick={voice.startPace} disabled={busy}>
+        <Button className="voice-bar-button" size="xl" onClick={voice.startPace}>
           <Volume2 aria-hidden />
           Start PACE
         </Button>
@@ -110,7 +110,7 @@ function SeniorHome() {
           size="xl"
           variant="outline"
           onClick={voice.talk}
-          disabled={!voice.started || busy}
+          disabled={!voice.started}
         >
           <Mic aria-hidden />
           {voice.listening ? "Listening…" : "Talk to PACE"}
