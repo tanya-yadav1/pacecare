@@ -12,7 +12,12 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useLumaStrideWellness } from "@/lib/lumastride-wellness";
 import { understandPaceChoice } from "@/lib/pace-voice";
-import { onSpeechBlocked, primeSpeechForGesture, speakInstructions } from "@/lib/speech";
+import {
+  onSpeechBlocked,
+  primeSpeechForGesture,
+  speakImmediatelyOnGesture,
+  speakInstructions,
+} from "@/lib/speech";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -86,39 +91,32 @@ function SeniorHome() {
   const greetedRef = useRef(false);
   useEffect(() => {
     if (!accessibility.voiceInstructions) return;
-    const text = `Good morning, ${name}. What would you like right now?`;
-    const greet = () => {
+    const text = `Good morning, ${name}. What would you like right now? Listen, for music you enjoy. Connect, with family, friends, and neighbors. Explore, to find something meaningful. Or Quiet, to rest and unwind. Tap a choice, or tap Talk to PACE.`;
+    const greetFromTap = () => {
       if (greetedRef.current) return;
       greetedRef.current = true;
+      if (speakImmediatelyOnGesture(text)) return;
+      primeSpeechForGesture();
       void speakInstructions(text).catch(() => {
         greetedRef.current = false;
       });
     };
-    // Try automatically shortly after the page opens…
-    const timer = window.setTimeout(greet, 900);
-    // …and also on the very first tap anywhere, unlocking sound inside the
-    // gesture so the greeting can always play, whatever order things happen in.
-    const onFirstGesture = () => {
-      window.clearTimeout(timer);
-      primeSpeechForGesture();
-      greet();
-    };
-    window.addEventListener("pointerdown", onFirstGesture, { once: true });
-    window.addEventListener("keydown", onFirstGesture, { once: true });
-    window.addEventListener("touchstart", onFirstGesture, { once: true });
+    window.addEventListener("pointerdown", greetFromTap, { once: true });
+    window.addEventListener("keydown", greetFromTap, { once: true });
     return () => {
-      window.clearTimeout(timer);
-      window.removeEventListener("pointerdown", onFirstGesture);
-      window.removeEventListener("keydown", onFirstGesture);
-      window.removeEventListener("touchstart", onFirstGesture);
+      window.removeEventListener("pointerdown", greetFromTap);
+      window.removeEventListener("keydown", greetFromTap);
     };
   }, [accessibility.voiceInstructions, name]);
 
   const hearWelcome = async () => {
-    primeSpeechForGesture();
     setWelcoming(true);
     try {
-      await speakInstructions(`Good morning, ${name}. What would you like right now?`);
+      const text = `Good morning, ${name}. What would you like right now? Listen, Connect, Explore, or Quiet.`;
+      if (!speakImmediatelyOnGesture(text)) {
+        primeSpeechForGesture();
+        await speakInstructions(text);
+      }
     } finally {
       setWelcoming(false);
     }
