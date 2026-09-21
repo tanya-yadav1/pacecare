@@ -4,7 +4,7 @@ import { Brand } from "@/components/vitamove/Brand";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { usePaceAuth } from "@/lib/pace-auth";
-import { confirmStaffPin } from "@/lib/pace-pin.functions";
+import { confirmStaffPin, signInAsDemoStaff } from "@/lib/pace-pin.functions";
 
 export const Route = createFileRoute("/staff-signin")({
   head: () => ({
