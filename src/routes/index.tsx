@@ -70,7 +70,7 @@ const choices = [
 ];
 
 function SeniorHome() {
-  const { name, accessibility, setMode } = useLumaStrideWellness();
+  const { name, setMode } = useLumaStrideWellness();
   const navigate = useNavigate();
   const recognition = useRef<BrowserRecognition | null>(null);
   const [listening, setListening] = useState(false);
@@ -108,8 +108,9 @@ function SeniorHome() {
     setHeard(clean);
     setReply(result.reply);
     setListening(false);
-    if (accessibility.voiceInstructions)
-      void speakInstructions(result.reply).catch(() => undefined);
+    void speakInstructions(result.reply).catch(() => {
+      setReply(`${result.reply} If you cannot hear PACE, please check your device volume.`);
+    });
     const destination = result.path;
     if (destination) window.setTimeout(() => void navigate({ to: destination }), 1100);
   };
