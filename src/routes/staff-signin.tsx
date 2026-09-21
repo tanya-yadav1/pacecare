@@ -53,6 +53,29 @@ function StaffSignIn() {
     if (result.ok) void navigate({ to: "/staff", replace: true });
   };
 
+  const demoStaff = async () => {
+    setBusy(true);
+    setMessage("");
+    const result = await signInAsDemoStaff();
+    if (!result.ok) {
+      setBusy(false);
+      setMessage(result.message);
+      return;
+    }
+    const { error } = await supabase.auth.verifyOtp({
+      type: "email",
+      token_hash: result.tokenHash,
+    });
+    setBusy(false);
+    if (error) {
+      setMessage("PACE could not open the demo staff account.");
+      return;
+    }
+    await refresh();
+    setStage("pin");
+    setMessage("Demo staff account ready. Choose any 4-digit PIN.");
+  };
+
   const submit = async () => {
     setBusy(true);
     setMessage("");
