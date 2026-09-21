@@ -21,7 +21,7 @@ function MyDay() {
   const difficult = sessions.find((session) => session.feeling === "Difficult");
   const plan = [
     { Icon: Footprints, title: "Walking", minutes: 10, to: "/move" as const },
-    { Icon: PersonStanding, title: "Gentle Yoga", minutes: 5, to: "/mind-body" as const },
+    { Icon: PersonStanding, title: "Gentle Yoga", minutes: 5, to: "/explore" as const },
     { Icon: Scale, title: "Balance", minutes: 5, to: "/move" as const },
     { Icon: Grip, title: "Hands", minutes: 5, to: "/move" as const },
   ].slice(0, availableMinutes <= 10 ? 1 : availableMinutes <= 20 ? 3 : 4).filter((item) => !skipped.includes(item.title));

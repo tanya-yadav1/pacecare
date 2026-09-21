@@ -39,27 +39,27 @@ type RecognitionConstructor = new () => BrowserRecognition;
 
 const choices = [
   {
-    to: "/music" as const,
+    to: "/listen" as const,
     label: "Listen",
     detail: "Music I enjoy",
     Icon: Headphones,
     tone: "listen",
   },
   {
-    to: "/community" as const,
+    to: "/connect" as const,
     label: "Connect",
     detail: "Family, friends & neighbors",
     Icon: MessageCircleHeart,
     tone: "connect",
   },
   {
-    to: "/mind-body" as const,
+    to: "/explore" as const,
     label: "Explore",
     detail: "Find something meaningful",
     Icon: Leaf,
     tone: "explore",
   },
-  { to: "/relax" as const, label: "Quiet", detail: "Rest and unwind", Icon: Moon, tone: "quiet" },
+  { to: "/quiet" as const, label: "Quiet", detail: "Rest and unwind", Icon: Moon, tone: "quiet" },
 ];
 
 function greetingFor(hour: number) {
@@ -200,7 +200,7 @@ function SeniorHome() {
         </div>
       </div>
       {lastMoment && (
-        <Link to={lastMoment.path as "/music"} className="senior-continue">
+        <Link to={lastMoment.path as "/listen"} className="senior-continue">
           <strong>Continue where you left off</strong>
           <small>{lastMoment.label}</small>
         </Link>

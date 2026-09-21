@@ -54,15 +54,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const links = isStaff
     ? ([
         ["/staff", "Overview"],
-        ["/community", "Connections"],
+        ["/connect", "Connections"],
         ["/progress", "Moments"],
       ] as const)
     : ([
         ["/", "Home"],
-        ["/music", "Listen"],
-        ["/community", "Connect"],
-        ["/mind-body", "Explore"],
-        ["/relax", "Quiet"],
+        ["/listen", "Listen"],
+        ["/connect", "Connect"],
+        ["/explore", "Explore"],
+        ["/quiet", "Quiet"],
       ] as const);
   return (
     <div className="min-h-screen bg-background">

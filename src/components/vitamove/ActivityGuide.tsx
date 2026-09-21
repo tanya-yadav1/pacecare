@@ -37,7 +37,7 @@ export function ActivityGuide({ category, title, purpose, minutes, steps, musicL
       <div className="activity-question"><span>What is this?</span><h2>{title}</h2><p>{steps.map((item) => item.title).join(" · ")}</p></div>
       <div className="activity-question"><span>Why might I do it?</span><p>{purpose}</p></div>
       <p className="safety-note"><strong>Move safely:</strong> Keep a sturdy support nearby. Stop if you feel pain, faint, dizzy, or short of breath.</p>
-      <div className="activity-actions"><Button size="xl" variant="outline" onClick={speak} disabled={speechStatus === "speaking"}><Volume2/>{speechStatus === "speaking" ? "Playing instructions…" : "Hear instructions"}</Button>{musicLabel&&<Button size="xl" variant="outline" asChild><a href="/music"><Music2/>{musicLabel}</a></Button>}<Button size="xl" onClick={() => setStage("active")}><Play/>Start</Button></div>
+      <div className="activity-actions"><Button size="xl" variant="outline" onClick={speak} disabled={speechStatus === "speaking"}><Volume2/>{speechStatus === "speaking" ? "Playing instructions…" : "Hear instructions"}</Button>{musicLabel&&<Button size="xl" variant="outline" asChild><a href="/listen"><Music2/>{musicLabel}</a></Button>}<Button size="xl" onClick={() => setStage("active")}><Play/>Start</Button></div>
       <p role="status" aria-live="polite">{speechStatus === "speaking" ? "Audio is playing. Check your device volume if you cannot hear it." : speechStatus === "error" ? speechError : ""}</p>
     </>}
     {stage === "active" && <>
