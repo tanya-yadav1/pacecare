@@ -802,7 +802,7 @@
     @apply lg:hidden;
   }
   .pace-main {
-    @apply pt-20;
+    @apply pt-20 pb-36;
   }
   .pace-disclaimer {
     @apply border-t border-border bg-surface px-5 py-5 text-center text-sm font-semibold text-muted-foreground;
