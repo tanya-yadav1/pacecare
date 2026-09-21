@@ -2,6 +2,7 @@ import { Link, Navigate, useRouterState } from "@tanstack/react-router";
 import { Accessibility, Home, Menu, Settings, UsersRound, X } from "lucide-react";
 import { useState } from "react";
 import { Brand } from "./Brand";
+import { PageVoice } from "@/components/pace/PageVoice";
 import { Button } from "@/components/ui/button";
 import { useLumaStrideWellness } from "@/lib/lumastride-wellness";
 
