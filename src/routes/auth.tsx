@@ -101,10 +101,11 @@ function SeniorSignIn() {
   return (
     <div className="welcome-page">
       <header className="welcome-masthead">
-        <Brand />
+        <img src={paceLogo} alt="PACE" className="welcome-logo" />
         <h1 className="auth-title">Welcome to PACE</h1>
-        <p>Your voice. Your choice. Your moment.</p>
+        <div className="welcome-spacer" aria-hidden="true" />
       </header>
+      <p className="welcome-tagline">Your voice. Your choice. Your moment.</p>
 
       <main className="welcome-content">
         <section className="welcome-demo" aria-labelledby="demo-heading">
