@@ -55,7 +55,7 @@ pageIntros[path] ??
 if (path === "/") {
 return base.replace(
 "Good morning.",
-Good morning, ${name}.,
+Good morning, ${name}.
 );
 }
 
