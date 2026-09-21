@@ -65,7 +65,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     return (
       <div className="staff-shell">
         <div className="staff-banner" role="banner">
-          Staff Mode
+          <span>Staff Mode</span>
+          <Button className="staff-top-signout" variant="ghost" size="lg" onClick={() => void signOut()}>
+            <LogOut />
+            Sign out
+          </Button>
         </div>
         <div className="staff-body">
           <nav className="staff-sidebar" aria-label="Staff navigation">
@@ -85,10 +89,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 <Home />
                 Senior Mode
               </Link>
-            </Button>
-            <Button variant="ghost" size="lg" onClick={() => void signOut()}>
-              <LogOut />
-              Sign out
             </Button>
           </nav>
           <main className="staff-main" id="pace-main">
@@ -124,19 +124,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 <Accessibility />
               </Link>
             </Button>
-            {isStaff && role === "staff" && (
-              <Button variant="outline" size="lg" asChild onClick={() => setMode("senior")}>
-                <Link to="/">
-                  <Home />
-                  <span className="hidden sm:inline">Senior Mode</span>
-                </Link>
-              </Button>
-            )}
-            {isStaff && role === "staff" && (
-              <Button variant="ghost" size="iconLg" onClick={() => void signOut()} aria-label="Sign out">
-                <LogOut />
-              </Button>
-            )}
+            <Button className="top-signout" variant="outline" size="lg" onClick={() => void signOut()}>
+              <LogOut />
+              <span>Sign out</span>
+            </Button>
             <Button
               className="mobile-menu-button"
               variant="outline"
