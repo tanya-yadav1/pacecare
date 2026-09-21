@@ -15,7 +15,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const { loading, session, role, signOut } = usePaceAuth();
   const [mobile, setMobile] = useState(false);
   const isDemo = path === "/pace-demo";
-  const isStaffArea = path === "/staff";
+  const isStaffArea = path.startsWith("/staff");
   const isStaff = isStaffArea;
   const legacyPaths = new Set([
     "/assessment",
@@ -24,7 +24,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     "/dashboard",
     "/doctor-visit",
     "/move",
-    "/my-day",
     "/overlay",
     "/remedies",
     "/rewards",
@@ -52,9 +51,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   if (isStaffArea && role !== "staff") return <Navigate to="/" replace />;
 
   const links = isStaff
-    ? ([["/staff", "Residents"]] as const)
+    ? ([
+        ["/staff", "Residents"],
+        ["/staff/senior-preview", "Senior preview"],
+      ] as const)
     : ([
         ["/", "Home"],
+        ["/my-day", "My Day"],
         ["/listen", "Listen"],
         ["/connect", "Connect"],
         ["/explore", "Explore"],

@@ -53,6 +53,7 @@ import { Route as TreatmentInfoRouteImport } from './routes/treatment-info'
 import { Route as VocalRouteImport } from './routes/vocal'
 import { Route as WalkRouteImport } from './routes/walk'
 import { Route as ApiSpeechRouteImport } from './routes/api/speech'
+import { Route as StaffSeniorPreviewRouteImport } from './routes/staff.senior-preview'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -274,6 +275,11 @@ const ApiSpeechRoute = ApiSpeechRouteImport.update({
   path: '/api/speech',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StaffSeniorPreviewRoute = StaffSeniorPreviewRouteImport.update({
+  id: '/senior-preview',
+  path: '/senior-preview',
+  getParentRoute: () => StaffRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -310,7 +316,7 @@ export interface FileRoutesByFullPath {
   '/rewards': typeof RewardsRoute
   '/screening': typeof ScreeningRoute
   '/settings': typeof SettingsRoute
-  '/staff': typeof StaffRoute
+  '/staff': typeof StaffRouteWithChildren
   '/staff-signin': typeof StaffSigninRoute
   '/stories': typeof StoriesRoute
   '/story': typeof StoryRoute
@@ -320,6 +326,7 @@ export interface FileRoutesByFullPath {
   '/vocal': typeof VocalRoute
   '/walk': typeof WalkRoute
   '/api/speech': typeof ApiSpeechRoute
+  '/staff/senior-preview': typeof StaffSeniorPreviewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -356,7 +363,7 @@ export interface FileRoutesByTo {
   '/rewards': typeof RewardsRoute
   '/screening': typeof ScreeningRoute
   '/settings': typeof SettingsRoute
-  '/staff': typeof StaffRoute
+  '/staff': typeof StaffRouteWithChildren
   '/staff-signin': typeof StaffSigninRoute
   '/stories': typeof StoriesRoute
   '/story': typeof StoryRoute
@@ -366,6 +373,7 @@ export interface FileRoutesByTo {
   '/vocal': typeof VocalRoute
   '/walk': typeof WalkRoute
   '/api/speech': typeof ApiSpeechRoute
+  '/staff/senior-preview': typeof StaffSeniorPreviewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -403,7 +411,7 @@ export interface FileRoutesById {
   '/rewards': typeof RewardsRoute
   '/screening': typeof ScreeningRoute
   '/settings': typeof SettingsRoute
-  '/staff': typeof StaffRoute
+  '/staff': typeof StaffRouteWithChildren
   '/staff-signin': typeof StaffSigninRoute
   '/stories': typeof StoriesRoute
   '/story': typeof StoryRoute
@@ -413,6 +421,7 @@ export interface FileRoutesById {
   '/vocal': typeof VocalRoute
   '/walk': typeof WalkRoute
   '/api/speech': typeof ApiSpeechRoute
+  '/staff/senior-preview': typeof StaffSeniorPreviewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -461,6 +470,7 @@ export interface FileRouteTypes {
     | '/vocal'
     | '/walk'
     | '/api/speech'
+    | '/staff/senior-preview'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -507,6 +517,7 @@ export interface FileRouteTypes {
     | '/vocal'
     | '/walk'
     | '/api/speech'
+    | '/staff/senior-preview'
   id:
     | '__root__'
     | '/'
@@ -553,6 +564,7 @@ export interface FileRouteTypes {
     | '/vocal'
     | '/walk'
     | '/api/speech'
+    | '/staff/senior-preview'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -590,7 +602,7 @@ export interface RootRouteChildren {
   RewardsRoute: typeof RewardsRoute
   ScreeningRoute: typeof ScreeningRoute
   SettingsRoute: typeof SettingsRoute
-  StaffRoute: typeof StaffRoute
+  StaffRoute: typeof StaffRouteWithChildren
   StaffSigninRoute: typeof StaffSigninRoute
   StoriesRoute: typeof StoriesRoute
   StoryRoute: typeof StoryRoute
@@ -912,8 +924,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiSpeechRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/staff/senior-preview': {
+      id: '/staff/senior-preview'
+      path: '/senior-preview'
+      fullPath: '/staff/senior-preview'
+      preLoaderRoute: typeof StaffSeniorPreviewRouteImport
+      parentRoute: typeof StaffRoute
+    }
   }
 }
+
+interface StaffRouteChildren {
+  StaffSeniorPreviewRoute: typeof StaffSeniorPreviewRoute
+}
+
+const StaffRouteChildren: StaffRouteChildren = {
+  StaffSeniorPreviewRoute: StaffSeniorPreviewRoute,
+}
+
+const StaffRouteWithChildren = StaffRoute._addFileChildren(StaffRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -950,7 +979,7 @@ const rootRouteChildren: RootRouteChildren = {
   RewardsRoute: RewardsRoute,
   ScreeningRoute: ScreeningRoute,
   SettingsRoute: SettingsRoute,
-  StaffRoute: StaffRoute,
+  StaffRoute: StaffRouteWithChildren,
   StaffSigninRoute: StaffSigninRoute,
   StoriesRoute: StoriesRoute,
   StoryRoute: StoryRoute,

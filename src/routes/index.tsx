@@ -48,7 +48,7 @@ function greetingFor(hour: number) {
 
 function SeniorHome() {
   const { name } = useLumaStrideWellness();
-  const { loading, session, user, preferences, savePreferences } = usePaceAuth();
+  const { loading, session, user, profile, preferences, savePreferences } = usePaceAuth();
   const navigate = useNavigate();
   const [greeting] = useState(() => greetingFor(new Date().getHours()));
   const [myEvents, setMyEvents] = useState<PaceEvent[]>([]);
@@ -76,9 +76,9 @@ function SeniorHome() {
   });
 
   useEffect(() => {
-    if (loading || !session || preferences.onboarded) return;
+    if (loading || !session || !profile || preferences.onboarded) return;
     void navigate({ to: "/onboarding", replace: true });
-  }, [loading, session, preferences.onboarded, navigate]);
+  }, [loading, session, profile, preferences.onboarded, navigate]);
 
   useEffect(() => {
     if (!user?.id) return;
