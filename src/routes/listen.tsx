@@ -1,11 +1,20 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { ChevronLeft, Heart, Music2, Pause, Play, Search, Square } from "lucide-react";
+import { createFileRoute } from "@tanstack/react-router";
+import { Heart, Music2, Pause, Play, Search, SkipForward, Square } from "lucide-react";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLumaStrideWellness, type MusicFavorite } from "@/lib/lumastride-wellness";
-import { currentSongId, pauseSong, playSong, resumeSong, stopSong } from "@/lib/music-player";
+import {
+  currentSongId,
+  musicVolume,
+  pauseSong,
+  playSong,
+  resumeSong,
+  setMusicVolume,
+  stopSong,
+} from "@/lib/music-player";
 import { ExperienceFeedback } from "@/components/pace/ExperienceFeedback";
+import { useActivityActions } from "@/lib/pace-activity";
 
 export const Route = createFileRoute("/listen")({
   head: () => ({
@@ -62,10 +71,30 @@ const catalog: MusicFavorite[] = [
 function Music() {
   const state = useLumaStrideWellness();
   const [query, setQuery] = useState("");
-  const [playing, setPlaying] = useState<string | null>(() => currentSongId());
+  // Start with the first song chosen so Play works straight away.
+  const [playing, setPlaying] = useState<string | null>(() => currentSongId() ?? catalog[0]?.id ?? null);
   const [isPlaying, setIsPlaying] = useState(() => currentSongId() !== null);
   const selected = catalog.find((song) => song.id === playing) ?? null;
   const musicActive = selected !== null || currentSongId() !== null;
+  const [volume, setVolume] = useState(() => musicVolume());
+  const { status, announce, askStaff } = useActivityActions("Listen");
+
+  const startSong = (song: MusicFavorite) => {
+    stopSong();
+    setPlaying(song.id);
+    setIsPlaying(false);
+    announce(`Now playing ${song.title}.`);
+    void playSong(song.id, song.bpm ?? 80)
+      .then(() => setIsPlaying(true))
+      .catch(() => setIsPlaying(false));
+  };
+
+  const nextSong = () => {
+    const index = catalog.findIndex((song) => song.id === playing);
+    const next = catalog[(index + 1) % catalog.length];
+    if (next) startSong(next);
+  };
+
 
   useEffect(() => {
     // Stop the music when leaving this page so nothing keeps playing elsewhere.
@@ -82,9 +111,6 @@ function Music() {
 
   return (
     <div className="simple-page wide">
-      <Link to="/" className="simple-back">
-        <ChevronLeft /> Home
-      </Link>
       <header className="simple-heading">
         <Music2 className="simple-page-icon" />
         <div>
@@ -125,6 +151,10 @@ function Music() {
             <Pause />
             Pause
           </Button>
+          <Button size="xl" variant="outline" onClick={nextSong}>
+            <SkipForward />
+            Next
+          </Button>
           <Button
             size="xl"
             variant="outline"
@@ -133,12 +163,43 @@ function Music() {
               stopSong();
               setIsPlaying(false);
               setPlaying(null);
+              announce("Music stopped.");
             }}
           >
             <Square />
             Stop
           </Button>
         </div>
+        <label className="volume-control">
+          Volume
+          <input
+            type="range"
+            min={0}
+            max={40}
+            value={Math.round(volume * 100)}
+            onChange={(event) => {
+              const next = Number(event.target.value) / 100;
+              setVolume(next);
+              setMusicVolume(next);
+            }}
+            aria-label="Music volume"
+          />
+        </label>
+        <p className="activity-status" role="status" aria-live="polite">
+          {status}
+        </p>
+        <Button
+          size="xl"
+          variant="outline"
+          onClick={() =>
+            askStaff(
+              "would like music from when they were twenty",
+              "Staff have been told you would like music from your younger years. Someone will help you soon.",
+            )
+          }
+        >
+          Songs from when I was 20
+        </Button>
       </section>
       <section className="music-search">
         <h2>Find a song</h2>
@@ -159,14 +220,7 @@ function Music() {
               target={target}
               favorite={state.favoriteSongs.some((item) => item.id === song.id)}
               toggle={() => state.toggleSong(song)}
-              choose={() => {
-                stopSong();
-                setIsPlaying(false);
-                setPlaying(song.id);
-                void playSong(song.id, song.bpm ?? 80)
-                  .then(() => setIsPlaying(true))
-                  .catch(() => {});
-              }}
+              choose={() => startSong(song)}
             />
           ))}
         </div>
