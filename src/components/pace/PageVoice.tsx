@@ -114,7 +114,6 @@ export function PageVoice() {
   const [reply, setReply] = useState("");
   const [supported, setSupported] = useState(false);
   const [started, setStarted] = useState(false);
-  console.log("PACE started =", started);
 
   const clearSpeechTimers = () => {
     if (typeof window === "undefined") {
@@ -340,40 +339,32 @@ export function PageVoice() {
     const message = introFor(path, name);
     speak(message);
   };
-  console.log("PACE START SCREEN SHOULD SHOW");
+
   if (!started) {
     return (
-      <div
-        style={{
-          position: "fixed",
-          inset: 0,
-          zIndex: 99999,
-          backgroundColor: "red",
-          color: "white",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: "40px",
-        }}
-      >
-        <div>PACE START SCREEN</div>
+      <div className="page-voice" role="region" aria-label="Welcome to PACE">
+        <div className="page-voice-inner">
+          <div className="page-voice-welcome">
+            <Volume2 aria-hidden className="page-voice-welcome-icon" />
 
-        <button
-          onClick={startPace}
-          style={{
-            marginTop: "30px",
-            padding: "20px 40px",
-            fontSize: "30px",
-            backgroundColor: "white",
-            color: "black",
-            border: "3px solid black",
-            borderRadius: "10px",
-            cursor: "pointer",
-          }}
-        >
-          Start PACE
-        </button>
+            <p className="page-voice-reply" aria-live="polite">
+              Welcome to PACE.
+            </p>
+
+            <p className="page-voice-hint">I'm here to help you enjoy your day, stay connected, and feel supported.</p>
+
+            <Button
+              variant="default"
+              size="xl"
+              className="pace-start-button"
+              onClick={startPace}
+              aria-label="Start PACE and hear welcome"
+            >
+              <Volume2 aria-hidden />
+              Start PACE
+            </Button>
+          </div>
+        </div>
       </div>
     );
   }
