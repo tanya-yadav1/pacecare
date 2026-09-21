@@ -48,3 +48,13 @@
 - [x] First-login onboarding: name, music, people, interests, text size, speaking aloud.
 - [x] Personalized home: time-of-day greeting, tiles ordered by use, continue-where-you-left-off.
 - [x] My Settings page to change every onboarding answer.
+
+## PACE Parts 2 & 3
+
+- [x] Sticky Start PACE / Talk to PACE voice bar on the senior home, shared with the lower section.
+- [x] Senior UX floor: large text, 64px buttons, A/A+/A++, high contrast, Back/Home/Help everywhere, confirm before deleting.
+- [x] Staff Mode: own palette, left sidebar, permanent banner, resident search, request queue, activity log, profile edit + notes.
+- [x] End-to-end loop: senior choice/help request → staff queue → In progress/Done → friendly confirmation on home.
+- [x] Link and route audit: /listen /connect /explore /quiet with redirects, readable labels, aria-current, friendly 404.
+- [x] Accessibility: skip link, focus outlines, keyboard labels, reduced motion, useful Accessibility page.
+- [x] Privacy: plain-language notes on both sign-in screens and self-service delete-my-information.
