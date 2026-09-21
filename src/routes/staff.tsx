@@ -114,7 +114,7 @@ function StaffMode() {
     if (!selected) return;
     await supabase
       .from("profiles")
-      .update({ greeting_name: nameDraft.trim() || null, staff_notes: noteDraft.trim() || null })
+      .update({ greeting_name: nameDraft.trim(), staff_notes: noteDraft.trim() || null })
       .eq("id", selected.id);
     setSaveMessage("Saved.");
     window.setTimeout(() => setSaveMessage(""), 4000);
@@ -214,7 +214,7 @@ function StaffMode() {
                 <div>
                   <strong>{resident.greeting_name || resident.display_name || resident.email}</strong>
                   <small>
-                    Enjoys: {[...asList(preferences.music), ...asList(preferences.interests)].join(", ") || "Not set yet"}
+                    Enjoys: {[...asList(preferences['music']), ...asList(preferences['interests'])].join(", ") || "Not set yet"}
                   </small>
                   <small>Recent choices: {recent.join(" · ") || "None yet"}</small>
                   {resident.staff_notes && <small>Note: {resident.staff_notes}</small>}
