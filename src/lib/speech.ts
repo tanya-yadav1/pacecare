@@ -96,7 +96,17 @@ export async function speakInstructions(text: string) {
   const url = URL.createObjectURL(new Blob([wav], { type: "audio/wav" }));
   player.src = url;
   player.volume = 1;
-  await player.play().catch(() => { throw new Error("Your browser blocked sound. Tap Hear instructions once more."); });
+  try {
+    await player.play();
+    unlocked = true;
+    setBlocked(false);
+  } catch {
+    URL.revokeObjectURL(url);
+    pendingText = text;
+    setBlocked(true);
+    armUnlock();
+    return;
+  }
   await new Promise<void>((resolve, reject) => {
     if (!player) return reject(new Error("Audio playback is unavailable."));
     player.onended = () => resolve();
