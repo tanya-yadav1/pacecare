@@ -38,20 +38,28 @@ webkitSpeechRecognition?: SpeechRecognitionConstructor;
 const pageIntros: Record<string, string> = {
 "/":
 "Good morning. I'm PACE. I'm here to help you enjoy your day and stay connected. What would you like to do today? You can say listen, connect, explore, or quiet.",
+
 "/music":
 "Listen. Here you can enjoy music you like. You can choose a song and play it.",
+
 "/community":
 "Connect. Here you can reach family, friends, or neighbors. Choose someone you would like to connect with.",
+
 "/mind-body":
 "Explore. Here you can discover gentle movement, stretching, or breathing activities.",
+
 "/relax":
 "Quiet. Take a calm minute to rest. Choose a peaceful sound or simply breathe.",
+
 "/progress":
 "My Journey. Look back at moments you enjoyed and add a short note if you like.",
+
 "/accessibility":
 "Accessibility settings. Here you can make text larger, turn on high contrast, and adjust voice settings.",
+
 "/staff":
 "Staff overview. This screen shows residents and thoughtful connection ideas.",
+
 "/pace-demo":
 "PACE demo. This is a short sample walk-through with pretend data.",
 };
@@ -62,7 +70,10 @@ pageIntros[path] ??
 "I'm PACE. You can talk to me or choose something on the screen.";
 
 if (path === "/") {
-return base.replace("Good morning.", Good morning, ${name}.);
+return base.replace(
+"Good morning.",
+Good morning, ${name}.,
+);
 }
 
 return base;
@@ -107,19 +118,38 @@ select: (state) => state.location.pathname,
 const navigate = useNavigate();
 const { name } = useLumaStrideWellness();
 
-const recognition = useRef<SpeechRecognitionLike | null>(null);
-const speechTimer = useRef<number | null>(null);
-const speechSafetyTimer = useRef<number | null>(null);
-const navigationTimer = useRef<number | null>(null);
+const recognition =
+useRef<SpeechRecognitionLike | null>(null);
 
-const handleWordsRef = useRef<(words: string) => void>(() => {});
+const speechTimer =
+useRef<number | null>(null);
 
-const [speaking, setSpeaking] = useState(false);
-const [listening, setListening] = useState(false);
-const [heard, setHeard] = useState("");
-const [reply, setReply] = useState("");
-const [supported, setSupported] = useState(false);
-const [started, setStarted] = useState(false);
+const speechSafetyTimer =
+useRef<number | null>(null);
+
+const navigationTimer =
+useRef<number | null>(null);
+
+const handleWordsRef =
+useRef<(words: string) => void>(() => {});
+
+const [speaking, setSpeaking] =
+useState(false);
+
+const [listening, setListening] =
+useState(false);
+
+const [heard, setHeard] =
+useState("");
+
+const [reply, setReply] =
+useState("");
+
+const [supported, setSupported] =
+useState(false);
+
+const [started, setStarted] =
+useState(false);
 
 const clearSpeechTimers = () => {
 if (typeof window === "undefined") {
@@ -127,12 +157,18 @@ return;
 }
 
 if (speechTimer.current !== null) {
-  window.clearTimeout(speechTimer.current);
+  window.clearTimeout(
+    speechTimer.current,
+  );
+
   speechTimer.current = null;
 }
 
 if (speechSafetyTimer.current !== null) {
-  window.clearTimeout(speechSafetyTimer.current);
+  window.clearTimeout(
+    speechSafetyTimer.current,
+  );
+
   speechSafetyTimer.current = null;
 }
 
@@ -144,7 +180,10 @@ return;
 }
 
 if (navigationTimer.current !== null) {
-  window.clearTimeout(navigationTimer.current);
+  window.clearTimeout(
+    navigationTimer.current,
+  );
+
   navigationTimer.current = null;
 }
 
@@ -157,7 +196,8 @@ return;
 
 clearSpeechTimers();
 
-const worked = speakWithBrowser(text);
+const worked =
+  speakWithBrowser(text);
 
 if (!worked) {
   setSpeaking(false);
@@ -173,15 +213,24 @@ const checkSpeech = () => {
     return;
   }
 
-  speechTimer.current = window.setTimeout(checkSpeech, 200);
+  speechTimer.current =
+    window.setTimeout(
+      checkSpeech,
+      200,
+    );
 };
 
-speechTimer.current = window.setTimeout(checkSpeech, 200);
+speechTimer.current =
+  window.setTimeout(
+    checkSpeech,
+    200,
+  );
 
-speechSafetyTimer.current = window.setTimeout(() => {
-  setSpeaking(false);
-  speechSafetyTimer.current = null;
-}, 15000);
+speechSafetyTimer.current =
+  window.setTimeout(() => {
+    setSpeaking(false);
+    speechSafetyTimer.current = null;
+  }, 15000);
 
 };
 
@@ -194,7 +243,8 @@ if (!clean) {
   return;
 }
 
-const lower = clean.toLowerCase();
+const lower =
+  clean.toLowerCase();
 
 setHeard(clean);
 
@@ -204,14 +254,19 @@ if (
   lower.includes("main page")
 ) {
   setReply("Going home.");
+
   speak("Going home.");
 
   clearNavigationTimer();
 
-  navigationTimer.current = window.setTimeout(() => {
-    navigationTimer.current = null;
-    void navigate({ to: "/" });
-  }, 900);
+  navigationTimer.current =
+    window.setTimeout(() => {
+      navigationTimer.current = null;
+
+      void navigate({
+        to: "/",
+      });
+    }, 900);
 
   return;
 }
@@ -222,45 +277,53 @@ if (
   lower === "back"
 ) {
   setReply("Going back.");
+
   speak("Going back.");
 
   clearNavigationTimer();
 
-  navigationTimer.current = window.setTimeout(() => {
-    navigationTimer.current = null;
-    window.history.back();
-  }, 900);
+  navigationTimer.current =
+    window.setTimeout(() => {
+      navigationTimer.current = null;
+
+      window.history.back();
+    }, 900);
 
   return;
 }
 
-const result = understandPaceChoice(clean);
+const result =
+  understandPaceChoice(clean);
 
 setReply(result.reply);
+
 speak(result.reply);
 
 if (result.path) {
   clearNavigationTimer();
 
-  navigationTimer.current = window.setTimeout(() => {
-    navigationTimer.current = null;
+  navigationTimer.current =
+    window.setTimeout(() => {
+      navigationTimer.current = null;
 
-    void navigate({
-      to: result.path as any,
-    });
-  }, 1200);
+      void navigate({
+        to: result.path as any,
+      });
+    }, 1200);
 }
 
 };
 
-handleWordsRef.current = handleWords;
+handleWordsRef.current =
+handleWords;
 
 useEffect(() => {
 if (typeof window === "undefined") {
 return;
 }
 
-const speechWindow = window as SpeechWindow;
+const speechWindow =
+  window as SpeechWindow;
 
 const Recognition =
   speechWindow.SpeechRecognition ??
@@ -273,17 +336,23 @@ if (!Recognition) {
 
 setSupported(true);
 
-const instance = new Recognition();
+const instance =
+  new Recognition();
 
 instance.lang = "en-US";
 instance.interimResults = false;
 instance.continuous = false;
 
-instance.onresult = (event) => {
+instance.onresult = (
+  event,
+) => {
   const transcript =
-    event.results?.[0]?.[0]?.transcript ?? "";
+    event.results?.[0]?.[0]
+      ?.transcript ?? "";
 
-  handleWordsRef.current(transcript);
+  handleWordsRef.current(
+    transcript,
+  );
 };
 
 instance.onerror = () => {
@@ -298,7 +367,8 @@ instance.onend = () => {
   setListening(false);
 };
 
-recognition.current = instance;
+recognition.current =
+  instance;
 
 return () => {
   clearSpeechTimers();
@@ -312,7 +382,10 @@ return () => {
 
   recognition.current = null;
 
-  if ("speechSynthesis" in window) {
+  if (
+    "speechSynthesis" in
+    window
+  ) {
     window.speechSynthesis.cancel();
   }
 };
@@ -320,7 +393,8 @@ return () => {
 }, []);
 
 const startPace = () => {
-const message = introFor(path, name);
+const message =
+introFor(path, name);
 
 setStarted(true);
 setReply("");
@@ -331,7 +405,10 @@ speak(message);
 };
 
 const startListening = () => {
-if (!supported || !recognition.current) {
+if (
+!supported ||
+!recognition.current
+) {
 const message =
 "Voice listening isn't available on this device. You can choose an option on the screen instead.";
 
@@ -341,7 +418,10 @@ const message =
   return;
 }
 
-if (listening || speaking) {
+if (
+  listening ||
+  speaking
+) {
   return;
 }
 
@@ -364,8 +444,11 @@ try {
 };
 
 const hearPage = () => {
-const message = introFor(path, name);
+const message =
+introFor(path, name);
+
 speak(message);
+
 };
 
 if (!started) {
@@ -383,8 +466,10 @@ return (
         </p>
 
         <p className="page-voice-hint">
-          I'm here to help you enjoy your day, stay connected,
-          and feel supported.
+          I'm here to help you
+          enjoy your day, stay
+          connected, and feel
+          supported.
         </p>
 
         <Button
@@ -432,14 +517,24 @@ return (
 
     <div className="page-voice-actions">
       <Button
-        variant={listening ? "default" : "amber"}
+        variant={
+          listening
+            ? "default"
+            : "amber"
+        }
         size="xl"
         onClick={startListening}
-        disabled={listening || speaking}
+        disabled={
+          listening ||
+          speaking
+        }
         aria-label="Talk to PACE"
       >
         <Mic aria-hidden />
-        {listening ? "Listening..." : "Talk to PACE"}
+
+        {listening
+          ? "Listening..."
+          : "Talk to PACE"}
       </Button>
 
       <Button
@@ -450,7 +545,10 @@ return (
         aria-label="Hear PACE"
       >
         <Volume2 aria-hidden />
-        {speaking ? "Speaking..." : "Hear PACE"}
+
+        {speaking
+          ? "Speaking..."
+          : "Hear PACE"}
       </Button>
     </div>
   </div>
