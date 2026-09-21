@@ -1,23 +1,10 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import {
-  Headphones,
-  Leaf,
-  MessageCircleHeart,
-  Mic,
-  Moon,
-  Settings,
-  UsersRound,
-} from "lucide-react";
+import { Headphones, Leaf, MessageCircleHeart, Mic, Moon, Settings, UsersRound } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useLumaStrideWellness } from "@/lib/lumastride-wellness";
 import { understandPaceChoice } from "@/lib/pace-voice";
-import {
-  onSpeechBlocked,
-  primeSpeechForGesture,
-  speakImmediatelyOnGesture,
-  speakInstructions,
-} from "@/lib/speech";
+import { onSpeechBlocked, primeSpeechForGesture, speakImmediatelyOnGesture, speakInstructions } from "@/lib/speech";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -124,6 +111,9 @@ function SeniorHome() {
       setWelcoming(false);
     }
   };
+  useEffect(() => {
+    void hearWelcome();
+  }, []);
 
   useEffect(() => {
     const scope = window as typeof window & {
@@ -181,12 +171,7 @@ function SeniorHome() {
               <Settings />
             </Link>
           </Button>
-          <Button
-            variant="outline"
-            size="lg"
-            onClick={() => void hearWelcome()}
-            disabled={welcoming}
-          >
+          <Button variant="outline" size="lg" onClick={() => void hearWelcome()} disabled={welcoming}>
             <Mic />
             {welcoming ? "Speaking…" : "Hear welcome"}
           </Button>
@@ -213,11 +198,7 @@ function SeniorHome() {
         <Mic aria-hidden />
         <div>
           <h2>Talk to PACE</h2>
-          <p>
-            {listening
-              ? "I'm listening…"
-              : "You can say, “I want music” or “I want to talk to my daughter.”"}
-          </p>
+          <p>{listening ? "I'm listening…" : "You can say, “I want music” or “I want to talk to my daughter.”"}</p>
           {heard && (
             <p className="voice-confirm">
               <strong>I heard:</strong> “{heard}”
@@ -264,9 +245,7 @@ function SeniorHome() {
           </Button>
         </div>
       </form>
-      <p className="mission-line">
-        PACE doesn’t decide what matters to you. PACE helps you show us what matters.
-      </p>
+      <p className="mission-line">PACE doesn’t decide what matters to you. PACE helps you show us what matters.</p>
     </div>
   );
 }
