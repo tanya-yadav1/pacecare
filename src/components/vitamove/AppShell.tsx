@@ -102,9 +102,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         )}
       </header>
 
-      <main className="pace-main" style={{ background: "white", minHeight: "100vh" }}>
-        TEST APP SHELL
-      </main>
+      <main className="pace-main">{children}</main>
       <footer className="pace-disclaimer">
         PACE supports personal choice and connection. It does not diagnose, cure, or treat any medical or mental-health
         condition.

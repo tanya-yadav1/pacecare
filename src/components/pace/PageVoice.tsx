@@ -295,8 +295,6 @@ export function PageVoice() {
     };
   }, []);
   const startPace = () => {
-    console.log("START PACE CLICKED");
-
     const message = introFor(path, name);
 
     setStarted(true);
@@ -339,35 +337,6 @@ export function PageVoice() {
     const message = introFor(path, name);
     speak(message);
   };
-
-  if (!started) {
-    return (
-      <div className="page-voice" role="region" aria-label="Welcome to PACE">
-        <div className="page-voice-inner">
-          <div className="page-voice-welcome">
-            <Volume2 aria-hidden className="page-voice-welcome-icon" />
-
-            <p className="page-voice-reply" aria-live="polite">
-              Welcome to PACE.
-            </p>
-
-            <p className="page-voice-hint">I'm here to help you enjoy your day, stay connected, and feel supported.</p>
-
-            <Button
-              variant="default"
-              size="xl"
-              className="pace-start-button"
-              onClick={startPace}
-              aria-label="Start PACE and hear welcome"
-            >
-              <Volume2 aria-hidden />
-              Start PACE
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="page-voice" role="region" aria-label="PACE voice assistant">
