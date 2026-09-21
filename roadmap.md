@@ -44,7 +44,7 @@
 
 ## PACE Accounts & Personalization
 
-- [ ] Sign-in with senior magic link / PIN, staff password, roles and row-level security.
-- [ ] First-login onboarding: name, music, people, interests, text size, speaking aloud.
-- [ ] Personalized home: time-of-day greeting, tiles ordered by use, continue-where-you-left-off.
-- [ ] My Settings page to change every onboarding answer.
+- [x] Sign-in with senior magic link / PIN, staff password, roles and row-level security.
+- [x] First-login onboarding: name, music, people, interests, text size, speaking aloud.
+- [x] Personalized home: time-of-day greeting, tiles ordered by use, continue-where-you-left-off.
+- [x] My Settings page to change every onboarding answer.
