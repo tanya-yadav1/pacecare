@@ -35,3 +35,4 @@
 - [x] Reframe saved activity, notes, preferences, feedback, and trusted-circle data around discovery and connection.
 - [x] Update navigation, accessibility, metadata, logo, favicon, and every visible route to the new PACE meaning.
 - [x] Verify senior and staff journeys on desktop and mobile, including browser-supported voice behavior.
+- [ ] Add audio prompts and spoken feedback on every screen so the app talks and listens throughout.
