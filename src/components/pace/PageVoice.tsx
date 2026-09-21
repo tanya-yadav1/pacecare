@@ -122,57 +122,110 @@ export function PageVoice() {
   };
 
   return (
-    <div className="page-voice" role="region" aria-label="Audio companion">
-      <div className="page-voice-inner">
-        {blocked ? (
+
+  <div
+    className="page-voice"
+    role="region"
+    aria-label="PACE voice assistant"
+  >
+    <div className="page-voice-inner">
+      {blocked ? (
+        <div className="page-voice-welcome">
           <p className="page-voice-reply" aria-live="polite">
-            Tap anywhere on the screen to let PACE speak.
+            PACE is ready to talk with you.
           </p>
-        ) : reply ? (
-          <p className="page-voice-reply" aria-live="polite">
-            {reply}
-            {heard && <span className="sr-only"> You said: {heard}.</span>}
-          </p>
-        ) : (
-          <p className="page-voice-hint">Tap the buttons to hear this page or talk to PACE.</p>
-        )}
-        <div className="page-voice-actions">
-          <Button
-            variant="secondary"
-            size="xl"
-            onClick={() => {
-              primeSpeechForGesture();
-              void speak(introFor(path, name));
-            }}
-            disabled={speaking}
-            aria-label="Hear this page"
-          >
-            <Volume2 aria-hidden />
-            {speaking ? "Speaking…" : "Hear this page"}
-          </Button>
-          <Button
-            variant={listening ? "default" : "amber"}
-            size="xl"
-            onClick={() => {
-              primeSpeechForGesture();
-              if (supported) {
-                setListening(true);
-                setHeard("");
-                setReply("");
-                recognition.current?.start();
-              } else {
-                setReply("Voice listening isn’t available here. Try the home screen to type your request.");
-                void speak(reply);
-              }
-            }}
-            disabled={listening}
-            aria-label="Talk to PACE"
-          >
-            <Mic aria-hidden />
-            {listening ? "Listening…" : "Talk to PACE"}
-          </Button>
-        </div>
-      </div>
+
+```
+      <Button
+        variant="default"
+        size="xl"
+        className="pace-start-button"
+        onClick={() => {
+          primeSpeechForGesture();
+          setBlocked(false);
+          void speak(introFor(path, name));
+        }}
+        aria-label="Start PACE"
+      >
+        <Volume2 aria-hidden />
+        Start PACE
+      </Button>
     </div>
-  );
-}
+  ) : reply ? (
+    <p className="page-voice-reply" aria-live="polite">
+      {reply}
+      {heard && (
+        <span className="sr-only">
+          {" "}
+          You said: {heard}.
+        </span>
+      )}
+    </p>
+  ) : (
+    <p className="page-voice-hint" aria-live="polite">
+      {speaking
+        ? "PACE is speaking…"
+        : listening
+          ? "I'm listening… Take your time."
+          : `Good morning, ${name}.`}
+    </p>
+  )}
+
+  <div className="page-voice-actions">
+    <Button
+      variant={listening ? "default" : "amber"}
+      size="xl"
+      onClick={() => {
+        primeSpeechForGesture();
+
+        if (!supported) {
+          const message =
+            "Voice listening isn't available on this device. You can choose an option on the screen instead.";
+          setReply(message);
+          void speak(message);
+          return;
+        }
+
+        if (listening) return;
+
+        setListening(true);
+        setHeard("");
+        setReply("");
+
+        try {
+          recognition.current?.start();
+        } catch {
+          setListening(false);
+          const message =
+            "Let's try that again. You can tap a choice on the screen.";
+          setReply(message);
+          void speak(message);
+        }
+      }}
+      disabled={listening || speaking}
+      aria-label="Talk to PACE"
+    >
+      <Mic aria-hidden />
+      {listening ? "Listening…" : "Talk to PACE"}
+    </Button>
+
+    <Button
+      variant="secondary"
+      size="xl"
+      onClick={() => {
+        primeSpeechForGesture();
+        void speak(introFor(path, name));
+      }}
+      disabled={speaking}
+      aria-label="Hear PACE"
+    >
+      <Volume2 aria-hidden />
+      {speaking ? "Speaking…" : "Hear PACE"}
+    </Button>
+  </div>
+</div>
+```
+
+  </div>
+);
+
