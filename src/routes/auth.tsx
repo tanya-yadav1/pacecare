@@ -103,7 +103,6 @@ function SeniorSignIn() {
         <Brand />
       </div>
       <h1 className="auth-title">Welcome to PACE</h1>
-      <p className="auth-tagline">Your voice. Your choice. Your moment.</p>
 
       <form
         className="auth-form"

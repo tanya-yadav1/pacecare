@@ -1498,3 +1498,8 @@ html.reduce-motion *::after {
 .auth-page .simple-lead {
   font-size: 1.15rem;
 }
+.auth-page .auth-form {
+  margin: 0 auto;
+  max-width: 34rem;
+  width: 100%;
+}
