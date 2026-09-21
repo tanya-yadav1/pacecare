@@ -27,6 +27,14 @@ export type WellnessObservation = {
 };
 
 export type PersonalNote = { id: string; date: string; text: string };
+export type PaceMode = "senior" | "staff";
+export type ConnectionMoment = {
+  id: string;
+  date: string;
+  choice: "Listen" | "Connect" | "Explore" | "Quiet";
+  title: string;
+  feedback?: "Loved it" | "It was okay" | "Not for me";
+};
 export type AccessibilityPreferences = {
   textSize: "standard" | "large" | "extra-large";
   highContrast: boolean;
@@ -37,6 +45,8 @@ export type AccessibilityPreferences = {
 
 type WellnessState = {
   name: string;
+  mode: PaceMode;
+  moments: ConnectionMoment[];
   cadence: number | null;
   targetCadence: number | null;
   favoriteSongs: MusicFavorite[];
@@ -74,6 +84,9 @@ type WellnessState = {
   setCircleSharing: (members: string[]) => void;
   setReportObservationIds: (ids: string[]) => void;
   setAccessibility: (preferences: AccessibilityPreferences) => void;
+  setMode: (mode: PaceMode) => void;
+  addMoment: (moment: Pick<ConnectionMoment, "choice" | "title">) => string;
+  rateMoment: (id: string, feedback: NonNullable<ConnectionMoment["feedback"]>) => void;
 };
 
 const WellnessContext = createContext<WellnessState | null>(null);
@@ -98,6 +111,8 @@ export function LumaStrideWellnessProvider({ children }: { children: ReactNode }
   const [circleSharing, setCircleSharingState] = useState<string[]>([]);
   const [reportObservationIds, setReportObservationIdsState] = useState<string[]>([]);
   const [accessibility, setAccessibilityState] = useState<AccessibilityPreferences>({ textSize: "standard", highContrast: false, voiceInstructions: false, reducedMotion: false, screenReaderSupport: true });
+  const [mode, setModeState] = useState<PaceMode>("senior");
+  const [moments, setMoments] = useState<ConnectionMoment[]>([]);
 
   useEffect(() => {
     try {
@@ -121,12 +136,14 @@ export function LumaStrideWellnessProvider({ children }: { children: ReactNode }
       setCircleSharingState(Array.isArray(saved.circleSharing) ? saved.circleSharing : []);
       setReportObservationIdsState(Array.isArray(saved.reportObservationIds) ? saved.reportObservationIds : []);
       if (saved.accessibility && typeof saved.accessibility === "object") setAccessibilityState({ textSize: saved.accessibility["textSize"] ?? "standard", highContrast: Boolean(saved.accessibility["highContrast"]), voiceInstructions: Boolean(saved.accessibility["voiceInstructions"]), reducedMotion: Boolean(saved.accessibility["reducedMotion"]), screenReaderSupport: saved.accessibility["screenReaderSupport"] !== false });
+      setModeState(saved.mode === "staff" ? "staff" : "senior");
+      setMoments(Array.isArray(saved.moments) ? saved.moments : []);
     } catch { /* use friendly defaults */ }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 3, cadence, targetCadence, favoriteSongs, favoriteArtists, favoriteGenres, musicService, goals, preferredActivities, availableMinutes, sessions, observations, doctorQuestions, medications, personalNotes, careTeam, circleSharing, reportObservationIds, accessibility }));
-  }, [cadence, targetCadence, favoriteSongs, favoriteArtists, favoriteGenres, musicService, goals, preferredActivities, availableMinutes, sessions, observations, doctorQuestions, medications, personalNotes, careTeam, circleSharing, reportObservationIds, accessibility]);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 4, cadence, targetCadence, favoriteSongs, favoriteArtists, favoriteGenres, musicService, goals, preferredActivities, availableMinutes, sessions, observations, doctorQuestions, medications, personalNotes, careTeam, circleSharing, reportObservationIds, accessibility, mode, moments }));
+  }, [cadence, targetCadence, favoriteSongs, favoriteArtists, favoriteGenres, musicService, goals, preferredActivities, availableMinutes, sessions, observations, doctorQuestions, medications, personalNotes, careTeam, circleSharing, reportObservationIds, accessibility, mode, moments]);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -136,7 +153,9 @@ export function LumaStrideWellnessProvider({ children }: { children: ReactNode }
   }, [accessibility]);
 
   const value = useMemo<WellnessState>(() => ({
-    name: "Tanya",
+    name: "Eleanor",
+    mode,
+    moments,
     cadence,
     targetCadence,
     favoriteSongs,
@@ -174,7 +193,10 @@ export function LumaStrideWellnessProvider({ children }: { children: ReactNode }
     setCircleSharing: setCircleSharingState,
     setReportObservationIds: setReportObservationIdsState,
     setAccessibility: setAccessibilityState,
-  }), [cadence, targetCadence, favoriteSongs, favoriteArtists, favoriteGenres, musicService, goals, preferredActivities, availableMinutes, sessions, observations, doctorQuestions, medications, personalNotes, careTeam, circleSharing, reportObservationIds, accessibility]);
+    setMode: setModeState,
+    addMoment: (moment) => { const id = crypto.randomUUID(); setMoments((current) => [{ ...moment, id, date: new Date().toISOString() }, ...current].slice(0, 100)); return id; },
+    rateMoment: (id, feedback) => setMoments((current) => current.map((moment) => moment.id === id ? { ...moment, feedback } : moment)),
+  }), [cadence, targetCadence, favoriteSongs, favoriteArtists, favoriteGenres, musicService, goals, preferredActivities, availableMinutes, sessions, observations, doctorQuestions, medications, personalNotes, careTeam, circleSharing, reportObservationIds, accessibility, mode, moments]);
 
   return <WellnessContext.Provider value={value}>{children}</WellnessContext.Provider>;
 }
