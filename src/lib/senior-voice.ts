@@ -51,56 +51,86 @@ export function useSeniorVoice(options: {
   const onChoiceRef = useRef(options.onChoice);
   onChoiceRef.current = options.onChoice;
 
-  const speak = useCallback((text: string) => {
+  /**
+   * Speaks one line after another. Browsers cut off very long sentences, so
+   * PACE says the page in short pieces and keeps the voice awake between them.
+   */
+  const speakLines = useCallback((lines: string[]) => {
     if (typeof window === "undefined") return;
+    const parts = lines.map((line) => line.trim()).filter(Boolean);
+    if (parts.length === 0) return;
     setSpeaking(true);
 
-    // If the device voice cannot be used (or never actually starts), fall back
-    // to PACE's own generated voice so the senior always hears something.
-    const fallback = () => {
+    const fallback = (from: number) => {
       primeSpeechForGesture();
-      void speakInstructions(text)
+      void speakInstructions(parts.slice(from).join(" "))
         .then(() => setSpeaking(false))
         .catch(() => setSpeaking(false));
     };
 
     const Utterance = "speechSynthesis" in window ? window.SpeechSynthesisUtterance : undefined;
     if (!Utterance) {
-      fallback();
+      fallback(0);
       return;
     }
 
     window.speechSynthesis.cancel();
-    const message = new Utterance(text);
-    message.rate = 0.78;
-    message.pitch = 1;
-    message.volume = 1;
-    let startedSpeaking = false;
-    const guard = window.setTimeout(() => {
-      if (startedSpeaking) return;
-      try {
-        window.speechSynthesis.cancel();
-      } catch {
-        // nothing to cancel
+    // Chrome pauses long readings; this nudge keeps it going.
+    const keepAwake = window.setInterval(() => {
+      if (window.speechSynthesis.speaking) window.speechSynthesis.resume();
+    }, 4000);
+
+    let index = 0;
+    let anySpoken = false;
+
+    const sayNext = () => {
+      if (index >= parts.length) {
+        window.clearInterval(keepAwake);
+        setSpeaking(false);
+        return;
       }
-      fallback();
-    }, 1200);
-    const finish = () => {
-      window.clearTimeout(guard);
-      setSpeaking(false);
+      const message = new Utterance(parts[index]!);
+      message.rate = 0.78;
+      message.pitch = 1;
+      message.volume = 1;
+      let started = false;
+      const guard = window.setTimeout(() => {
+        if (started || anySpoken) return;
+        window.clearInterval(keepAwake);
+        try {
+          window.speechSynthesis.cancel();
+        } catch {
+          // nothing to cancel
+        }
+        fallback(index);
+      }, 1500);
+      message.onstart = () => {
+        started = true;
+        anySpoken = true;
+        window.clearTimeout(guard);
+      };
+      message.onend = () => {
+        window.clearTimeout(guard);
+        index += 1;
+        sayNext();
+      };
+      message.onerror = () => {
+        window.clearTimeout(guard);
+        if (!anySpoken) {
+          window.clearInterval(keepAwake);
+          fallback(index);
+          return;
+        }
+        index += 1;
+        sayNext();
+      };
+      window.speechSynthesis.speak(message);
     };
-    message.onstart = () => {
-      startedSpeaking = true;
-      window.clearTimeout(guard);
-    };
-    message.onend = finish;
-    message.onerror = () => {
-      window.clearTimeout(guard);
-      if (!startedSpeaking) fallback();
-      else setSpeaking(false);
-    };
-    window.speechSynthesis.speak(message);
+
+    sayNext();
   }, []);
+
+  const speak = useCallback((text: string) => speakLines([text]), [speakLines]);
 
   const handleWords = useCallback(
     (words: string) => {
@@ -169,8 +199,8 @@ export function useSeniorVoice(options: {
     setStarted(true);
     setHeard("");
     setReply("");
-    speak([WELCOME_LINE, ...readAloudRef.current()].join(" "));
-  }, [speak]);
+    speakLines([WELCOME_LINE, ...readAloudRef.current()]);
+  }, [speakLines]);
 
   const talk = useCallback(() => {
     if (!supported || !recognition.current) {
