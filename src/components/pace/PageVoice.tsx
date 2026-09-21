@@ -313,6 +313,7 @@ export function PageVoice() {
     speak(message);
   };
   const startListening = () => {
+    console.log("PACE starting microphone");
     if (!supported || !recognition.current) {
       const message = "Voice listening isn't available on this device. You can choose an option on the screen instead.";
 
