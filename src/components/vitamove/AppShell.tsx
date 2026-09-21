@@ -16,7 +16,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const [mobile, setMobile] = useState(false);
   const isDemo = path === "/pace-demo";
   const isStaffArea = path === "/staff";
-  const isStaff = isStaffArea || mode === "staff";
+  const isStaff = isStaffArea;
   const legacyPaths = new Set([
     "/assessment",
     "/care",
