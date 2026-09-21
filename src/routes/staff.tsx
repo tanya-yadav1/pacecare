@@ -227,6 +227,11 @@ function StaffMode() {
                     setSelectedId(resident.id);
                     setNameDraft(resident.greeting_name ?? "");
                     setNoteDraft(resident.staff_notes ?? "");
+                    setSaveMessage("");
+                    window.setTimeout(() => {
+                      (editRef.current as HTMLElement | null)?.scrollIntoView({ behavior: "smooth", block: "center" });
+                      document.getElementById("resident-name")?.focus();
+                    }, 60);
                   }}
                 >
                   <ClipboardPen aria-hidden /> Edit
