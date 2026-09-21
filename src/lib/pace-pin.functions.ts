@@ -23,39 +23,27 @@ function tooManyAttempts(email: string) {
   return record.count > 6;
 }
 
-/** The fictional demonstration resident anyone can try with PIN 1234. */
-const DEMO_EMAIL = "eleanor@pacedemo.app";
-const DEMO_PIN = "1234";
+/** The fictional demonstration residents anyone can try. All details are invented. */
+type DemoResident = {
+  email: string;
+  pin: string;
+  displayName: string;
+  greetingName: string;
+  birthYear: number;
+  favoriteGenres: string[];
+  preferences: Record<string, unknown>;
+};
 
-/** Creates the fictional demo resident the first time someone signs in with the demo PIN. */
-async function ensureDemoResident() {
-  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-
-  const { data: existing } = await supabaseAdmin
-    .from("profiles")
-    .select("id")
-    .eq("email", DEMO_EMAIL)
-    .maybeSingle();
-
-  let userId = existing?.id ?? null;
-
-  if (!userId) {
-    const { data: created, error } = await supabaseAdmin.auth.admin.createUser({
-      email: DEMO_EMAIL,
-      email_confirm: true,
-      user_metadata: { display_name: "Eleanor Brooks", role: "senior" },
-    });
-    if (error || !created.user) return null;
-    userId = created.user.id;
-  }
-
-  await supabaseAdmin.from("profiles").upsert({
-    id: userId,
-    email: DEMO_EMAIL,
-    display_name: "Eleanor Brooks",
-    greeting_name: "Eleanor",
+const DEMO_RESIDENTS: DemoResident[] = [
+  {
+    email: "eleanor@pacedemo.app",
+    pin: "1234",
+    displayName: "Eleanor Brooks",
+    greetingName: "Eleanor",
+    birthYear: 1948,
+    favoriteGenres: ["Gospel", "Country", "Big Band"],
     preferences: {
-      music: ["Jazz", "Big band", "Piano"],
+      music: ["Gospel", "Country", "Big Band"],
       people: [
         { name: "Maya", relationship: "Daughter" },
         { name: "Samuel", relationship: "Neighbor" },
@@ -64,6 +52,71 @@ async function ensureDemoResident() {
       onboarded: true,
       tileUsage: { Listen: 3, Connect: 2 },
     },
+  },
+  {
+    email: "walter@pacedemo.app",
+    pin: "2345",
+    displayName: "Walter Nash",
+    greetingName: "Walter",
+    birthYear: 1938,
+    favoriteGenres: ["Jazz", "Classical"],
+    preferences: {
+      music: ["Jazz", "Classical"],
+      people: [{ name: "Ruth", relationship: "Niece" }],
+      interests: ["Records", "Chess", "Trains"],
+      onboarded: true,
+      tileUsage: { Listen: 5 },
+    },
+  },
+  {
+    email: "rosa@pacedemo.app",
+    pin: "3456",
+    displayName: "Rosa Delgado",
+    greetingName: "Rosa",
+    birthYear: 1955,
+    favoriteGenres: ["Soul", "Folk"],
+    preferences: {
+      music: ["Soul", "Folk"],
+      people: [{ name: "Ana", relationship: "Daughter" }],
+      interests: ["Cooking", "Dancing", "Poetry"],
+      onboarded: true,
+      tileUsage: { Listen: 2, Explore: 1 },
+    },
+  },
+];
+
+const DEMO_EMAIL = DEMO_RESIDENTS[0]!.email;
+
+/** Creates a fictional demo resident the first time someone signs in with their PIN. */
+async function ensureDemoPerson(person: DemoResident) {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+  const { data: existing } = await supabaseAdmin
+    .from("profiles")
+    .select("id")
+    .eq("email", person.email)
+    .maybeSingle();
+
+  let userId = existing?.id ?? null;
+
+  if (!userId) {
+    const { data: created, error } = await supabaseAdmin.auth.admin.createUser({
+      email: person.email,
+      email_confirm: true,
+      user_metadata: { display_name: person.displayName, role: "senior" },
+    });
+    if (error || !created.user) return null;
+    userId = created.user.id;
+  }
+
+  await supabaseAdmin.from("profiles").upsert({
+    id: userId,
+    email: person.email,
+    display_name: person.displayName,
+    greeting_name: person.greetingName,
+    birth_year: person.birthYear,
+    favorite_genres: person.favoriteGenres,
+    preferences: person.preferences,
   });
 
   await supabaseAdmin
@@ -72,12 +125,17 @@ async function ensureDemoResident() {
 
   await supabaseAdmin.from("senior_pins").upsert({
     user_id: userId,
-    pin_hash: hashPin(userId, DEMO_PIN),
+    pin_hash: hashPin(userId, person.pin),
     set_by: userId,
     updated_at: new Date().toISOString(),
   });
 
   return userId;
+}
+
+/** Makes sure the first fictional resident exists (used by the staff demo account). */
+async function ensureDemoResident() {
+  return ensureDemoPerson(DEMO_RESIDENTS[0]!);
 }
 
 /** The fictional demonstration staff member anyone can try. */
