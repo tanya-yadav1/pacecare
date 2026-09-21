@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccessibilityRouteImport } from './routes/accessibility'
 import { Route as AssessmentRouteImport } from './routes/assessment'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CareRouteImport } from './routes/care'
 import { Route as ClinicianRouteImport } from './routes/clinician'
 import { Route as CommunityRouteImport } from './routes/community'
@@ -21,6 +22,7 @@ import { Route as MindBodyRouteImport } from './routes/mind-body'
 import { Route as MoveRouteImport } from './routes/move'
 import { Route as MusicRouteImport } from './routes/music'
 import { Route as MyDayRouteImport } from './routes/my-day'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as OverlayRouteImport } from './routes/overlay'
 import { Route as PaceDemoRouteImport } from './routes/pace-demo'
 import { Route as ProgressRouteImport } from './routes/progress'
@@ -28,7 +30,9 @@ import { Route as RelaxRouteImport } from './routes/relax'
 import { Route as RemediesRouteImport } from './routes/remedies'
 import { Route as RewardsRouteImport } from './routes/rewards'
 import { Route as ScreeningRouteImport } from './routes/screening'
+import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as StaffRouteImport } from './routes/staff'
+import { Route as StaffSigninRouteImport } from './routes/staff-signin'
 import { Route as SymptomsRouteImport } from './routes/symptoms'
 import { Route as TherapyRouteImport } from './routes/therapy'
 import { Route as TreatmentInfoRouteImport } from './routes/treatment-info'
@@ -49,6 +53,11 @@ const AccessibilityRoute = AccessibilityRouteImport.update({
 const AssessmentRoute = AssessmentRouteImport.update({
   id: '/assessment',
   path: '/assessment',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CareRoute = CareRouteImport.update({
@@ -96,6 +105,11 @@ const MyDayRoute = MyDayRouteImport.update({
   path: '/my-day',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OverlayRoute = OverlayRouteImport.update({
   id: '/overlay',
   path: '/overlay',
@@ -131,9 +145,19 @@ const ScreeningRoute = ScreeningRouteImport.update({
   path: '/screening',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StaffRoute = StaffRouteImport.update({
   id: '/staff',
   path: '/staff',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StaffSigninRoute = StaffSigninRouteImport.update({
+  id: '/staff-signin',
+  path: '/staff-signin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SymptomsRoute = SymptomsRouteImport.update({
@@ -171,6 +195,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/accessibility': typeof AccessibilityRoute
   '/assessment': typeof AssessmentRoute
+  '/auth': typeof AuthRoute
   '/care': typeof CareRoute
   '/clinician': typeof ClinicianRoute
   '/community': typeof CommunityRoute
@@ -180,6 +205,7 @@ export interface FileRoutesByFullPath {
   '/move': typeof MoveRoute
   '/music': typeof MusicRoute
   '/my-day': typeof MyDayRoute
+  '/onboarding': typeof OnboardingRoute
   '/overlay': typeof OverlayRoute
   '/pace-demo': typeof PaceDemoRoute
   '/progress': typeof ProgressRoute
@@ -187,7 +213,9 @@ export interface FileRoutesByFullPath {
   '/remedies': typeof RemediesRoute
   '/rewards': typeof RewardsRoute
   '/screening': typeof ScreeningRoute
+  '/settings': typeof SettingsRoute
   '/staff': typeof StaffRoute
+  '/staff-signin': typeof StaffSigninRoute
   '/symptoms': typeof SymptomsRoute
   '/therapy': typeof TherapyRoute
   '/treatment-info': typeof TreatmentInfoRoute
@@ -199,6 +227,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/accessibility': typeof AccessibilityRoute
   '/assessment': typeof AssessmentRoute
+  '/auth': typeof AuthRoute
   '/care': typeof CareRoute
   '/clinician': typeof ClinicianRoute
   '/community': typeof CommunityRoute
@@ -208,6 +237,7 @@ export interface FileRoutesByTo {
   '/move': typeof MoveRoute
   '/music': typeof MusicRoute
   '/my-day': typeof MyDayRoute
+  '/onboarding': typeof OnboardingRoute
   '/overlay': typeof OverlayRoute
   '/pace-demo': typeof PaceDemoRoute
   '/progress': typeof ProgressRoute
@@ -215,7 +245,9 @@ export interface FileRoutesByTo {
   '/remedies': typeof RemediesRoute
   '/rewards': typeof RewardsRoute
   '/screening': typeof ScreeningRoute
+  '/settings': typeof SettingsRoute
   '/staff': typeof StaffRoute
+  '/staff-signin': typeof StaffSigninRoute
   '/symptoms': typeof SymptomsRoute
   '/therapy': typeof TherapyRoute
   '/treatment-info': typeof TreatmentInfoRoute
@@ -228,6 +260,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/accessibility': typeof AccessibilityRoute
   '/assessment': typeof AssessmentRoute
+  '/auth': typeof AuthRoute
   '/care': typeof CareRoute
   '/clinician': typeof ClinicianRoute
   '/community': typeof CommunityRoute
@@ -237,6 +270,7 @@ export interface FileRoutesById {
   '/move': typeof MoveRoute
   '/music': typeof MusicRoute
   '/my-day': typeof MyDayRoute
+  '/onboarding': typeof OnboardingRoute
   '/overlay': typeof OverlayRoute
   '/pace-demo': typeof PaceDemoRoute
   '/progress': typeof ProgressRoute
@@ -244,7 +278,9 @@ export interface FileRoutesById {
   '/remedies': typeof RemediesRoute
   '/rewards': typeof RewardsRoute
   '/screening': typeof ScreeningRoute
+  '/settings': typeof SettingsRoute
   '/staff': typeof StaffRoute
+  '/staff-signin': typeof StaffSigninRoute
   '/symptoms': typeof SymptomsRoute
   '/therapy': typeof TherapyRoute
   '/treatment-info': typeof TreatmentInfoRoute
@@ -258,6 +294,7 @@ export interface FileRouteTypes {
     | '/'
     | '/accessibility'
     | '/assessment'
+    | '/auth'
     | '/care'
     | '/clinician'
     | '/community'
@@ -267,6 +304,7 @@ export interface FileRouteTypes {
     | '/move'
     | '/music'
     | '/my-day'
+    | '/onboarding'
     | '/overlay'
     | '/pace-demo'
     | '/progress'
@@ -274,7 +312,9 @@ export interface FileRouteTypes {
     | '/remedies'
     | '/rewards'
     | '/screening'
+    | '/settings'
     | '/staff'
+    | '/staff-signin'
     | '/symptoms'
     | '/therapy'
     | '/treatment-info'
@@ -286,6 +326,7 @@ export interface FileRouteTypes {
     | '/'
     | '/accessibility'
     | '/assessment'
+    | '/auth'
     | '/care'
     | '/clinician'
     | '/community'
@@ -295,6 +336,7 @@ export interface FileRouteTypes {
     | '/move'
     | '/music'
     | '/my-day'
+    | '/onboarding'
     | '/overlay'
     | '/pace-demo'
     | '/progress'
@@ -302,7 +344,9 @@ export interface FileRouteTypes {
     | '/remedies'
     | '/rewards'
     | '/screening'
+    | '/settings'
     | '/staff'
+    | '/staff-signin'
     | '/symptoms'
     | '/therapy'
     | '/treatment-info'
@@ -314,6 +358,7 @@ export interface FileRouteTypes {
     | '/'
     | '/accessibility'
     | '/assessment'
+    | '/auth'
     | '/care'
     | '/clinician'
     | '/community'
@@ -323,6 +368,7 @@ export interface FileRouteTypes {
     | '/move'
     | '/music'
     | '/my-day'
+    | '/onboarding'
     | '/overlay'
     | '/pace-demo'
     | '/progress'
@@ -330,7 +376,9 @@ export interface FileRouteTypes {
     | '/remedies'
     | '/rewards'
     | '/screening'
+    | '/settings'
     | '/staff'
+    | '/staff-signin'
     | '/symptoms'
     | '/therapy'
     | '/treatment-info'
@@ -343,6 +391,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccessibilityRoute: typeof AccessibilityRoute
   AssessmentRoute: typeof AssessmentRoute
+  AuthRoute: typeof AuthRoute
   CareRoute: typeof CareRoute
   ClinicianRoute: typeof ClinicianRoute
   CommunityRoute: typeof CommunityRoute
@@ -352,6 +401,7 @@ export interface RootRouteChildren {
   MoveRoute: typeof MoveRoute
   MusicRoute: typeof MusicRoute
   MyDayRoute: typeof MyDayRoute
+  OnboardingRoute: typeof OnboardingRoute
   OverlayRoute: typeof OverlayRoute
   PaceDemoRoute: typeof PaceDemoRoute
   ProgressRoute: typeof ProgressRoute
@@ -359,7 +409,9 @@ export interface RootRouteChildren {
   RemediesRoute: typeof RemediesRoute
   RewardsRoute: typeof RewardsRoute
   ScreeningRoute: typeof ScreeningRoute
+  SettingsRoute: typeof SettingsRoute
   StaffRoute: typeof StaffRoute
+  StaffSigninRoute: typeof StaffSigninRoute
   SymptomsRoute: typeof SymptomsRoute
   TherapyRoute: typeof TherapyRoute
   TreatmentInfoRoute: typeof TreatmentInfoRoute
@@ -389,6 +441,13 @@ declare module '@tanstack/react-router' {
       path: '/assessment'
       fullPath: '/assessment'
       preLoaderRoute: typeof AssessmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/care': {
@@ -454,6 +513,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MyDayRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/overlay': {
       id: '/overlay'
       path: '/overlay'
@@ -503,11 +569,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ScreeningRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/staff': {
       id: '/staff'
       path: '/staff'
       fullPath: '/staff'
       preLoaderRoute: typeof StaffRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/staff-signin': {
+      id: '/staff-signin'
+      path: '/staff-signin'
+      fullPath: '/staff-signin'
+      preLoaderRoute: typeof StaffSigninRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/symptoms': {
@@ -559,6 +639,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccessibilityRoute: AccessibilityRoute,
   AssessmentRoute: AssessmentRoute,
+  AuthRoute: AuthRoute,
   CareRoute: CareRoute,
   ClinicianRoute: ClinicianRoute,
   CommunityRoute: CommunityRoute,
@@ -568,6 +649,7 @@ const rootRouteChildren: RootRouteChildren = {
   MoveRoute: MoveRoute,
   MusicRoute: MusicRoute,
   MyDayRoute: MyDayRoute,
+  OnboardingRoute: OnboardingRoute,
   OverlayRoute: OverlayRoute,
   PaceDemoRoute: PaceDemoRoute,
   ProgressRoute: ProgressRoute,
@@ -575,7 +657,9 @@ const rootRouteChildren: RootRouteChildren = {
   RemediesRoute: RemediesRoute,
   RewardsRoute: RewardsRoute,
   ScreeningRoute: ScreeningRoute,
+  SettingsRoute: SettingsRoute,
   StaffRoute: StaffRoute,
+  StaffSigninRoute: StaffSigninRoute,
   SymptomsRoute: SymptomsRoute,
   TherapyRoute: TherapyRoute,
   TreatmentInfoRoute: TreatmentInfoRoute,

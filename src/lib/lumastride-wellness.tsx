@@ -1,4 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { usePaceAuth } from "./pace-auth";
 
 export type MusicFavorite = {
   id: string;
@@ -93,6 +95,7 @@ const WellnessContext = createContext<WellnessState | null>(null);
 const STORAGE_KEY = "lumastride-wellness";
 
 export function LumaStrideWellnessProvider({ children }: { children: ReactNode }) {
+  const { user, profile } = usePaceAuth();
   const [cadence, setCadenceState] = useState<number | null>(null);
   const [targetCadence, setTargetCadenceState] = useState<number | null>(null);
   const [favoriteSongs, setFavoriteSongs] = useState<MusicFavorite[]>([]);
@@ -223,9 +226,30 @@ export function LumaStrideWellnessProvider({ children }: { children: ReactNode }
     root.classList.toggle("reduce-motion", accessibility.reducedMotion);
   }, [accessibility]);
 
+  // Bring saved comfort settings down from the account the first time we see them.
+  useEffect(() => {
+    const saved = profile?.accessibility as Partial<AccessibilityPreferences> | undefined;
+    if (!saved || Object.keys(saved).length === 0) return;
+    setAccessibilityState((current) => ({ ...current, ...saved }));
+  }, [profile?.id]);
+
+  // Keep the account copy in step so settings follow the person to any device.
+  useEffect(() => {
+    if (!user?.id) return;
+    const timer = window.setTimeout(() => {
+      void supabase
+        .from("profiles")
+        .update({ accessibility, updated_at: new Date().toISOString() })
+        .eq("id", user.id);
+    }, 600);
+    return () => window.clearTimeout(timer);
+  }, [user?.id, accessibility]);
+
+  const name = profile?.greeting_name?.trim() || "Friend";
+
   const value = useMemo<WellnessState>(
     () => ({
-      name: "Eleanor",
+      name,
       mode,
       moments,
       cadence,
@@ -315,6 +339,7 @@ export function LumaStrideWellnessProvider({ children }: { children: ReactNode }
         ),
     }),
     [
+      name,
       cadence,
       targetCadence,
       favoriteSongs,

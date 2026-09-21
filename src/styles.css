@@ -1166,3 +1166,62 @@ html.reduce-motion *::after {
 .page-voice-actions button {
   @apply min-h-14 px-6 text-lg;
 }
+
+@layer components {
+  .auth-form {
+    display: grid;
+    gap: 0.9rem;
+    width: 100%;
+    max-width: 30rem;
+  }
+  .auth-form label {
+    font-size: 1.15rem;
+    font-weight: 600;
+  }
+  .auth-form input {
+    min-height: 3.75rem;
+    width: 100%;
+    border-radius: 1rem;
+    border: 2px solid var(--border);
+    background: var(--card);
+    padding: 0 1rem;
+    font-size: 1.35rem;
+  }
+  .auth-form input:focus-visible {
+    outline: 3px solid var(--ring);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .senior-continue {
+    display: grid;
+    gap: 0.35rem;
+    border-radius: 1.5rem;
+    border: 2px solid var(--border);
+    background: var(--card);
+    padding: 1.25rem 1.5rem;
+    min-height: 3rem;
+  }
+  .senior-continue strong {
+    font-size: 1.4rem;
+  }
+  .senior-continue small {
+    font-size: 1.1rem;
+    opacity: 0.8;
+  }
+  .settings-section {
+    display: grid;
+    gap: 0.9rem;
+    margin-block: 1.75rem;
+  }
+  .chip-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .stack-gap {
+    display: grid;
+    gap: 0.9rem;
+  }
+}

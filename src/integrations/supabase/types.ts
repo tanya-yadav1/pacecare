@@ -14,6 +14,102 @@ export type Database = {
   }
   public: {
     Tables: {
+      profiles: {
+        Row: {
+          accessibility: Json
+          created_at: string
+          display_name: string
+          email: string | null
+          greeting_name: string
+          id: string
+          preferences: Json
+          updated_at: string
+        }
+        Insert: {
+          accessibility?: Json
+          created_at?: string
+          display_name?: string
+          email?: string | null
+          greeting_name?: string
+          id: string
+          preferences?: Json
+          updated_at?: string
+        }
+        Update: {
+          accessibility?: Json
+          created_at?: string
+          display_name?: string
+          email?: string | null
+          greeting_name?: string
+          id?: string
+          preferences?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      resident_assignments: {
+        Row: {
+          created_at: string
+          id: string
+          resident_id: string
+          staff_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          resident_id: string
+          staff_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          resident_id?: string
+          staff_id?: string
+        }
+        Relationships: []
+      }
+      senior_pins: {
+        Row: {
+          pin_hash: string
+          set_by: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          pin_hash: string
+          set_by?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          pin_hash?: string
+          set_by?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
       vitamove_profiles: {
         Row: {
           active_skin: string
@@ -55,10 +151,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "senior" | "staff"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -185,6 +287,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["senior", "staff"],
+    },
   },
 } as const

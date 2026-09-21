@@ -41,3 +41,10 @@
 - [x] Family video call now opens a sample call screen (ringing, connected, end call)
 - [x] Make the first tap anywhere read the visible home-screen choices aloud with immediate device speech.
 - [x] Music Stop button works and music stops when leaving the Listen page.
+
+## PACE Accounts & Personalization
+
+- [x] Sign-in with senior magic link / PIN, staff password, roles and row-level security.
+- [x] First-login onboarding: name, music, people, interests, text size, speaking aloud.
+- [x] Personalized home: time-of-day greeting, tiles ordered by use, continue-where-you-left-off.
+- [x] My Settings page to change every onboarding answer.
