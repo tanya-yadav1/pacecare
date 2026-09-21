@@ -48,16 +48,19 @@ const pageIntros: Record<string, string> = {
   "/staff": "Staff overview. This screen shows residents and thoughtful connection ideas.",
   "/pace-demo": "PACE demo. This is a short sample walk-through with pretend data.",
 };
+
 function introFor(path: string, name: string): string {
-const base =
-pageIntros[path] ??
-"I'm PACE. You can talk to me or choose something on the screen.";
+  const base = pageIntros[path] ?? "I'm PACE. You can talk to me or choose something on the screen.";
 
-if (path === "/") {
-return Good morning, ${name}. I'm PACE. I'm here to help you enjoy your day and stay connected. What would you like to do today? You can say listen, connect, explore, or quiet.;
-}
+  if (path === "/") {
+    return (
+      "Good morning, " +
+      name +
+      ". I'm PACE. I'm here to help you enjoy your day and stay connected. What would you like to do today? You can say listen, connect, explore, or quiet."
+    );
+  }
 
-return base;
+  return base;
 }
 
 function speakWithBrowser(text: string): boolean {
