@@ -79,16 +79,28 @@ function SeniorHome() {
 
     const text = `Good morning, ${name}. What would you like right now? Listen, for music you enjoy. Connect, with family, friends, and neighbors. Explore, to find something meaningful. Or Quiet, to rest and unwind.`;
 
-    const timer = window.setTimeout(() => {
-      void speakInstructions(text).catch((error) => {
+    const timer = window.setTimeout(async () => {
+      try {
+        // Speak the welcome.
+        await speakInstructions(text);
+
+        // Welcome is completely finished — now start listening.
+        if (supported && recognition.current) {
+          setHeard("");
+          setReply("");
+          setListening(true);
+
+          recognition.current.start();
+        }
+      } catch (error) {
         console.error("PACE welcome failed:", error);
-      });
+      }
     }, 500);
 
     return () => {
       window.clearTimeout(timer);
     };
-  }, [accessibility.voiceInstructions, name]);
+  }, [accessibility.voiceInstructions, name, supported]);
 
   useEffect(() => {
     const scope = window as typeof window & {
@@ -184,22 +196,6 @@ function SeniorHome() {
           )}
           {reply && <p className="pace-reply">{reply}</p>}
         </div>
-        <Button
-          size="xl"
-          variant="amber"
-          onClick={() => {
-            primeSpeechForGesture();
-            if (supported) {
-              setListening(true);
-              setHeard("");
-              setReply("");
-              recognition.current?.start();
-            } else setReply("Voice listening isn't available here. You can type or tap a choice.");
-          }}
-          disabled={listening}
-        >
-          {listening ? "Listening…" : "Speak"}
-        </Button>
       </section>
       <form
         className="voice-fallback"
