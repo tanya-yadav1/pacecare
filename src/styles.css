@@ -1502,12 +1502,13 @@ html.reduce-motion *::after {
 /* ---- Sign-in front page: big bold brand ---- */
 .welcome-page {
   min-height: 100vh;
-  padding: 0.25rem 1.25rem 3rem;
+  padding: 0 1.25rem 3rem;
   background: linear-gradient(180deg, var(--background) 0%, var(--surface) 100%);
+  text-align: left;
 }
 .welcome-masthead {
   width: min(100%, 42rem);
-  margin: 0 auto 0.25rem;
+  margin: 0 0 0.25rem;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -1540,22 +1541,22 @@ html.reduce-motion *::after {
   line-height: 1.2;
 }
 .welcome-page-title {
-  text-align: center;
+  text-align: left;
   font-size: clamp(1.65rem, 4.2vw, 2.3rem);
-  margin: 0 auto 0.35rem;
+  margin: 0 0 0.35rem;
   width: min(100%, 42rem);
 }
 .welcome-tagline {
-  text-align: center;
+  text-align: left;
   color: var(--muted-foreground);
   font-size: 1.05rem;
   font-weight: 700;
-  margin: 0 auto 1.25rem;
+  margin: 0 0 1.25rem;
   width: min(100%, 42rem);
 }
 .welcome-content {
   width: min(100%, 39rem);
-  margin: 0 auto;
+  margin: 0;
   display: grid;
   gap: 1.1rem;
 }
@@ -1728,7 +1729,7 @@ html.reduce-motion *::after {
 }
 @media (max-width: 540px) {
   .welcome-page {
-    padding-top: 0.15rem;
+    padding-top: 0;
   }
   .welcome-logo {
     width: 3.25rem;
