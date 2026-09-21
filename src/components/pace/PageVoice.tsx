@@ -113,17 +113,6 @@ export function PageVoice() {
   const [reply, setReply] = useState("");
   const [supported, setSupported] = useState(false);
   const [started, setStarted] = useState(false);
-  if (!started) {
-    return (
-      <div className="page-voice" role="region" aria-label="Welcome to PACE">
-        ...
-        <Button onClick={startPace}>
-          <Volume2 aria-hidden />
-          Start PACE
-        </Button>
-      </div>
-    );
-  }
 
   const clearSpeechTimers = () => {
     if (typeof window === "undefined") {
@@ -352,29 +341,9 @@ export function PageVoice() {
 
   if (!started) {
     return (
-      <div className="page-voice" role="region" aria-label="Welcome to PACE">
-        <div className="page-voice-inner">
-          <div className="page-voice-welcome">
-            <Volume2 aria-hidden className="page-voice-welcome-icon" />
-
-            <p className="page-voice-reply" aria-live="polite">
-              Welcome to PACE.
-            </p>
-
-            <p className="page-voice-hint">I'm here to help you enjoy your day, stay connected, and feel supported.</p>
-
-            <Button
-              variant="default"
-              size="xl"
-              className="pace-start-button"
-              onClick={startPace}
-              aria-label="Start PACE and hear welcome"
-            >
-              <Volume2 aria-hidden />
-              Start PACE
-            </Button>
-          </div>
-        </div>
+      <div style={{ padding: 40, background: "white", color: "black" }}>
+        <h1>PACE START SCREEN</h1>
+        <button onClick={startPace}>Start PACE</button>
       </div>
     );
   }
