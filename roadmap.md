@@ -26,3 +26,12 @@
 - [x] Add persisted Senior Mode accessibility settings.
 - [x] Add the isolated 60–90 second PACE Demo route.
 - [x] Verify the complete senior journey on desktop and mobile.
+
+## PACE Personalized Aging & Connection Experience
+
+- [ ] Replace Parkinson's positioning with the non-medical senior connection mission and new identity.
+- [ ] Build a one-question-at-a-time Senior Mode with Listen, Connect, Explore, Quiet, and voice input.
+- [ ] Add a polished no-sign-in Caregiver / Staff demo with sample residents, planning, handoffs, and connection insights.
+- [ ] Reframe saved activity, notes, preferences, feedback, and trusted-circle data around discovery and connection.
+- [ ] Update navigation, accessibility, metadata, logo, favicon, and every visible route to the new PACE meaning.
+- [ ] Verify senior and staff journeys on desktop and mobile, including browser-supported voice behavior.
