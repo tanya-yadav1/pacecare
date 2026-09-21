@@ -1,18 +1,25 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ChevronLeft } from "lucide-react";
+import { BookOpen, ChevronLeft, Flower2, Palette, Puzzle, Sparkles, Trees } from "lucide-react";
 import { useState } from "react";
-import { ActivityGuide } from "@/components/vitamove/ActivityGuide";
 import { Button } from "@/components/ui/button";
-import { mindActivities } from "@/lib/wellness-content";
-import { useLumaStrideWellness } from "@/lib/lumastride-wellness";
+import { ExperienceFeedback } from "@/components/pace/ExperienceFeedback";
 
 export const Route = createFileRoute("/mind-body")({ head: () => ({ meta: [
-  { title: "Mind & Body — PACE" }, { name: "description", content: "Gentle yoga, tai chi, stretching, breathing, meditation, relaxation, dance, and optional music." },
-  { property: "og:title", content: "Mind & Body — PACE" }, { property: "og:description", content: "Choose a gentle wellness activity that suits your ability." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
-] }), component: MindBody });
+  { title: "Explore — PACE" }, { name: "description", content: "Discover simple activities based on what feels interesting today." },
+  { property: "og:title", content: "Explore — PACE" }, { property: "og:description", content: "Meaningful, low-pressure activities for older adults." },
+  { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
+] }), component: Explore });
 
-function MindBody() {
-  const state = useLumaStrideWellness(); const [selected, setSelected] = useState<(typeof mindActivities)[number] | null>(null); const [option, setOption] = useState(""); const [start, setStart] = useState(false);
-  if (selected && start) return <div className="simple-page"><Button variant="link" className="simple-back" onClick={() => setStart(false)}><ChevronLeft/>Change activity</Button><ActivityGuide category={selected.name} title={`${option || selected.options[0]} ${selected.name}`} purpose={selected.purpose} minutes={state.availableMinutes} steps={[{ title: "Settle in", detail: "Choose a stable, comfortable position and take two easy breaths." }, { title: "Practice", detail: `Continue the ${selected.name.toLowerCase()} movement gently and within a comfortable range.` }, { title: "Complete", detail: "Slow down, notice how you feel, and return to your usual position." }]} musicLabel={["Dance", "Relaxation", "Yoga"].includes(selected.name) ? "Add Music 🎵" : undefined}/></div>;
-  return <div className="simple-page wide"><Link to="/" className="simple-back"><ChevronLeft/>Home</Link><p className="eyebrow">Wellness</p><h1>Choose what feels right today.</h1><p className="simple-lead">Yoga, tai chi, dance, stretching, breathing, meditation, relaxation, and optional music.</p><div className="activity-grid">{mindActivities.map((activity) => <Button key={activity.name} variant={selected?.name === activity.name ? "default" : "outline"} onClick={() => { setSelected(activity); setOption(activity.options[0]); }}><activity.Icon/><span><strong>{activity.name}</strong><small>{activity.purpose}</small></span></Button>)}</div>{selected && <section className="start-panel stacked"><p className="eyebrow">What</p><h2>{selected.name}</h2><p>{selected.purpose}</p><p className="eyebrow">Choose an option</p><div className="duration-row">{selected.options.map((item) => <Button key={item} variant={option === item ? "default" : "outline"} onClick={() => setOption(item)}>{item}</Button>)}</div><p className="safety-note"><strong>Choose a session appropriate for your ability.</strong> Use a stable chair or support when needed, and stop if you feel unwell.</p><Button size="xl" onClick={() => { state.setPreferredActivities([selected.name]); setStart(true); }}>Start</Button></section>}</div>;
+const ideas = [
+  { title: "Visit the garden", detail: "Fresh air and familiar flowers", Icon: Trees },
+  { title: "Paint a postcard", detail: "Choose colors for someone you love", Icon: Palette },
+  { title: "Try a word puzzle", detail: "A relaxed puzzle with a friend", Icon: Puzzle },
+  { title: "Share a favorite story", detail: "Record or tell a memory", Icon: BookOpen },
+  { title: "Arrange flowers", detail: "A gentle table activity", Icon: Flower2 },
+  { title: "Surprise me", detail: "PACE will offer one simple idea", Icon: Sparkles },
+];
+
+function Explore() {
+  const [selected, setSelected] = useState<(typeof ideas)[number] | null>(null);
+  return <div className="simple-page wide"><Link to="/" className="simple-back"><ChevronLeft/>Home</Link><p className="eyebrow">Explore</p><h1>Would you like something familiar or new?</h1><p className="simple-lead">There is no wrong choice. You can stop at any time.</p><div className="activity-grid">{ideas.map((idea) => <Button key={idea.title} variant={selected?.title === idea.title ? "default" : "outline"} onClick={() => setSelected(idea)}><idea.Icon/><span><strong>{idea.title}</strong><small>{idea.detail}</small></span></Button>)}</div>{selected && <section className="connection-confirm"><selected.Icon/><div><p className="eyebrow">A simple place to start</p><h2>{selected.title === "Surprise me" ? "Look through an old photo album" : selected.title}</h2><p>{selected.title === "Surprise me" ? "Choose one photo and tell someone what you remember." : selected.detail}</p></div><Button size="xl">Begin</Button></section>}{selected && <ExperienceFeedback choice="Explore" title={selected.title}/>}</div>;
 }

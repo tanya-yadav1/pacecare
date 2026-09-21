@@ -1,107 +1,23 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ChevronLeft, Coffee, MessageCircleHeart, Phone, Users, Video } from "lucide-react";
 import { useState } from "react";
-import { Flame, Send, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { AvatarFigure } from "@/components/vitamove/Brand";
-import { useVitaMove } from "@/lib/vitamove-state";
+import { ExperienceFeedback } from "@/components/pace/ExperienceFeedback";
 
-export const Route = createFileRoute("/community")({
-  head: () => ({
-    meta: [
-      { title: "Community Hub — PACE" },
-      { name: "description", content: "Leaderboard and supportive circles for the PACE Parkinson's community." },
-      { property: "og:title", content: "Community Hub — PACE" },
-      { property: "og:description", content: "Leaderboard and supportive circles for the PACE Parkinson's community." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
-  component: Community,
-});
+export const Route = createFileRoute("/community")({ head: () => ({ meta: [
+  { title: "Connect — PACE" }, { name: "description", content: "Choose a familiar person or a welcoming shared activity." },
+  { property: "og:title", content: "Connect — PACE" }, { property: "og:description", content: "Simple, senior-controlled ways to connect." },
+  { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
+] }), component: Connect });
 
-const leaders = [
-  { name: "Arthur_Stride7", skin: "leopard" as const, streak: 21, weekly: 340 },
-  { name: "Elena_BIGMove", skin: "holiday" as const, streak: 18, weekly: 305 },
-  { name: "Marcus_Steady", skin: "classic" as const, streak: 12, weekly: 260 },
-  { name: "Rosa_Rhythm", skin: "leopard" as const, streak: 9, weekly: 215 },
+const connections = [
+  { title: "Call Maya", detail: "Your daughter", Icon: Phone, action: "Calling Maya…" },
+  { title: "Video with family", detail: "Family group", Icon: Video, action: "Opening your family video call…" },
+  { title: "Garden listening circle", detail: "Today at 2:00", Icon: Users, action: "You’re interested in the garden listening circle." },
+  { title: "Coffee & stories", detail: "Today at 3:30", Icon: Coffee, action: "You’re interested in coffee and stories." },
 ];
 
-const seedPosts = [
-  { id: 1, author: "Elena_BIGMove", skin: "holiday" as const, text: "The LSVT BIG reaching exercise really helped open up my posture this morning!" },
-  { id: 2, author: "Arthur_Stride7", skin: "leopard" as const, text: "Twenty-one days of seated hand mobility. My handwriting is steadier already." },
-];
-
-function Community() {
-  const { awardCommunity, skin } = useVitaMove();
-  const [tab, setTab] = useState<"leaderboard" | "circles">("leaderboard");
-  const [posts, setPosts] = useState<{ id: number; author: string; skin: "classic" | "leopard" | "holiday"; text: string }[]>(seedPosts);
-  const [draft, setDraft] = useState("");
-
-  return (
-    <div className="page">
-      <span className="page-tag page-tag-treatment">Treatment</span>
-      <p className="eyebrow">Community Hub</p>
-      <h1>Move together, stay encouraged.</h1>
-
-      <div className="mt-6 flex flex-wrap gap-3">
-        <Button size="xl" variant={tab === "leaderboard" ? "default" : "outline"} onClick={() => setTab("leaderboard")}>Leaderboard</Button>
-        <Button size="xl" variant={tab === "circles" ? "default" : "outline"} onClick={() => setTab("circles")}>Circles</Button>
-      </div>
-
-      {tab === "leaderboard" ? (
-        <section className="mt-8 space-y-4">
-          <h2>This week's movers</h2>
-          {leaders.map((l, i) => (
-            <article key={l.name} className="feature-card flex flex-wrap items-center gap-4">
-              <span className="text-2xl font-extrabold text-primary">#{i + 1}</span>
-              <AvatarFigure skin={l.skin} className="h-16 w-16" />
-              <div className="flex-1">
-                <b className="block text-xl">{l.name}</b>
-                <span className="flex flex-wrap items-center gap-4 text-muted-foreground">
-                  <span className="flex items-center gap-1"><Flame className="text-destructive" aria-hidden /> {l.streak} day streak</span>
-                  <span className="flex items-center gap-1"><Star className="fill-accent text-accent-foreground" aria-hidden /> {l.weekly} stars this week</span>
-                </span>
-              </div>
-              <Button size="xl" variant="amber" onClick={() => awardCommunity(l.name)}>Send Encouragement</Button>
-            </article>
-          ))}
-        </section>
-      ) : (
-        <section className="mt-8 space-y-5">
-          <h2>Your circle</h2>
-          <form
-            className="feature-card flex flex-wrap gap-3"
-            onSubmit={(e) => {
-              e.preventDefault();
-              const text = draft.trim();
-              if (!text) return;
-              setPosts((p) => [{ id: Date.now(), author: "You", skin, text }, ...p]);
-              setDraft("");
-            }}
-          >
-            <label className="sr-only" htmlFor="circle-post">Share with your circle</label>
-            <input
-              id="circle-post"
-              value={draft}
-              onChange={(e) => setDraft(e.target.value)}
-              placeholder="Share how your movement went today..."
-              className="min-h-14 min-w-0 flex-1 rounded-md border-2 border-input px-4"
-            />
-            <Button size="xl" variant="amber" type="submit"><Send /> Post to Circle</Button>
-          </form>
-          <div className="space-y-4">
-            {posts.map((p) => (
-              <article key={p.id} className="feature-card flex animate-[slide-down_.3s_ease-out] gap-4">
-                <AvatarFigure skin={p.skin} className="h-14 w-14 shrink-0" />
-                <div>
-                  <b className="block text-xl">{p.author} posted:</b>
-                  <p className="text-muted-foreground">{p.text}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-      )}
-    </div>
-  );
+function Connect() {
+  const [selected, setSelected] = useState<(typeof connections)[number] | null>(null);
+  return <div className="simple-page wide"><Link to="/" className="simple-back"><ChevronLeft/>Home</Link><header className="simple-heading"><MessageCircleHeart className="simple-page-icon"/><div><p className="eyebrow">Connect</p><h1>Who would you like to be with?</h1><p>You are always in control of who PACE contacts.</p></div></header><div className="connection-grid">{connections.map((item) => <Button key={item.title} variant="outline" onClick={() => setSelected(item)}><item.Icon/><span><strong>{item.title}</strong><small>{item.detail}</small></span></Button>)}</div>{selected && <section className="connection-confirm" role="status"><selected.Icon/><div><p className="eyebrow">Your choice</p><h2>{selected.title}</h2><p>{selected.action}</p></div><Button size="xl" onClick={() => setSelected(null)}>Done</Button></section>}{selected && <ExperienceFeedback choice="Connect" title={selected.title}/>}</div>;
 }

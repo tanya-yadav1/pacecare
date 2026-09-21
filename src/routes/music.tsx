@@ -4,13 +4,14 @@ import { useMemo, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLumaStrideWellness, type MusicFavorite } from "@/lib/lumastride-wellness";
+import { ExperienceFeedback } from "@/components/pace/ExperienceFeedback";
 
 export const Route = createFileRoute("/music")({
   head: () => ({ meta: [
-    { title: "Optional Music — PACE" },
-    { name: "description", content: "Save music you enjoy and find songs close to your walking rhythm." },
-    { property: "og:title", content: "Optional Music — PACE" },
-    { property: "og:description", content: "Personalized music and rhythm support for movement practice." },
+      { title: "Listen — PACE" },
+      { name: "description", content: "Choose familiar music and save what you enjoy." },
+      { property: "og:title", content: "Listen — PACE" },
+      { property: "og:description", content: "A simple, familiar music experience for older adults." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },
   ] }), component: Music,
@@ -34,18 +35,14 @@ function Music() {
 
   return <div className="simple-page wide">
     <Link to="/" className="simple-back"><ChevronLeft /> Home</Link>
-    <header className="simple-heading"><Music2 className="simple-page-icon"/><div><h1>Optional Music</h1><p>Choose music you enjoy for movement or relaxation.</p></div></header>
+    <header className="simple-heading"><Music2 className="simple-page-icon"/><div><p className="eyebrow">Listen</p><h1>What would you like to hear?</h1><p>Choose something familiar, or try something new.</p></div></header>
     <section className="music-player" aria-label="Music controls"><p>{playing ? `Selected: ${playing}` : "Choose a song below"}</p><div className="activity-actions"><Button size="xl" disabled={!playing}><Play/>Play</Button><Button size="xl" variant="outline" disabled={!playing}><Pause/>Pause</Button><Button size="xl" variant="outline" disabled={!playing} onClick={() => setPlaying(null)}><Square/>Stop</Button></div></section>
     <section className="music-search">
       <h2>Find a song</h2><div className="search-box"><Search/><Input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Song, artist, or genre" aria-label="Search songs"/></div>
       <div className="song-list">{results.map((song) => <SongRow key={song.id} song={song} target={target} favorite={state.favoriteSongs.some((item) => item.id === song.id)} toggle={() => state.toggleSong(song)} choose={() => setPlaying(song.title)}/>)}</div>
     </section>
     <MusicGroup icon={<Heart/>} title="Favorite songs" songs={state.favoriteSongs}/>
-    <details className="advanced-rhythm"><summary>Advanced rhythm settings</summary><section className="music-settings" aria-label="Music preferences"><label>Music service or library<select value={state.musicService} onChange={(event) => state.setMusicService(event.target.value)}><option>None selected</option><option>Apple Music</option><option>Spotify</option><option>YouTube Music</option><option>My device library</option></select></label><p>Connections depend on services available on your device. PACE does not download or redistribute songs.</p></section><MusicGroup icon={<Music2/>} title="Songs near my chosen rhythm" songs={matching}/><section className="therapist-setting">
-      <h2>Rhythm set with a therapist</h2>
-      <p>A clinician or qualified therapist can set a personal practice rhythm. No single BPM is right for everyone.</p>
-      <div><Input inputMode="numeric" value={targetText} onChange={(event) => setTargetText(event.target.value)} placeholder="Steps per minute" aria-label="Therapist target rhythm"/><Button variant="outline" size="xl" onClick={() => { const value = Number(targetText); state.setTargetCadence(Number.isFinite(value) && value > 0 ? value : null); }}>Save rhythm</Button></div>
-    </section></details><p className="observation-note">Music is optional support for practice and enjoyment. It does not cure or treat Parkinson's.</p>
+    <details className="advanced-rhythm"><summary>Music library settings</summary><section className="music-settings" aria-label="Music preferences"><label>Music service or library<select value={state.musicService} onChange={(event) => state.setMusicService(event.target.value)}><option>None selected</option><option>Apple Music</option><option>Spotify</option><option>YouTube Music</option><option>My device library</option></select></label><p>Connections depend on services available on your device. PACE does not download or redistribute songs.</p></section></details>{playing && <ExperienceFeedback choice="Listen" title={playing}/>}<p className="observation-note">PACE remembers only the music you choose to save.</p>
   </div>;
 }
 
