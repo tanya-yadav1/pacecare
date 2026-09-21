@@ -1,6 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { understandPaceChoice } from "@/lib/pace-voice";
+import { primeSpeechForGesture, speakInstructions } from "@/lib/speech";
 
 type RecognitionLike = {
   lang: string;
@@ -51,17 +52,53 @@ export function useSeniorVoice(options: {
   onChoiceRef.current = options.onChoice;
 
   const speak = useCallback((text: string) => {
-    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-    const Utterance = window.SpeechSynthesisUtterance;
-    if (!Utterance) return;
+    if (typeof window === "undefined") return;
+    setSpeaking(true);
+
+    // If the device voice cannot be used (or never actually starts), fall back
+    // to PACE's own generated voice so the senior always hears something.
+    const fallback = () => {
+      primeSpeechForGesture();
+      void speakInstructions(text)
+        .then(() => setSpeaking(false))
+        .catch(() => setSpeaking(false));
+    };
+
+    const Utterance = "speechSynthesis" in window ? window.SpeechSynthesisUtterance : undefined;
+    if (!Utterance) {
+      fallback();
+      return;
+    }
+
     window.speechSynthesis.cancel();
     const message = new Utterance(text);
     message.rate = 0.78;
     message.pitch = 1;
     message.volume = 1;
-    message.onend = () => setSpeaking(false);
-    message.onerror = () => setSpeaking(false);
-    setSpeaking(true);
+    let startedSpeaking = false;
+    const guard = window.setTimeout(() => {
+      if (startedSpeaking) return;
+      try {
+        window.speechSynthesis.cancel();
+      } catch {
+        // nothing to cancel
+      }
+      fallback();
+    }, 1200);
+    const finish = () => {
+      window.clearTimeout(guard);
+      setSpeaking(false);
+    };
+    message.onstart = () => {
+      startedSpeaking = true;
+      window.clearTimeout(guard);
+    };
+    message.onend = finish;
+    message.onerror = () => {
+      window.clearTimeout(guard);
+      if (!startedSpeaking) fallback();
+      else setSpeaking(false);
+    };
     window.speechSynthesis.speak(message);
   }, []);
 
