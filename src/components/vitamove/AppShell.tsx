@@ -70,12 +70,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 <Accessibility />
               </Link>
             </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              asChild
-              onClick={() => setMode(isStaff ? "senior" : "staff")}
-            >
+            <Button variant="outline" size="lg" asChild onClick={() => setMode(isStaff ? "senior" : "staff")}>
               <Link to={isStaff ? "/" : "/staff"}>
                 {isStaff ? <Home /> : <UsersRound />}
                 <span className="hidden sm:inline">{isStaff ? "Senior Mode" : "Staff Mode"}</span>
@@ -95,12 +90,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         {mobile && (
           <nav className="mobile-simple-nav" aria-label="PACE mobile navigation">
             {links.map(([to, label]) => (
-              <Link
-                key={to}
-                to={to}
-                onClick={() => setMobile(false)}
-                className={path === to ? "nav-link-active" : ""}
-              >
+              <Link key={to} to={to} onClick={() => setMobile(false)} className={path === to ? "nav-link-active" : ""}>
                 {label}
               </Link>
             ))}
@@ -112,10 +102,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         )}
       </header>
       <main className="pace-main">{children}</main>
-      {{!isDemo && <PageVoice />}}
+      {!isDemo && <PageVoice />}
       <footer className="pace-disclaimer">
-        PACE supports personal choice and connection. It does not diagnose, cure, or treat any
-        medical or mental-health condition.
+        PACE supports personal choice and connection. It does not diagnose, cure, or treat any medical or mental-health
+        condition.
       </footer>
     </div>
   );
