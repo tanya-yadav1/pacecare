@@ -1688,6 +1688,42 @@ html.reduce-motion *::after {
   .now-playing {
     font-size: 1.3rem;
     font-weight: 700;
+    display: grid;
+    gap: 0.75rem;
+    border: 2px solid var(--color-border);
+    border-radius: 1rem;
+    background: var(--color-surface);
+    padding: 1.25rem;
+  }
+  .music-block {
+    display: grid;
+    gap: 1rem;
+    border: 2px solid var(--color-border);
+    border-radius: 1rem;
+    background: var(--color-surface);
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .music-block h2 {
+    font-size: 1.9rem;
+    font-weight: 800;
+  }
+  .music-block p {
+    font-size: 1.25rem;
+  }
+  .music-choice-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  }
+  .music-big-card {
+    min-height: 5.5rem;
+    font-size: 1.5rem;
+  }
+  .sing-along .lyrics {
+    white-space: pre-wrap;
+    font-family: inherit;
+    line-height: 1.5;
   }
   .mic-button {
     width: 9rem;

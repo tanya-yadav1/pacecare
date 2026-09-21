@@ -62,3 +62,4 @@
 - [x] Front page shows the PACE logo with a bigger, bold title.
 
 - [x] Click-by-click QA pass of every page; fix every problem found
+- [x] Fix Talk to PACE staying disabled on the home page

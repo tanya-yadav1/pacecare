@@ -14,6 +14,77 @@ export type Database = {
   }
   public: {
     Tables: {
+      music_items: {
+        Row: {
+          artist: string | null
+          audio_url: string | null
+          created_at: string
+          decade: string | null
+          genre: string | null
+          id: string
+          lyrics: string | null
+          source_type: string
+          title: string
+          year: number | null
+        }
+        Insert: {
+          artist?: string | null
+          audio_url?: string | null
+          created_at?: string
+          decade?: string | null
+          genre?: string | null
+          id?: string
+          lyrics?: string | null
+          source_type: string
+          title: string
+          year?: number | null
+        }
+        Update: {
+          artist?: string | null
+          audio_url?: string | null
+          created_at?: string
+          decade?: string | null
+          genre?: string | null
+          id?: string
+          lyrics?: string | null
+          source_type?: string
+          title?: string
+          year?: number | null
+        }
+        Relationships: []
+      }
+      music_plays: {
+        Row: {
+          action: string
+          created_at: string
+          id: string
+          music_item_id: string | null
+          user_id: string
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          id?: string
+          music_item_id?: string | null
+          user_id: string
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          id?: string
+          music_item_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "music_plays_music_item_id_fkey"
+            columns: ["music_item_id"]
+            isOneToOne: false
+            referencedRelation: "music_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       pace_creations: {
         Row: {
           content: string
@@ -86,33 +157,42 @@ export type Database = {
       profiles: {
         Row: {
           accessibility: Json
+          birth_year: number | null
           created_at: string
           display_name: string
           email: string | null
+          favorite_genres: string[]
           greeting_name: string
           id: string
+          music_decade: string | null
           preferences: Json
           staff_notes: string | null
           updated_at: string
         }
         Insert: {
           accessibility?: Json
+          birth_year?: number | null
           created_at?: string
           display_name?: string
           email?: string | null
+          favorite_genres?: string[]
           greeting_name?: string
           id: string
+          music_decade?: string | null
           preferences?: Json
           staff_notes?: string | null
           updated_at?: string
         }
         Update: {
           accessibility?: Json
+          birth_year?: number | null
           created_at?: string
           display_name?: string
           email?: string | null
+          favorite_genres?: string[]
           greeting_name?: string
           id?: string
+          music_decade?: string | null
           preferences?: Json
           staff_notes?: string | null
           updated_at?: string
