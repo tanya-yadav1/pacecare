@@ -1,4 +1,5 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { ArrowLeft, BriefcaseBusiness, MonitorPlay, ShieldCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Brand } from "@/components/vitamove/Brand";
 import { Button } from "@/components/ui/button";
@@ -153,19 +154,34 @@ function StaffSignIn() {
   }
 
   return (
-    <div className="simple-page auth-page">
-      <div className="auth-brand">
+    <div className="welcome-page staff-welcome-page">
+      <header className="welcome-masthead">
         <Brand />
-      </div>
-      <p className="eyebrow">Caregiver &amp; Staff</p>
-      <h1 className="auth-title">{mode === "in" ? "Staff sign in" : "Create a staff account"}</h1>
-      <p className="simple-lead">
-        Staff accounts see only the residents assigned to them. All resident content in this
-        demonstration is fictional.
-      </p>
+        <h1 className="auth-title">Staff access</h1>
+        <p>Resident support, requests, and meaningful moments.</p>
+      </header>
+
+      <main className="welcome-content">
+        <Button className="staff-demo-entry" size="xl" disabled={busy} onClick={() => void demoStaff()}>
+          <MonitorPlay />
+          <span>
+            <strong>Open staff demo</strong>
+            <small>Fictional residents and sample activity</small>
+          </span>
+          <span className="staff-demo-pin">PIN 4321</span>
+        </Button>
+
+        <div className="welcome-divider"><span>Staff account</span></div>
+        <div className="staff-signin-heading">
+          <BriefcaseBusiness aria-hidden />
+          <div>
+            <h2>{mode === "in" ? "Sign in securely" : "Create a staff account"}</h2>
+            <p>Only assigned residents are shown after sign-in.</p>
+          </div>
+        </div>
 
       <form
-        className="auth-form"
+        className="auth-form welcome-signin"
         onSubmit={(event) => {
           event.preventDefault();
           void submit();
@@ -212,23 +228,19 @@ function StaffSignIn() {
         </p>
       )}
 
-      <Button size="xl" variant="outline" onClick={() => setMode(mode === "in" ? "up" : "in")}>
+      <Button className="welcome-switch" size="xl" variant="outline" onClick={() => setMode(mode === "in" ? "up" : "in")}> 
         {mode === "in" ? "Create a staff account" : "I already have an account"}
       </Button>
 
-      <Button size="xl" variant="outline" disabled={busy} onClick={() => void demoStaff()}>
-        Try the demo staff account
+      <p className="welcome-privacy">
+        <ShieldCheck aria-hidden />
+        <span><strong>Private staff access.</strong> PACE shows only the residents assigned to your account.</span>
+      </p>
+
+      <Button className="back-to-senior" size="xl" variant="ghost" asChild>
+        <Link to="/auth"><ArrowLeft /> Back to senior welcome</Link>
       </Button>
-
-      <p className="simple-note">
-        <strong>Your privacy:</strong> PACE stores only your name, email, choices and notes so the
-        care team can support residents. It is never sold or shared outside your care team, and any
-        account can be deleted at any time.
-      </p>
-
-      <p className="simple-note">
-        Signing in for yourself or a loved one? <a href="/auth">Go to the simple sign in</a>
-      </p>
+      </main>
     </div>
   );
 }
