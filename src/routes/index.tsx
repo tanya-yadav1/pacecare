@@ -197,6 +197,7 @@ function SeniorHome() {
           size="xl"
           variant="amber"
           onClick={() => {
+            primeSpeechForGesture();
             if (supported) {
               setListening(true);
               setHeard("");
@@ -213,6 +214,7 @@ function SeniorHome() {
         className="voice-fallback"
         onSubmit={(event) => {
           event.preventDefault();
+          primeSpeechForGesture();
           handleWords(typed);
           setTyped("");
         }}
