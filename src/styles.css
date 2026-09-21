@@ -1517,8 +1517,8 @@ html.reduce-motion *::after {
   background: transparent;
 }
 .welcome-logo {
-  width: 2.75rem;
-  height: 2.75rem;
+  width: 4.5rem;
+  height: 4.5rem;
   flex: 0 0 auto;
   object-fit: contain;
 }
@@ -1526,22 +1526,22 @@ html.reduce-motion *::after {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.1rem;
+  gap: 0.15rem;
 }
 .welcome-brand-title {
-  font-size: clamp(1.25rem, 2.8vw, 1.65rem);
+  font-size: clamp(1.5rem, 3.4vw, 2rem);
   font-weight: 800;
   letter-spacing: 0.04em;
   line-height: 1;
   margin: 0;
 }
 .welcome-brand-subtitle {
-  font-size: clamp(0.6rem, 1.2vw, 0.75rem);
+  font-size: clamp(0.7rem, 1.5vw, 0.85rem);
   font-weight: 500;
   color: var(--muted-foreground);
   margin: 0;
   line-height: 1.2;
-  max-width: 14rem;
+  max-width: 16rem;
 }
 .welcome-page-title {
   text-align: center;
@@ -1741,15 +1741,15 @@ html.reduce-motion *::after {
     gap: 0.55rem;
   }
   .welcome-logo {
-    width: 2.25rem;
-    height: 2.25rem;
+    width: 3.5rem;
+    height: 3.5rem;
   }
   .welcome-brand-title {
-    font-size: 1.1rem;
+    font-size: 1.35rem;
   }
   .welcome-brand-subtitle {
-    font-size: 0.55rem;
-    max-width: 11rem;
+    font-size: 0.65rem;
+    max-width: 12rem;
   }
   .welcome-page-title {
     font-size: 1.55rem;
