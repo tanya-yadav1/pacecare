@@ -185,7 +185,7 @@ function Music() {
           </p>
         </section>
       </details>
-      {playing && <ExperienceFeedback choice="Listen" title={playing} />}
+      {selected && <ExperienceFeedback choice="Listen" title={selected.title} />}
       <p className="observation-note">PACE remembers only the music you choose to save.</p>
     </div>
   );
