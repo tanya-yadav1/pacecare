@@ -126,7 +126,7 @@ const [started, setStarted] = useState(false);
   webkitSpeechRecognition?: RecognitionConstructor;
   };
 
-```
+ 
 const Recognition =
 ```
 
