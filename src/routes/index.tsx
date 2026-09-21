@@ -76,9 +76,9 @@ function SeniorHome() {
   });
 
   useEffect(() => {
-    if (loading || !session || preferences.onboarded) return;
+    if (loading || !session || !profile || preferences.onboarded) return;
     void navigate({ to: "/onboarding", replace: true });
-  }, [loading, session, preferences.onboarded, navigate]);
+  }, [loading, session, profile, preferences.onboarded, navigate]);
 
   useEffect(() => {
     if (!user?.id) return;
