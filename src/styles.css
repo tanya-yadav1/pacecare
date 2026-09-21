@@ -801,6 +801,12 @@
   .mobile-menu-button {
     @apply lg:hidden;
   }
+  @media (min-width: 1024px) {
+    .mobile-menu-button,
+    .mobile-simple-nav {
+      display: none !important;
+    }
+  }
   .pace-main {
     @apply pt-20 pb-36;
   }
