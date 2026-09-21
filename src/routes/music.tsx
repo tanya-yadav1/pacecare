@@ -104,7 +104,10 @@ function Music() {
             onClick={() => {
               if (!selected) return;
               setIsPlaying(true);
-              void playSong(selected.id, selected.bpm ?? 80).catch(() => setIsPlaying(false));
+              void (isPlaying ? Promise.resolve() : currentSongId() === selected.id
+                ? resumeSong()
+                : playSong(selected.id, selected.bpm ?? 80)
+              ).catch(() => setIsPlaying(false));
             }}
           >
             <Play />
@@ -113,7 +116,7 @@ function Music() {
           <Button
             size="xl"
             variant="outline"
-            disabled={!selected || !isPlaying}
+            disabled={!isPlaying}
             onClick={() => {
               setIsPlaying(false);
               void pauseSong();
@@ -125,7 +128,7 @@ function Music() {
           <Button
             size="xl"
             variant="outline"
-            disabled={!selected}
+            disabled={!musicActive && !isPlaying}
             onClick={() => {
               stopSong();
               setIsPlaying(false);
