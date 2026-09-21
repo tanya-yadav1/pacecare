@@ -36,3 +36,6 @@
 - [x] Update navigation, accessibility, metadata, logo, favicon, and every visible route to the new PACE meaning.
 - [x] Verify senior and staff journeys on desktop and mobile, including browser-supported voice behavior.
 - [x] Add audio prompts and spoken feedback on every screen so the app talks and listens throughout.
+
+- [x] Music Choose/Play produces sound (WebAudio melodies, Play/Pause/Stop verified)
+- [x] Family video call now opens a sample call screen (ringing, connected, end call)

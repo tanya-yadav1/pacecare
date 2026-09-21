@@ -4,6 +4,7 @@ import { useMemo, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLumaStrideWellness, type MusicFavorite } from "@/lib/lumastride-wellness";
+import { pauseSong, playSong, stopSong } from "@/lib/music-player";
 import { ExperienceFeedback } from "@/components/pace/ExperienceFeedback";
 
 export const Route = createFileRoute("/music")({
@@ -62,6 +63,8 @@ function Music() {
   const state = useLumaStrideWellness();
   const [query, setQuery] = useState("");
   const [playing, setPlaying] = useState<string | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const selected = catalog.find((song) => song.id === playing) ?? null;
   const target = state.targetCadence ?? state.cadence;
   const results = useMemo(
     () =>
@@ -85,17 +88,44 @@ function Music() {
         </div>
       </header>
       <section className="music-player" aria-label="Music controls">
-        <p>{playing ? `Selected: ${playing}` : "Choose a song below"}</p>
+        <p aria-live="polite">
+          {selected ? `${isPlaying ? "Now playing" : "Selected"}: ${selected.title}` : "Choose a song below"}
+        </p>
         <div className="activity-actions">
-          <Button size="xl" disabled={!playing}>
+          <Button
+            size="xl"
+            disabled={!selected}
+            onClick={() => {
+              if (!selected) return;
+              setIsPlaying(true);
+              void playSong(selected.id, selected.bpm ?? 80).catch(() => setIsPlaying(false));
+            }}
+          >
             <Play />
             Play
           </Button>
-          <Button size="xl" variant="outline" disabled={!playing}>
+          <Button
+            size="xl"
+            variant="outline"
+            disabled={!selected || !isPlaying}
+            onClick={() => {
+              setIsPlaying(false);
+              void pauseSong();
+            }}
+          >
             <Pause />
             Pause
           </Button>
-          <Button size="xl" variant="outline" disabled={!playing} onClick={() => setPlaying(null)}>
+          <Button
+            size="xl"
+            variant="outline"
+            disabled={!selected}
+            onClick={() => {
+              stopSong();
+              setIsPlaying(false);
+              setPlaying(null);
+            }}
+          >
             <Square />
             Stop
           </Button>
@@ -120,7 +150,14 @@ function Music() {
               target={target}
               favorite={state.favoriteSongs.some((item) => item.id === song.id)}
               toggle={() => state.toggleSong(song)}
-              choose={() => setPlaying(song.title)}
+              choose={() => {
+                stopSong();
+                setIsPlaying(false);
+                setPlaying(song.id);
+                void playSong(song.id, song.bpm ?? 80)
+                  .then(() => setIsPlaying(true))
+                  .catch(() => {});
+              }}
             />
           ))}
         </div>
@@ -148,7 +185,7 @@ function Music() {
           </p>
         </section>
       </details>
-      {playing && <ExperienceFeedback choice="Listen" title={playing} />}
+      {selected && <ExperienceFeedback choice="Listen" title={selected.title} />}
       <p className="observation-note">PACE remembers only the music you choose to save.</p>
     </div>
   );

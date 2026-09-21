@@ -12,7 +12,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useLumaStrideWellness } from "@/lib/lumastride-wellness";
 import { understandPaceChoice } from "@/lib/pace-voice";
-import { speakInstructions } from "@/lib/speech";
+import { onSpeechBlocked, primeSpeechForGesture, speakInstructions } from "@/lib/speech";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -79,6 +79,9 @@ function SeniorHome() {
   const [typed, setTyped] = useState("");
   const [supported, setSupported] = useState(false);
   const [welcoming, setWelcoming] = useState(false);
+  const [blocked, setBlocked] = useState(false);
+
+  useEffect(() => onSpeechBlocked(setBlocked), []);
 
   useEffect(() => {
     if (!accessibility.voiceInstructions) return;
@@ -89,6 +92,7 @@ function SeniorHome() {
   }, [accessibility.voiceInstructions, name]);
 
   const hearWelcome = async () => {
+    primeSpeechForGesture();
     setWelcoming(true);
     try {
       await speakInstructions(`Good morning, ${name}. What would you like right now?`);
@@ -141,6 +145,11 @@ function SeniorHome() {
             Good morning, {name} <span aria-hidden>♥</span>
           </p>
           <h1>What would you like right now?</h1>
+          {blocked && (
+            <p className="pace-reply" role="status">
+              Tap anywhere on the screen to let PACE speak, then tap “Hear welcome.”
+            </p>
+          )}
         </div>
         <div className="home-tools">
           <Button variant="ghost" size="iconLg" asChild>
@@ -196,6 +205,7 @@ function SeniorHome() {
           size="xl"
           variant="amber"
           onClick={() => {
+            primeSpeechForGesture();
             if (supported) {
               setListening(true);
               setHeard("");
@@ -212,6 +222,7 @@ function SeniorHome() {
         className="voice-fallback"
         onSubmit={(event) => {
           event.preventDefault();
+          primeSpeechForGesture();
           handleWords(typed);
           setTyped("");
         }}
