@@ -191,6 +191,10 @@ function StaffSignIn() {
         {mode === "in" ? "Create a staff account" : "I already have an account"}
       </Button>
 
+      <Button size="xl" variant="outline" disabled={busy} onClick={() => void demoStaff()}>
+        Try the demo staff account
+      </Button>
+
       <p className="simple-note">
         <strong>Your privacy:</strong> PACE stores only your name, email, choices and notes so the
         care team can support residents. It is never sold or shared outside your care team, and any
