@@ -112,7 +112,7 @@ export function PageVoice() {
   const [heard, setHeard] = useState("");
   const [reply, setReply] = useState("");
   const [supported, setSupported] = useState(false);
-  const [started, setStarted] = useState(true);
+  const [started, setStarted] = useState(false);
 
   const clearSpeechTimers = () => {
     if (typeof window === "undefined") {
