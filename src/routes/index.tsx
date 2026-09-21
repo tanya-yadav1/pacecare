@@ -94,19 +94,6 @@ function SeniorHome() {
     };
   }, [accessibility.voiceInstructions, name]);
 
-  const hearWelcome = async () => {
-    setWelcoming(true);
-    try {
-      const text = `Good morning, ${name}. What would you like right now? Listen, Connect, Explore, or Quiet.`;
-      if (!speakImmediatelyOnGesture(text)) {
-        primeSpeechForGesture();
-        await speakInstructions(text);
-      }
-    } finally {
-      setWelcoming(false);
-    }
-  };
-
   useEffect(() => {
     const scope = window as typeof window & {
       SpeechRecognition?: RecognitionConstructor;
