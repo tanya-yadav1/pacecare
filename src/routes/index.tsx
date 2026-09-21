@@ -111,9 +111,6 @@ function SeniorHome() {
       setWelcoming(false);
     }
   };
-  useEffect(() => {
-    void hearWelcome();
-  }, []);
 
   useEffect(() => {
     const scope = window as typeof window & {
