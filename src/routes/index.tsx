@@ -140,7 +140,12 @@ function SeniorHome() {
               <Settings />
             </Link>
           </Button>
-          <Button variant="outline" size="lg" onClick={() => void hearWelcome()} disabled={welcoming}>
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={() => void hearWelcome()}
+            disabled={welcoming}
+          >
             <Mic />
             {welcoming ? "Speaking…" : "Hear welcome"}
           </Button>
