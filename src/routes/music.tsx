@@ -1,10 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronLeft, Heart, Music2, Pause, Play, Search, Square } from "lucide-react";
-import { useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLumaStrideWellness, type MusicFavorite } from "@/lib/lumastride-wellness";
-import { pauseSong, playSong, stopSong } from "@/lib/music-player";
+import { currentSongId, pauseSong, playSong, resumeSong, stopSong } from "@/lib/music-player";
 import { ExperienceFeedback } from "@/components/pace/ExperienceFeedback";
 
 export const Route = createFileRoute("/music")({
@@ -62,9 +62,15 @@ const catalog: MusicFavorite[] = [
 function Music() {
   const state = useLumaStrideWellness();
   const [query, setQuery] = useState("");
-  const [playing, setPlaying] = useState<string | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [playing, setPlaying] = useState<string | null>(() => currentSongId());
+  const [isPlaying, setIsPlaying] = useState(() => currentSongId() !== null);
   const selected = catalog.find((song) => song.id === playing) ?? null;
+  const musicActive = selected !== null || currentSongId() !== null;
+
+  useEffect(() => {
+    // Stop the music when leaving this page so nothing keeps playing elsewhere.
+    return () => stopSong();
+  }, []);
   const target = state.targetCadence ?? state.cadence;
   const results = useMemo(
     () =>
@@ -98,7 +104,10 @@ function Music() {
             onClick={() => {
               if (!selected) return;
               setIsPlaying(true);
-              void playSong(selected.id, selected.bpm ?? 80).catch(() => setIsPlaying(false));
+              void (isPlaying ? Promise.resolve() : currentSongId() === selected.id
+                ? resumeSong()
+                : playSong(selected.id, selected.bpm ?? 80)
+              ).catch(() => setIsPlaying(false));
             }}
           >
             <Play />
@@ -107,7 +116,7 @@ function Music() {
           <Button
             size="xl"
             variant="outline"
-            disabled={!selected || !isPlaying}
+            disabled={!isPlaying}
             onClick={() => {
               setIsPlaying(false);
               void pauseSong();
@@ -119,7 +128,7 @@ function Music() {
           <Button
             size="xl"
             variant="outline"
-            disabled={!selected}
+            disabled={!musicActive && !isPlaying}
             onClick={() => {
               stopSong();
               setIsPlaying(false);

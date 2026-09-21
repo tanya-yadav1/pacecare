@@ -83,12 +83,35 @@ function SeniorHome() {
 
   useEffect(() => onSpeechBlocked(setBlocked), []);
 
+  const greetedRef = useRef(false);
   useEffect(() => {
     if (!accessibility.voiceInstructions) return;
-    const timer = window.setTimeout(() => {
-      void speakInstructions(`Good morning, ${name}. What would you like right now?`).catch(() => {});
-    }, 900);
-    return () => window.clearTimeout(timer);
+    const text = `Good morning, ${name}. What would you like right now?`;
+    const greet = () => {
+      if (greetedRef.current) return;
+      greetedRef.current = true;
+      void speakInstructions(text).catch(() => {
+        greetedRef.current = false;
+      });
+    };
+    // Try automatically shortly after the page opens…
+    const timer = window.setTimeout(greet, 900);
+    // …and also on the very first tap anywhere, unlocking sound inside the
+    // gesture so the greeting can always play, whatever order things happen in.
+    const onFirstGesture = () => {
+      window.clearTimeout(timer);
+      primeSpeechForGesture();
+      greet();
+    };
+    window.addEventListener("pointerdown", onFirstGesture, { once: true });
+    window.addEventListener("keydown", onFirstGesture, { once: true });
+    window.addEventListener("touchstart", onFirstGesture, { once: true });
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("pointerdown", onFirstGesture);
+      window.removeEventListener("keydown", onFirstGesture);
+      window.removeEventListener("touchstart", onFirstGesture);
+    };
   }, [accessibility.voiceInstructions, name]);
 
   const hearWelcome = async () => {

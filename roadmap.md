@@ -39,3 +39,5 @@
 
 - [x] Music Choose/Play produces sound (WebAudio melodies, Play/Pause/Stop verified)
 - [x] Family video call now opens a sample call screen (ringing, connected, end call)
+- [x] Home screen greets aloud on the first tap anywhere (unlock happens inside the tap gesture).
+- [x] Music Stop button works and music stops when leaving the Listen page.
