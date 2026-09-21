@@ -200,8 +200,14 @@ export const signInWithPin = createServerFn({ method: "POST" })
     z.object({ email: emailSchema.optional().or(z.literal("")), pin: pinSchema }).parse(input),
   )
   .handler(async ({ data }) => {
-    const email = (data.email?.trim() ? data.email : DEMO_EMAIL).toLowerCase();
-    if (email === DEMO_EMAIL && data.pin === DEMO_PIN) await ensureDemoResident();
+    // With no email typed, a demo PIN opens that fictional resident's account.
+    const byPin = DEMO_RESIDENTS.find((person) => person.pin === data.pin);
+    const typed = data.email?.trim().toLowerCase();
+    const email = (typed || byPin?.email || DEMO_EMAIL).toLowerCase();
+    const demoPerson = DEMO_RESIDENTS.find(
+      (person) => person.email === email && person.pin === data.pin,
+    );
+    if (demoPerson) await ensureDemoPerson(demoPerson);
     if (tooManyAttempts(email)) {
       return { ok: false as const, message: "Too many tries. Please wait a few minutes." };
     }
