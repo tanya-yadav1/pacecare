@@ -298,11 +298,13 @@ export function PageVoice() {
   const startPace = () => {
     console.log("START PACE CLICKED");
 
+    const message = introFor(path, name);
+
     setStarted(true);
-    setReply("PACE has started.");
+    setReply("");
     setHeard("");
 
-    console.log("STARTED SET TO TRUE");
+    speak(message);
   };
   const startListening = () => {
     if (!supported || !recognition.current) {
