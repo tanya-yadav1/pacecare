@@ -7,6 +7,7 @@ import { understandPaceChoice } from "@/lib/pace-voice";
 import {
   onSpeechBlocked,
   primeSpeechForGesture,
+  speakImmediatelyOnGesture,
   speakInstructions,
 } from "@/lib/speech";
 
@@ -87,11 +88,11 @@ export function PageVoice() {
   const [started, setStarted] = useState(false);
 
   /*
-   * Keep the existing speech-blocked listener.
+   * Listen for browser speech-block events.
    */
   useEffect(() => {
     const cleanup = onSpeechBlocked(() => {
-      // Speech is started by the user's button tap.
+      // The Start PACE button provides the required user gesture.
     });
 
     return cleanup;
@@ -107,7 +108,8 @@ export function PageVoice() {
     };
 
     const Recognition =
-      scope.SpeechRecognition ?? scope.webkitSpeechRecognition;
+      scope.SpeechRecognition ??
+      scope.webkitSpeechRecognition;
 
     if (!Recognition) {
       setSupported(false);
@@ -150,5 +152,66 @@ export function PageVoice() {
   }, []);
 
   /*
-   * Existing PACE speec*
+   * Use the existing PACE generated speech system.
+   */
+  const speak = async (text: string) => {
+    setSpeaking(true);
+
+    try {
+      await speakInstructions(text);
+    } catch {
+      // Speech failure should not prevent the rest of the app from working.
+    } finally {
+      setSpeaking(false);
+    }
+  };
+
+  /*
+   * Start PACE.
+   *
+   * IMPORTANT:
+   * speakImmediatelyOnGesture() is called directly from the
+   * button interaction so the browser recognizes this as
+   * user-initiated speech.
+   */
+  const startPace = () => {
+    const message = introFor(path, name);
+
+    setStarted(true);
+    setReply("");
+    setHeard("");
+
+    const spoke = speakImmediatelyOnGesture(message);
+
+    /*
+     * If native browser speech is unavailable,
+     * fall back to the existing generated PACE voice.
+     */
+    if (!spoke) {
+      primeSpeechForGesture();
+      void speak(message);
+    }
+  };
+
+  /*
+   * Start listening to the senior.
+   */
+  const startListening = () => {
+    primeSpeechForGesture();
+
+    if (!supported) {
+      const message =
+        "Voice listening isn't available on this device. You can choose an option on the screen instead.";
+
+      setReply(message);
+      void speak(message);
+
+      return;
+    }
+
+    if (listening || speaking) {
+      return;
+    }
+
+    setListeni
 ```

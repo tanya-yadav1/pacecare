@@ -52,11 +52,23 @@ function ensurePlayer() {
 function buildWavUrl(pcm: Uint8Array) {
   const wav = new ArrayBuffer(44 + pcm.length);
   const view = new DataView(wav);
-  const write = (at: number, value: string) => { for (let index = 0; index < value.length; index += 1) view.setUint8(at + index, value.charCodeAt(index)); };
-  write(0, "RIFF"); view.setUint32(4, 36 + pcm.length, true); write(8, "WAVE"); write(12, "fmt ");
-  view.setUint32(16, 16, true); view.setUint16(20, 1, true); view.setUint16(22, 1, true);
-  view.setUint32(24, 24000, true); view.setUint32(28, 48000, true); view.setUint16(32, 2, true); view.setUint16(34, 16, true);
-  write(36, "data"); view.setUint32(40, pcm.length, true); new Uint8Array(wav, 44).set(pcm);
+  const write = (at: number, value: string) => {
+    for (let index = 0; index < value.length; index += 1) view.setUint8(at + index, value.charCodeAt(index));
+  };
+  write(0, "RIFF");
+  view.setUint32(4, 36 + pcm.length, true);
+  write(8, "WAVE");
+  write(12, "fmt ");
+  view.setUint32(16, 16, true);
+  view.setUint16(20, 1, true);
+  view.setUint16(22, 1, true);
+  view.setUint32(24, 24000, true);
+  view.setUint32(28, 48000, true);
+  view.setUint16(32, 2, true);
+  view.setUint16(34, 16, true);
+  write(36, "data");
+  view.setUint32(40, pcm.length, true);
+  new Uint8Array(wav, 44).set(pcm);
   return URL.createObjectURL(new Blob([wav], { type: "audio/wav" }));
 }
 
@@ -68,11 +80,14 @@ export function primeSpeechForGesture() {
   const url = buildWavUrl(new Uint8Array(480));
   audio.src = url;
   audio.volume = 0.01;
-  void audio.play().then(() => {
-    unlocked = true;
-    setBlocked(false);
-    URL.revokeObjectURL(url);
-  }).catch(() => {});
+  void audio
+    .play()
+    .then(() => {
+      unlocked = true;
+      setBlocked(false);
+      URL.revokeObjectURL(url);
+    })
+    .catch(() => {});
 }
 
 // Use the device voice synchronously during a tap. This avoids the browser
@@ -112,7 +127,7 @@ export async function speakInstructions(text: string) {
     body: JSON.stringify({ text }),
   });
   if (!response.ok || !response.body) {
-    const payload = await response.json().catch(() => null) as { message?: string } | null;
+    const payload = (await response.json().catch(() => null)) as { message?: string } | null;
     throw new Error(payload?.message ?? "Spoken instructions are unavailable right now.");
   }
 
@@ -125,7 +140,11 @@ export async function speakInstructions(text: string) {
     const events = remainder.split("\n\n");
     remainder = events.pop() ?? "";
     for (const event of events) {
-      const data = event.split("\n").find((line) => line.startsWith("data:"))?.slice(5).trim();
+      const data = event
+        .split("\n")
+        .find((line) => line.startsWith("data:"))
+        ?.slice(5)
+        .trim();
       if (!data) continue;
       const payload = JSON.parse(data) as SpeechEvent;
       if (payload.type === "speech.audio.delta" && payload.audio) audioParts.push(decodeBase64(payload.audio));
@@ -137,7 +156,10 @@ export async function speakInstructions(text: string) {
   const byteLength = audioParts.reduce((total, part) => total + part.length, 0);
   const pcm = new Uint8Array(byteLength);
   let offset = 0;
-  for (const part of audioParts) { pcm.set(part, offset); offset += part.length; }
+  for (const part of audioParts) {
+    pcm.set(part, offset);
+    offset += part.length;
+  }
   const url = buildWavUrl(pcm);
   audio.src = url;
   audio.volume = 1;
