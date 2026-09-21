@@ -1735,19 +1735,21 @@ html.reduce-motion *::after {
     padding-top: 0;
   }
   .welcome-masthead {
-    padding-top: 0.5rem;
-    gap: 0.6rem;
+    padding: 0.35rem 1rem;
+    margin: 0 -1rem 0.6rem;
+    width: calc(100% + 2rem);
+    gap: 0.55rem;
   }
   .welcome-logo {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2.25rem;
+    height: 2.25rem;
   }
   .welcome-brand-title {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
   }
   .welcome-brand-subtitle {
-    font-size: 0.6rem;
-    max-width: 12rem;
+    font-size: 0.55rem;
+    max-width: 11rem;
   }
   .welcome-page-title {
     font-size: 1.55rem;
