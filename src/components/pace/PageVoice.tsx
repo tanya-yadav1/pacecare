@@ -346,7 +346,17 @@ export function PageVoice() {
           <p className="page-voice-hint">Good morning, {name}. What would you like to do today?</p>
         </div>
 
-        {/* your existing voice controls */}
+        <div className="page-voice-actions">
+          <Button onClick={startListening} disabled={listening || speaking} size="lg">
+            <Mic />
+            {listening ? "Listening…" : "Talk to PACE"}
+          </Button>
+
+          <Button onClick={hearPage} disabled={speaking} variant="outline" size="lg">
+            <Volume2 />
+            {speaking ? "Speaking…" : "Hear welcome"}
+          </Button>
+        </div>
       </div>
     </div>
   );
