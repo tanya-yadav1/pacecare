@@ -340,7 +340,7 @@ export function PageVoice() {
     const message = introFor(path, name);
     speak(message);
   };
-
+  console.log("PACE START SCREEN SHOULD SHOW");
   if (!started) {
     return (
       <div style={{ padding: 40, background: "white", color: "black" }}>
