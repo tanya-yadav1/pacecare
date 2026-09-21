@@ -25,11 +25,13 @@ function armUnlock() {
   armed = true;
   const release = () => {
     armed = false;
-    unlocked = true;
-    setBlocked(false);
     window.removeEventListener("pointerdown", release);
     window.removeEventListener("keydown", release);
     window.removeEventListener("touchstart", release);
+    // Play a silent clip inside the gesture so the shared audio element is
+    // unlocked; generating the real speech takes a few seconds, by which time
+    // the tap would otherwise no longer count as permission to play sound.
+    primeSpeechForGesture();
     const text = pendingText;
     pendingText = null;
     if (text) void speakInstructions(text).catch(() => {});
@@ -37,6 +39,40 @@ function armUnlock() {
   window.addEventListener("pointerdown", release, { once: true });
   window.addEventListener("keydown", release, { once: true });
   window.addEventListener("touchstart", release, { once: true });
+}
+
+function ensurePlayer() {
+  if (!player) {
+    player = new Audio();
+    player.preload = "auto";
+  }
+  return player;
+}
+
+function buildWavUrl(pcm: Uint8Array) {
+  const wav = new ArrayBuffer(44 + pcm.length);
+  const view = new DataView(wav);
+  const write = (at: number, value: string) => { for (let index = 0; index < value.length; index += 1) view.setUint8(at + index, value.charCodeAt(index)); };
+  write(0, "RIFF"); view.setUint32(4, 36 + pcm.length, true); write(8, "WAVE"); write(12, "fmt ");
+  view.setUint32(16, 16, true); view.setUint16(20, 1, true); view.setUint16(22, 1, true);
+  view.setUint32(24, 24000, true); view.setUint32(28, 48000, true); view.setUint16(32, 2, true); view.setUint16(34, 16, true);
+  write(36, "data"); view.setUint32(40, pcm.length, true); new Uint8Array(wav, 44).set(pcm);
+  return URL.createObjectURL(new Blob([wav], { type: "audio/wav" }));
+}
+
+// Call synchronously from a tap/click handler: plays a short silent clip so
+// the audio element is unlocked before the real (slower) speech is ready.
+export function primeSpeechForGesture() {
+  if (unlocked || typeof window === "undefined") return;
+  const audio = ensurePlayer();
+  const url = buildWavUrl(new Uint8Array(480));
+  audio.src = url;
+  audio.volume = 0.01;
+  void audio.play().then(() => {
+    unlocked = true;
+    setBlocked(false);
+    URL.revokeObjectURL(url);
+  }).catch(() => {});
 }
 
 function decodeBase64(value: string) {
