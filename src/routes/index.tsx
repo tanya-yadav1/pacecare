@@ -75,18 +75,19 @@ function SeniorHome() {
 
   useEffect(() => onSpeechBlocked(setBlocked), []);
 
-  const greetedRef = useRef(false);
   useEffect(() => {
     if (!accessibility.voiceInstructions) return;
 
     const text = `Good morning, ${name}. What would you like right now? Listen, for music you enjoy. Connect, with family, friends, and neighbors. Explore, to find something meaningful. Or Quiet, to rest and unwind.`;
 
     const timer = window.setTimeout(() => {
-      primeSpeechForGesture();
-      void speakInstructions(text).catch(() => {
-        console.log("PACE welcome speech was blocked.");
-      });
-    }, 300);
+      if (!speakImmediatelyOnGesture(text)) {
+        primeSpeechForGesture();
+        void speakInstructions(text).catch(() => {
+          console.log("PACE welcome could not be spoken automatically.");
+        });
+      }
+    }, 500);
 
     return () => {
       window.clearTimeout(timer);
