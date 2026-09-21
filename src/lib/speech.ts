@@ -121,18 +121,11 @@ export async function speakInstructions(text: string) {
   const pcm = new Uint8Array(byteLength);
   let offset = 0;
   for (const part of audioParts) { pcm.set(part, offset); offset += part.length; }
-  const wav = new ArrayBuffer(44 + pcm.length);
-  const view = new DataView(wav);
-  const write = (at: number, value: string) => { for (let index = 0; index < value.length; index += 1) view.setUint8(at + index, value.charCodeAt(index)); };
-  write(0, "RIFF"); view.setUint32(4, 36 + pcm.length, true); write(8, "WAVE"); write(12, "fmt ");
-  view.setUint32(16, 16, true); view.setUint16(20, 1, true); view.setUint16(22, 1, true);
-  view.setUint32(24, 24000, true); view.setUint32(28, 48000, true); view.setUint16(32, 2, true); view.setUint16(34, 16, true);
-  write(36, "data"); view.setUint32(40, pcm.length, true); new Uint8Array(wav, 44).set(pcm);
-  const url = URL.createObjectURL(new Blob([wav], { type: "audio/wav" }));
-  player.src = url;
-  player.volume = 1;
+  const url = buildWavUrl(pcm);
+  audio.src = url;
+  audio.volume = 1;
   try {
-    await player.play();
+    await audio.play();
     unlocked = true;
     setBlocked(false);
   } catch {
@@ -143,9 +136,8 @@ export async function speakInstructions(text: string) {
     return;
   }
   await new Promise<void>((resolve, reject) => {
-    if (!player) return reject(new Error("Audio playback is unavailable."));
-    player.onended = () => resolve();
-    player.onerror = () => reject(new Error("Audio playback failed on this device."));
+    audio.onended = () => resolve();
+    audio.onerror = () => reject(new Error("Audio playback failed on this device."));
   });
   URL.revokeObjectURL(url);
 }
