@@ -78,24 +78,18 @@ function SeniorHome() {
   const greetedRef = useRef(false);
   useEffect(() => {
     if (!accessibility.voiceInstructions) return;
-    const text = `Good morning, ${name}. What would you like right now? Listen, for music you enjoy. Connect, with family, friends, and neighbors. Explore, to find something meaningful. Or Quiet, to rest and unwind. Tap a choice, or tap Talk to PACE.`;
-    const greetFromTap = () => {
-      if (greetedRef.current) return;
-      greetedRef.current = true;
-      // Use the same speaking path as the "Hear welcome" button, which is
-      // known to work: device voice first, generated voice as backup.
-      if (speakImmediatelyOnGesture(text)) return;
+
+    const text = `Good morning, ${name}. What would you like right now? Listen, for music you enjoy. Connect, with family, friends, and neighbors. Explore, to find something meaningful. Or Quiet, to rest and unwind.`;
+
+    const timer = window.setTimeout(() => {
       primeSpeechForGesture();
       void speakInstructions(text).catch(() => {
-        greetedRef.current = false;
+        console.log("PACE welcome speech was blocked.");
       });
-    };
-    // Listen for the same event type as the working button: a real click.
-    window.addEventListener("click", greetFromTap);
-    window.addEventListener("keydown", greetFromTap);
+    }, 300);
+
     return () => {
-      window.removeEventListener("click", greetFromTap);
-      window.removeEventListener("keydown", greetFromTap);
+      window.clearTimeout(timer);
     };
   }, [accessibility.voiceInstructions, name]);
 
