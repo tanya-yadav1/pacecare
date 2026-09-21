@@ -1507,16 +1507,17 @@ html.reduce-motion *::after {
 }
 .welcome-masthead {
   width: min(100%, 42rem);
-  margin: 0 auto 0.25rem;
+  margin: 0 auto 0.5rem;
+  padding-top: 1.75rem;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  gap: 0.75rem;
+  gap: 1.1rem;
 }
 .welcome-logo {
-  width: 3.75rem;
-  height: 3.75rem;
+  width: 5.5rem;
+  height: 5.5rem;
   flex: 0 0 auto;
   object-fit: contain;
 }
@@ -1524,11 +1525,12 @@ html.reduce-motion *::after {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.2rem;
+  gap: 0.3rem;
 }
 .welcome-brand-title {
-  font-size: clamp(1.9rem, 5.5vw, 2.85rem);
+  font-size: clamp(2.2rem, 6vw, 3.1rem);
   font-weight: 800;
+  letter-spacing: 0.06em;
   line-height: 1;
   margin: 0;
 }
@@ -1730,9 +1732,13 @@ html.reduce-motion *::after {
   .welcome-page {
     padding-top: 0;
   }
+  .welcome-masthead {
+    padding-top: 1rem;
+    gap: 0.75rem;
+  }
   .welcome-logo {
-    width: 3.25rem;
-    height: 3.25rem;
+    width: 4rem;
+    height: 4rem;
   }
   .welcome-brand-title {
     font-size: 1.7rem;
