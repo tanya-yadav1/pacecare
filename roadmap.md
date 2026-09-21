@@ -37,5 +37,5 @@
 - [x] Verify senior and staff journeys on desktop and mobile, including browser-supported voice behavior.
 - [x] Add audio prompts and spoken feedback on every screen so the app talks and listens throughout.
 
-- [ ] Music Choose/Play produces sound (WebAudio player wired; playback not starting — debugging)
-- [ ] Family video call button on Connect page does nothing
+- [x] Music Choose/Play produces sound (WebAudio melodies, Play/Pause/Stop verified)
+- [x] Family video call now opens a sample call screen (ringing, connected, end call)
