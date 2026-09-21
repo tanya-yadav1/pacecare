@@ -113,6 +113,17 @@ export function PageVoice() {
   const [reply, setReply] = useState("");
   const [supported, setSupported] = useState(false);
   const [started, setStarted] = useState(false);
+  if (!started) {
+    return (
+      <div className="page-voice" role="region" aria-label="Welcome to PACE">
+        ...
+        <Button onClick={startPace}>
+          <Volume2 aria-hidden />
+          Start PACE
+        </Button>
+      </div>
+    );
+  }
 
   const clearSpeechTimers = () => {
     if (typeof window === "undefined") {
