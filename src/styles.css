@@ -1728,7 +1728,7 @@ html.reduce-motion *::after {
 }
 @media (max-width: 540px) {
   .welcome-page {
-    padding-top: 0.25rem;
+    padding-top: 0.15rem;
   }
   .welcome-logo {
     width: 3.25rem;
