@@ -84,12 +84,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 {label}
               </Link>
             ))}
-            <Button variant="outline" size="lg" asChild onClick={() => setMode("senior")}>
-              <Link to="/">
-                <Home />
-                Senior Mode
-              </Link>
-            </Button>
           </nav>
           <main className="staff-main" id="pace-main">
             {children}
