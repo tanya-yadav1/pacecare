@@ -73,7 +73,6 @@ return base.replace(
 Good morning, ${name}.
 );
 }
-
 return base;
 }
 function speakWithBrowser(text: string): boolean {
