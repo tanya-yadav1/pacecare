@@ -111,3 +111,14 @@ export function stopSong() {
 export function currentSongId() {
   return currentId;
 }
+
+let volume = 0.14;
+
+export function musicVolume() {
+  return volume;
+}
+
+export function setMusicVolume(value: number) {
+  volume = Math.min(0.4, Math.max(0, value));
+  if (master) master.gain.value = volume;
+}

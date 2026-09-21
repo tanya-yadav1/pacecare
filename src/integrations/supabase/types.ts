@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      pace_creations: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          kind: string
+          resident_id: string
+          shared_with_family: boolean
+          shared_with_staff: boolean
+          title: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          kind: string
+          resident_id: string
+          shared_with_family?: boolean
+          shared_with_staff?: boolean
+          title: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          resident_id?: string
+          shared_with_family?: boolean
+          shared_with_staff?: boolean
+          title?: string
+        }
+        Relationships: []
+      }
       pace_events: {
         Row: {
           created_at: string

@@ -56,6 +56,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         ["/staff", "Overview"],
         ["/connect", "Connections"],
         ["/progress", "Moments"],
+        ["/button-audit", "Button audit"],
       ] as const)
     : ([
         ["/", "Home"],

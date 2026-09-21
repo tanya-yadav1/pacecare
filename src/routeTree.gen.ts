@@ -13,6 +13,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccessibilityRouteImport } from './routes/accessibility'
 import { Route as AssessmentRouteImport } from './routes/assessment'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as BreathingRouteImport } from './routes/breathing'
+import { Route as ButtonAuditRouteImport } from './routes/button-audit'
 import { Route as CareRouteImport } from './routes/care'
 import { Route as ClinicianRouteImport } from './routes/clinician'
 import { Route as CommunityRouteImport } from './routes/community'
@@ -20,23 +22,31 @@ import { Route as ConnectRouteImport } from './routes/connect'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as DoctorVisitRouteImport } from './routes/doctor-visit'
 import { Route as ExploreRouteImport } from './routes/explore'
+import { Route as GalleryRouteImport } from './routes/gallery'
+import { Route as GentleMovementRouteImport } from './routes/gentle-movement'
 import { Route as ListenRouteImport } from './routes/listen'
 import { Route as MindBodyRouteImport } from './routes/mind-body'
 import { Route as MoveRouteImport } from './routes/move'
 import { Route as MusicRouteImport } from './routes/music'
 import { Route as MyDayRouteImport } from './routes/my-day'
+import { Route as NatureRouteImport } from './routes/nature'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as OverlayRouteImport } from './routes/overlay'
 import { Route as PaceDemoRouteImport } from './routes/pace-demo'
+import { Route as PaintingRouteImport } from './routes/painting'
 import { Route as ProgressRouteImport } from './routes/progress'
+import { Route as PuzzlesRouteImport } from './routes/puzzles'
 import { Route as QuietRouteImport } from './routes/quiet'
 import { Route as RelaxRouteImport } from './routes/relax'
 import { Route as RemediesRouteImport } from './routes/remedies'
+import { Route as RestRouteImport } from './routes/rest'
 import { Route as RewardsRouteImport } from './routes/rewards'
 import { Route as ScreeningRouteImport } from './routes/screening'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as StaffRouteImport } from './routes/staff'
 import { Route as StaffSigninRouteImport } from './routes/staff-signin'
+import { Route as StoriesRouteImport } from './routes/stories'
+import { Route as StoryRouteImport } from './routes/story'
 import { Route as SymptomsRouteImport } from './routes/symptoms'
 import { Route as TherapyRouteImport } from './routes/therapy'
 import { Route as TreatmentInfoRouteImport } from './routes/treatment-info'
@@ -62,6 +72,16 @@ const AssessmentRoute = AssessmentRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BreathingRoute = BreathingRouteImport.update({
+  id: '/breathing',
+  path: '/breathing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ButtonAuditRoute = ButtonAuditRouteImport.update({
+  id: '/button-audit',
+  path: '/button-audit',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CareRoute = CareRouteImport.update({
@@ -99,6 +119,16 @@ const ExploreRoute = ExploreRouteImport.update({
   path: '/explore',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GalleryRoute = GalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GentleMovementRoute = GentleMovementRouteImport.update({
+  id: '/gentle-movement',
+  path: '/gentle-movement',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ListenRoute = ListenRouteImport.update({
   id: '/listen',
   path: '/listen',
@@ -124,6 +154,11 @@ const MyDayRoute = MyDayRouteImport.update({
   path: '/my-day',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NatureRoute = NatureRouteImport.update({
+  id: '/nature',
+  path: '/nature',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OnboardingRoute = OnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
@@ -139,9 +174,19 @@ const PaceDemoRoute = PaceDemoRouteImport.update({
   path: '/pace-demo',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PaintingRoute = PaintingRouteImport.update({
+  id: '/painting',
+  path: '/painting',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProgressRoute = ProgressRouteImport.update({
   id: '/progress',
   path: '/progress',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PuzzlesRoute = PuzzlesRouteImport.update({
+  id: '/puzzles',
+  path: '/puzzles',
   getParentRoute: () => rootRouteImport,
 } as any)
 const QuietRoute = QuietRouteImport.update({
@@ -157,6 +202,11 @@ const RelaxRoute = RelaxRouteImport.update({
 const RemediesRoute = RemediesRouteImport.update({
   id: '/remedies',
   path: '/remedies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RestRoute = RestRouteImport.update({
+  id: '/rest',
+  path: '/rest',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RewardsRoute = RewardsRouteImport.update({
@@ -182,6 +232,16 @@ const StaffRoute = StaffRouteImport.update({
 const StaffSigninRoute = StaffSigninRouteImport.update({
   id: '/staff-signin',
   path: '/staff-signin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StoriesRoute = StoriesRouteImport.update({
+  id: '/stories',
+  path: '/stories',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StoryRoute = StoryRouteImport.update({
+  id: '/story',
+  path: '/story',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SymptomsRoute = SymptomsRouteImport.update({
@@ -220,6 +280,8 @@ export interface FileRoutesByFullPath {
   '/accessibility': typeof AccessibilityRoute
   '/assessment': typeof AssessmentRoute
   '/auth': typeof AuthRoute
+  '/breathing': typeof BreathingRoute
+  '/button-audit': typeof ButtonAuditRoute
   '/care': typeof CareRoute
   '/clinician': typeof ClinicianRoute
   '/community': typeof CommunityRoute
@@ -227,23 +289,31 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRoute
   '/doctor-visit': typeof DoctorVisitRoute
   '/explore': typeof ExploreRoute
+  '/gallery': typeof GalleryRoute
+  '/gentle-movement': typeof GentleMovementRoute
   '/listen': typeof ListenRoute
   '/mind-body': typeof MindBodyRoute
   '/move': typeof MoveRoute
   '/music': typeof MusicRoute
   '/my-day': typeof MyDayRoute
+  '/nature': typeof NatureRoute
   '/onboarding': typeof OnboardingRoute
   '/overlay': typeof OverlayRoute
   '/pace-demo': typeof PaceDemoRoute
+  '/painting': typeof PaintingRoute
   '/progress': typeof ProgressRoute
+  '/puzzles': typeof PuzzlesRoute
   '/quiet': typeof QuietRoute
   '/relax': typeof RelaxRoute
   '/remedies': typeof RemediesRoute
+  '/rest': typeof RestRoute
   '/rewards': typeof RewardsRoute
   '/screening': typeof ScreeningRoute
   '/settings': typeof SettingsRoute
   '/staff': typeof StaffRoute
   '/staff-signin': typeof StaffSigninRoute
+  '/stories': typeof StoriesRoute
+  '/story': typeof StoryRoute
   '/symptoms': typeof SymptomsRoute
   '/therapy': typeof TherapyRoute
   '/treatment-info': typeof TreatmentInfoRoute
@@ -256,6 +326,8 @@ export interface FileRoutesByTo {
   '/accessibility': typeof AccessibilityRoute
   '/assessment': typeof AssessmentRoute
   '/auth': typeof AuthRoute
+  '/breathing': typeof BreathingRoute
+  '/button-audit': typeof ButtonAuditRoute
   '/care': typeof CareRoute
   '/clinician': typeof ClinicianRoute
   '/community': typeof CommunityRoute
@@ -263,23 +335,31 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardRoute
   '/doctor-visit': typeof DoctorVisitRoute
   '/explore': typeof ExploreRoute
+  '/gallery': typeof GalleryRoute
+  '/gentle-movement': typeof GentleMovementRoute
   '/listen': typeof ListenRoute
   '/mind-body': typeof MindBodyRoute
   '/move': typeof MoveRoute
   '/music': typeof MusicRoute
   '/my-day': typeof MyDayRoute
+  '/nature': typeof NatureRoute
   '/onboarding': typeof OnboardingRoute
   '/overlay': typeof OverlayRoute
   '/pace-demo': typeof PaceDemoRoute
+  '/painting': typeof PaintingRoute
   '/progress': typeof ProgressRoute
+  '/puzzles': typeof PuzzlesRoute
   '/quiet': typeof QuietRoute
   '/relax': typeof RelaxRoute
   '/remedies': typeof RemediesRoute
+  '/rest': typeof RestRoute
   '/rewards': typeof RewardsRoute
   '/screening': typeof ScreeningRoute
   '/settings': typeof SettingsRoute
   '/staff': typeof StaffRoute
   '/staff-signin': typeof StaffSigninRoute
+  '/stories': typeof StoriesRoute
+  '/story': typeof StoryRoute
   '/symptoms': typeof SymptomsRoute
   '/therapy': typeof TherapyRoute
   '/treatment-info': typeof TreatmentInfoRoute
@@ -293,6 +373,8 @@ export interface FileRoutesById {
   '/accessibility': typeof AccessibilityRoute
   '/assessment': typeof AssessmentRoute
   '/auth': typeof AuthRoute
+  '/breathing': typeof BreathingRoute
+  '/button-audit': typeof ButtonAuditRoute
   '/care': typeof CareRoute
   '/clinician': typeof ClinicianRoute
   '/community': typeof CommunityRoute
@@ -300,23 +382,31 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRoute
   '/doctor-visit': typeof DoctorVisitRoute
   '/explore': typeof ExploreRoute
+  '/gallery': typeof GalleryRoute
+  '/gentle-movement': typeof GentleMovementRoute
   '/listen': typeof ListenRoute
   '/mind-body': typeof MindBodyRoute
   '/move': typeof MoveRoute
   '/music': typeof MusicRoute
   '/my-day': typeof MyDayRoute
+  '/nature': typeof NatureRoute
   '/onboarding': typeof OnboardingRoute
   '/overlay': typeof OverlayRoute
   '/pace-demo': typeof PaceDemoRoute
+  '/painting': typeof PaintingRoute
   '/progress': typeof ProgressRoute
+  '/puzzles': typeof PuzzlesRoute
   '/quiet': typeof QuietRoute
   '/relax': typeof RelaxRoute
   '/remedies': typeof RemediesRoute
+  '/rest': typeof RestRoute
   '/rewards': typeof RewardsRoute
   '/screening': typeof ScreeningRoute
   '/settings': typeof SettingsRoute
   '/staff': typeof StaffRoute
   '/staff-signin': typeof StaffSigninRoute
+  '/stories': typeof StoriesRoute
+  '/story': typeof StoryRoute
   '/symptoms': typeof SymptomsRoute
   '/therapy': typeof TherapyRoute
   '/treatment-info': typeof TreatmentInfoRoute
@@ -331,6 +421,8 @@ export interface FileRouteTypes {
     | '/accessibility'
     | '/assessment'
     | '/auth'
+    | '/breathing'
+    | '/button-audit'
     | '/care'
     | '/clinician'
     | '/community'
@@ -338,23 +430,31 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/doctor-visit'
     | '/explore'
+    | '/gallery'
+    | '/gentle-movement'
     | '/listen'
     | '/mind-body'
     | '/move'
     | '/music'
     | '/my-day'
+    | '/nature'
     | '/onboarding'
     | '/overlay'
     | '/pace-demo'
+    | '/painting'
     | '/progress'
+    | '/puzzles'
     | '/quiet'
     | '/relax'
     | '/remedies'
+    | '/rest'
     | '/rewards'
     | '/screening'
     | '/settings'
     | '/staff'
     | '/staff-signin'
+    | '/stories'
+    | '/story'
     | '/symptoms'
     | '/therapy'
     | '/treatment-info'
@@ -367,6 +467,8 @@ export interface FileRouteTypes {
     | '/accessibility'
     | '/assessment'
     | '/auth'
+    | '/breathing'
+    | '/button-audit'
     | '/care'
     | '/clinician'
     | '/community'
@@ -374,23 +476,31 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/doctor-visit'
     | '/explore'
+    | '/gallery'
+    | '/gentle-movement'
     | '/listen'
     | '/mind-body'
     | '/move'
     | '/music'
     | '/my-day'
+    | '/nature'
     | '/onboarding'
     | '/overlay'
     | '/pace-demo'
+    | '/painting'
     | '/progress'
+    | '/puzzles'
     | '/quiet'
     | '/relax'
     | '/remedies'
+    | '/rest'
     | '/rewards'
     | '/screening'
     | '/settings'
     | '/staff'
     | '/staff-signin'
+    | '/stories'
+    | '/story'
     | '/symptoms'
     | '/therapy'
     | '/treatment-info'
@@ -403,6 +513,8 @@ export interface FileRouteTypes {
     | '/accessibility'
     | '/assessment'
     | '/auth'
+    | '/breathing'
+    | '/button-audit'
     | '/care'
     | '/clinician'
     | '/community'
@@ -410,23 +522,31 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/doctor-visit'
     | '/explore'
+    | '/gallery'
+    | '/gentle-movement'
     | '/listen'
     | '/mind-body'
     | '/move'
     | '/music'
     | '/my-day'
+    | '/nature'
     | '/onboarding'
     | '/overlay'
     | '/pace-demo'
+    | '/painting'
     | '/progress'
+    | '/puzzles'
     | '/quiet'
     | '/relax'
     | '/remedies'
+    | '/rest'
     | '/rewards'
     | '/screening'
     | '/settings'
     | '/staff'
     | '/staff-signin'
+    | '/stories'
+    | '/story'
     | '/symptoms'
     | '/therapy'
     | '/treatment-info'
@@ -440,6 +560,8 @@ export interface RootRouteChildren {
   AccessibilityRoute: typeof AccessibilityRoute
   AssessmentRoute: typeof AssessmentRoute
   AuthRoute: typeof AuthRoute
+  BreathingRoute: typeof BreathingRoute
+  ButtonAuditRoute: typeof ButtonAuditRoute
   CareRoute: typeof CareRoute
   ClinicianRoute: typeof ClinicianRoute
   CommunityRoute: typeof CommunityRoute
@@ -447,23 +569,31 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRoute
   DoctorVisitRoute: typeof DoctorVisitRoute
   ExploreRoute: typeof ExploreRoute
+  GalleryRoute: typeof GalleryRoute
+  GentleMovementRoute: typeof GentleMovementRoute
   ListenRoute: typeof ListenRoute
   MindBodyRoute: typeof MindBodyRoute
   MoveRoute: typeof MoveRoute
   MusicRoute: typeof MusicRoute
   MyDayRoute: typeof MyDayRoute
+  NatureRoute: typeof NatureRoute
   OnboardingRoute: typeof OnboardingRoute
   OverlayRoute: typeof OverlayRoute
   PaceDemoRoute: typeof PaceDemoRoute
+  PaintingRoute: typeof PaintingRoute
   ProgressRoute: typeof ProgressRoute
+  PuzzlesRoute: typeof PuzzlesRoute
   QuietRoute: typeof QuietRoute
   RelaxRoute: typeof RelaxRoute
   RemediesRoute: typeof RemediesRoute
+  RestRoute: typeof RestRoute
   RewardsRoute: typeof RewardsRoute
   ScreeningRoute: typeof ScreeningRoute
   SettingsRoute: typeof SettingsRoute
   StaffRoute: typeof StaffRoute
   StaffSigninRoute: typeof StaffSigninRoute
+  StoriesRoute: typeof StoriesRoute
+  StoryRoute: typeof StoryRoute
   SymptomsRoute: typeof SymptomsRoute
   TherapyRoute: typeof TherapyRoute
   TreatmentInfoRoute: typeof TreatmentInfoRoute
@@ -500,6 +630,20 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/breathing': {
+      id: '/breathing'
+      path: '/breathing'
+      fullPath: '/breathing'
+      preLoaderRoute: typeof BreathingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/button-audit': {
+      id: '/button-audit'
+      path: '/button-audit'
+      fullPath: '/button-audit'
+      preLoaderRoute: typeof ButtonAuditRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/care': {
@@ -551,6 +695,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExploreRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/gallery': {
+      id: '/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gentle-movement': {
+      id: '/gentle-movement'
+      path: '/gentle-movement'
+      fullPath: '/gentle-movement'
+      preLoaderRoute: typeof GentleMovementRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/listen': {
       id: '/listen'
       path: '/listen'
@@ -586,6 +744,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MyDayRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/nature': {
+      id: '/nature'
+      path: '/nature'
+      fullPath: '/nature'
+      preLoaderRoute: typeof NatureRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/onboarding': {
       id: '/onboarding'
       path: '/onboarding'
@@ -607,11 +772,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PaceDemoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/painting': {
+      id: '/painting'
+      path: '/painting'
+      fullPath: '/painting'
+      preLoaderRoute: typeof PaintingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/progress': {
       id: '/progress'
       path: '/progress'
       fullPath: '/progress'
       preLoaderRoute: typeof ProgressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/puzzles': {
+      id: '/puzzles'
+      path: '/puzzles'
+      fullPath: '/puzzles'
+      preLoaderRoute: typeof PuzzlesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/quiet': {
@@ -633,6 +812,13 @@ declare module '@tanstack/react-router' {
       path: '/remedies'
       fullPath: '/remedies'
       preLoaderRoute: typeof RemediesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rest': {
+      id: '/rest'
+      path: '/rest'
+      fullPath: '/rest'
+      preLoaderRoute: typeof RestRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/rewards': {
@@ -668,6 +854,20 @@ declare module '@tanstack/react-router' {
       path: '/staff-signin'
       fullPath: '/staff-signin'
       preLoaderRoute: typeof StaffSigninRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stories': {
+      id: '/stories'
+      path: '/stories'
+      fullPath: '/stories'
+      preLoaderRoute: typeof StoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/story': {
+      id: '/story'
+      path: '/story'
+      fullPath: '/story'
+      preLoaderRoute: typeof StoryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/symptoms': {
@@ -720,6 +920,8 @@ const rootRouteChildren: RootRouteChildren = {
   AccessibilityRoute: AccessibilityRoute,
   AssessmentRoute: AssessmentRoute,
   AuthRoute: AuthRoute,
+  BreathingRoute: BreathingRoute,
+  ButtonAuditRoute: ButtonAuditRoute,
   CareRoute: CareRoute,
   ClinicianRoute: ClinicianRoute,
   CommunityRoute: CommunityRoute,
@@ -727,23 +929,31 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRoute,
   DoctorVisitRoute: DoctorVisitRoute,
   ExploreRoute: ExploreRoute,
+  GalleryRoute: GalleryRoute,
+  GentleMovementRoute: GentleMovementRoute,
   ListenRoute: ListenRoute,
   MindBodyRoute: MindBodyRoute,
   MoveRoute: MoveRoute,
   MusicRoute: MusicRoute,
   MyDayRoute: MyDayRoute,
+  NatureRoute: NatureRoute,
   OnboardingRoute: OnboardingRoute,
   OverlayRoute: OverlayRoute,
   PaceDemoRoute: PaceDemoRoute,
+  PaintingRoute: PaintingRoute,
   ProgressRoute: ProgressRoute,
+  PuzzlesRoute: PuzzlesRoute,
   QuietRoute: QuietRoute,
   RelaxRoute: RelaxRoute,
   RemediesRoute: RemediesRoute,
+  RestRoute: RestRoute,
   RewardsRoute: RewardsRoute,
   ScreeningRoute: ScreeningRoute,
   SettingsRoute: SettingsRoute,
   StaffRoute: StaffRoute,
   StaffSigninRoute: StaffSigninRoute,
+  StoriesRoute: StoriesRoute,
+  StoryRoute: StoryRoute,
   SymptomsRoute: SymptomsRoute,
   TherapyRoute: TherapyRoute,
   TreatmentInfoRoute: TreatmentInfoRoute,

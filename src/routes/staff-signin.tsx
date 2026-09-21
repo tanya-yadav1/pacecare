@@ -4,7 +4,7 @@ import { Brand } from "@/components/vitamove/Brand";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { usePaceAuth } from "@/lib/pace-auth";
-import { confirmStaffPin } from "@/lib/pace-pin.functions";
+import { confirmStaffPin, signInAsDemoStaff } from "@/lib/pace-pin.functions";
 
 export const Route = createFileRoute("/staff-signin")({
   head: () => ({
@@ -12,7 +12,8 @@ export const Route = createFileRoute("/staff-signin")({
       { title: "Staff sign in — PACE" },
       {
         name: "description",
-        content: "Caregivers and staff sign in to plan meaningful moments with the residents they support.",
+        content:
+          "Caregivers and staff sign in to plan meaningful moments with the residents they support.",
       },
       { property: "og:title", content: "Staff sign in — PACE" },
       { property: "og:description", content: "Plan better moments with the people you care for." },
@@ -51,6 +52,30 @@ function StaffSignIn() {
     setBusy(false);
     setMessage(result.message);
     if (result.ok) void navigate({ to: "/staff", replace: true });
+  };
+
+  const demoStaff = async () => {
+    setBusy(true);
+    setMessage("");
+    const result = await signInAsDemoStaff();
+    if (!result.ok) {
+      setBusy(false);
+      setMessage(result.message);
+      return;
+    }
+    setStage("pin");
+    const { error } = await supabase.auth.verifyOtp({
+      type: "email",
+      token_hash: result.tokenHash,
+    });
+    setBusy(false);
+    if (error) {
+      setMessage("PACE could not open the demo staff account.");
+      return;
+    }
+    await refresh();
+    setStage("pin");
+    setMessage("Demo staff account ready. Choose any 4-digit PIN.");
   };
 
   const submit = async () => {
@@ -95,8 +120,8 @@ function StaffSignIn() {
         <p className="eyebrow">Confirm</p>
         <h1>Enter your staff PIN</h1>
         <p className="simple-lead">
-          Staff Mode always asks for a 4-digit PIN, so a resident can never reach it by accident. The
-          first PIN you enter becomes your PIN.
+          Staff Mode always asks for a 4-digit PIN, so a resident can never reach it by accident.
+          The first PIN you enter becomes your PIN.
         </p>
         <form
           className="auth-form"
@@ -189,6 +214,10 @@ function StaffSignIn() {
 
       <Button size="xl" variant="outline" onClick={() => setMode(mode === "in" ? "up" : "in")}>
         {mode === "in" ? "Create a staff account" : "I already have an account"}
+      </Button>
+
+      <Button size="xl" variant="outline" disabled={busy} onClick={() => void demoStaff()}>
+        Try the demo staff account
       </Button>
 
       <p className="simple-note">
