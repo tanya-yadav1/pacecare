@@ -11,7 +11,9 @@ const blockedListeners = new Set<(blocked: boolean) => void>();
 
 export function onSpeechBlocked(listener: (blocked: boolean) => void) {
   blockedListeners.add(listener);
-  return () => blockedListeners.delete(listener);
+  return () => {
+    blockedListeners.delete(listener);
+  };
 }
 
 function setBlocked(blocked: boolean) {

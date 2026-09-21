@@ -48,7 +48,7 @@ export function PageVoice() {
   const [supported, setSupported] = useState(false);
   const [blocked, setBlocked] = useState(false);
 
-  useEffect(() => onSpeechBlocked(setBlocked) as unknown as () => void, []);
+  useEffect(() => onSpeechBlocked(setBlocked), []);
 
   useEffect(() => {
     const scope = window as typeof window & {
