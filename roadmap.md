@@ -59,4 +59,4 @@
 - [x] Accessibility: skip link, focus outlines, keyboard labels, reduced motion, useful Accessibility page.
 - [x] Privacy: plain-language notes on both sign-in screens and self-service delete-my-information.
 - [x] Demo resident signs in with PIN 1234 (no email needed).
-- [ ] Front page shows the PACE logo with a bigger, bold title.
+- [x] Front page shows the PACE logo with a bigger, bold title.
