@@ -41,7 +41,7 @@ function ensureContext() {
     master = ctx.createGain();
     master.gain.value = 0.14;
     master.connect(ctx.destination);
-    (window as unknown as Record<string, unknown>).__paceMusicState = () => ctx?.state ?? "none";
+    (window as unknown as Record<string, unknown>)["__paceMusicState"] = () => ctx?.state ?? "none";
   }
   return ctx;
 }
@@ -74,7 +74,7 @@ export async function playSong(id: string, bpm: number) {
   let nextTime = context.currentTime + 0.1;
   scheduler = window.setInterval(() => {
     while (nextTime < context.currentTime + 0.4) {
-      const [frequency, beats] = notes[step % notes.length];
+      const [frequency, beats] = notes[step % notes.length] ?? [330, 1];
       scheduleNote(context, frequency, nextTime, beat * beats);
       nextTime += beat * beats;
       step += 1;
