@@ -114,6 +114,7 @@ export function PageVoice() {
   const [reply, setReply] = useState("");
   const [supported, setSupported] = useState(false);
   const [started, setStarted] = useState(false);
+  console.log("PACE started =", started);
 
   const clearSpeechTimers = () => {
     if (typeof window === "undefined") {
