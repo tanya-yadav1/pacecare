@@ -64,7 +64,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         ["/explore", "Explore"],
         ["/quiet", "Quiet"],
       ] as const);
-  if (isStaff) {
+  if (isStaff && role === "staff") {
     return (
       <div className="staff-shell">
         <div className="staff-banner" role="banner">
