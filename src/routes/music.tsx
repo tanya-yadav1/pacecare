@@ -1,10 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronLeft, Heart, Music2, Pause, Play, Search, Square } from "lucide-react";
-import { useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLumaStrideWellness, type MusicFavorite } from "@/lib/lumastride-wellness";
-import { pauseSong, playSong, stopSong } from "@/lib/music-player";
+import { currentSongId, pauseSong, playSong, resumeSong, stopSong } from "@/lib/music-player";
 import { ExperienceFeedback } from "@/components/pace/ExperienceFeedback";
 
 export const Route = createFileRoute("/music")({
