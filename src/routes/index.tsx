@@ -78,6 +78,16 @@ function SeniorHome() {
   const [reply, setReply] = useState("");
   const [typed, setTyped] = useState("");
   const [supported, setSupported] = useState(false);
+  const [welcoming, setWelcoming] = useState(false);
+
+  const hearWelcome = async () => {
+    setWelcoming(true);
+    try {
+      await speakInstructions(`Good morning, ${name}. What would you like right now?`);
+    } finally {
+      setWelcoming(false);
+    }
+  };
 
   useEffect(() => {
     const scope = window as typeof window & {
@@ -129,6 +139,15 @@ function SeniorHome() {
             <Link to="/accessibility" aria-label="Accessibility settings">
               <Settings />
             </Link>
+          </Button>
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={() => void hearWelcome()}
+            disabled={welcoming}
+          >
+            <Mic />
+            {welcoming ? "Speaking…" : "Hear welcome"}
           </Button>
           <Button variant="outline" size="lg" asChild onClick={() => setMode("staff")}>
             <Link to="/staff">
