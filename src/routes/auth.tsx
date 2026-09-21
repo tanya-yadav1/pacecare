@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowRight, KeyRound, Mail, ShieldCheck, UserRound } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Brand } from "@/components/vitamove/Brand";
+import paceLogo from "@/assets/pace-connection-logo.png";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { usePaceAuth } from "@/lib/pace-auth";
@@ -80,10 +80,11 @@ function SeniorSignIn() {
   if (sent) {
     return (
       <div className="simple-page auth-page">
-        <div className="auth-brand">
-          <Brand />
-        </div>
-        <h1 className="auth-title">Check your email</h1>
+        <header className="welcome-masthead">
+          <img src={paceLogo} alt="PACE" className="welcome-logo" />
+          <h1 className="auth-title">Check your email</h1>
+          <div className="welcome-spacer" aria-hidden="true" />
+        </header>
         <p className="simple-lead">
           PACE sent a sign-in link to {email}. Open the email and tap the big link.
         </p>
@@ -100,10 +101,11 @@ function SeniorSignIn() {
   return (
     <div className="welcome-page">
       <header className="welcome-masthead">
-        <Brand />
+        <img src={paceLogo} alt="PACE" className="welcome-logo" />
         <h1 className="auth-title">Welcome to PACE</h1>
-        <p>Your voice. Your choice. Your moment.</p>
+        <div className="welcome-spacer" aria-hidden="true" />
       </header>
+      <p className="welcome-tagline">Your voice. Your choice. Your moment.</p>
 
       <main className="welcome-content">
         <section className="welcome-demo" aria-labelledby="demo-heading">
