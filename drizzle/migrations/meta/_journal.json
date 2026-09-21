@@ -15,6 +15,13 @@
       "when": 1789998386261,
       "tag": "0001_pace_accounts_roles",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1789998859088,
+      "tag": "0002_pace_events_and_staff_notes",
+      "breakpoints": true
     }
   ]
 }
