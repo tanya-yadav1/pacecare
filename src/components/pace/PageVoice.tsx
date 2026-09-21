@@ -162,6 +162,12 @@ export function PageVoice() {
       if (!window.speechSynthesis.speaking) {
         setSpeaking(false);
         speechTimer.current = null;
+
+        // PACE finished speaking — now listen for the user's answer.
+        window.setTimeout(() => {
+          startListening();
+        }, 300);
+
         return;
       }
 
