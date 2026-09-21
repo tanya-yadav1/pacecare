@@ -116,7 +116,7 @@ async function ensureDemoPerson(person: DemoResident) {
     greeting_name: person.greetingName,
     birth_year: person.birthYear,
     favorite_genres: person.favoriteGenres,
-    preferences: person.preferences,
+    preferences: person.preferences as never,
   });
 
   await supabaseAdmin
