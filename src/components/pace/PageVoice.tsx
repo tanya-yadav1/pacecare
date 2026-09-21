@@ -76,7 +76,6 @@ Good morning, ${name}.
 
 return base;
 }
-
 function speakWithBrowser(text: string): boolean {
 if (typeof window === "undefined") {
 return false;
