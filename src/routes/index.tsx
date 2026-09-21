@@ -1,11 +1,11 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { Headphones, Leaf, MessageCircleHeart, Mic, Moon, Settings, UsersRound } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { Headphones, Leaf, MessageCircleHeart, Mic, Moon, Settings, Square, Volume2 } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useLumaStrideWellness } from "@/lib/lumastride-wellness";
+import { friendlyStatus, listMyEvents, recordEvent, type PaceEvent } from "@/lib/pace-events";
 import { usePaceAuth } from "@/lib/pace-auth";
-import { understandPaceChoice } from "@/lib/pace-voice";
-import { onSpeechBlocked, primeSpeechForGesture, speakImmediatelyOnGesture, speakInstructions } from "@/lib/speech";
+import { useSeniorVoice } from "@/lib/senior-voice";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -25,26 +25,8 @@ export const Route = createFileRoute("/")({
   component: SeniorHome,
 });
 
-type BrowserRecognition = {
-  lang: string;
-  interimResults: boolean;
-  continuous: boolean;
-  start: () => void;
-  stop: () => void;
-  onresult: ((event: { results: ArrayLike<{ 0: { transcript: string } }> }) => void) | null;
-  onerror: (() => void) | null;
-  onend: (() => void) | null;
-};
-type RecognitionConstructor = new () => BrowserRecognition;
-
 const choices = [
-  {
-    to: "/listen" as const,
-    label: "Listen",
-    detail: "Music I enjoy",
-    Icon: Headphones,
-    tone: "listen",
-  },
+  { to: "/listen" as const, label: "Listen", detail: "Music I enjoy", Icon: Headphones, tone: "listen" },
   {
     to: "/connect" as const,
     label: "Connect",
@@ -52,15 +34,11 @@ const choices = [
     Icon: MessageCircleHeart,
     tone: "connect",
   },
-  {
-    to: "/explore" as const,
-    label: "Explore",
-    detail: "Find something meaningful",
-    Icon: Leaf,
-    tone: "explore",
-  },
+  { to: "/explore" as const, label: "Explore", detail: "Find something meaningful", Icon: Leaf, tone: "explore" },
   { to: "/quiet" as const, label: "Quiet", detail: "Rest and unwind", Icon: Moon, tone: "quiet" },
 ];
+
+const TALK_TEXT = "Talk to PACE. You can say, I want music, or, I want to talk to my daughter.";
 
 function greetingFor(hour: number) {
   if (hour < 12) return "Good morning";
@@ -69,120 +47,98 @@ function greetingFor(hour: number) {
 }
 
 function SeniorHome() {
-  const { name, setMode, accessibility } = useLumaStrideWellness();
-  const { loading, session, preferences, savePreferences } = usePaceAuth();
+  const { name } = useLumaStrideWellness();
+  const { loading, session, user, preferences, savePreferences } = usePaceAuth();
   const navigate = useNavigate();
   const [greeting] = useState(() => greetingFor(new Date().getHours()));
-  const recognition = useRef<BrowserRecognition | null>(null);
-  const [listening, setListening] = useState(false);
-  const [heard, setHeard] = useState("");
-  const [reply, setReply] = useState("");
-  const [typed, setTyped] = useState("");
-  const [supported, setSupported] = useState(false);
-  const [blocked, setBlocked] = useState(false);
-
-  useEffect(() => onSpeechBlocked(setBlocked), []);
-
-  useEffect(() => {
-    if (loading || !session || preferences.onboarded) return;
-    void navigate({ to: "/onboarding", replace: true });
-  }, [loading, session, preferences.onboarded, navigate]);
+  const [myEvents, setMyEvents] = useState<PaceEvent[]>([]);
 
   const orderedChoices = [...choices].sort(
     (a, b) => (preferences.tileUsage[b.label] ?? 0) - (preferences.tileUsage[a.label] ?? 0),
   );
-  const lastMoment = preferences.lastMoment;
 
   const rememberChoice = (label: string, path: string) => {
     void savePreferences({
       tileUsage: { ...preferences.tileUsage, [label]: (preferences.tileUsage[label] ?? 0) + 1 },
       lastMoment: { label, path },
     });
+    if (user?.id) void recordEvent({ residentId: user.id, kind: "choice", label: `Chose ${label}` });
   };
 
+  const voice = useSeniorVoice({
+    readAloud: () => [
+      `${greeting}, ${name}.`,
+      "What would you like right now?",
+      ...orderedChoices.map((choice) => `${choice.label}. ${choice.detail}.`),
+      TALK_TEXT,
+    ],
+    onChoice: rememberChoice,
+  });
+
   useEffect(() => {
-    if (!accessibility.voiceInstructions) return;
+    if (loading || !session || preferences.onboarded) return;
+    void navigate({ to: "/onboarding", replace: true });
+  }, [loading, session, preferences.onboarded, navigate]);
 
-    const text = `${greeting}, ${name}. What would you like right now? Listen, for music you enjoy. Connect, with family, friends, and neighbors. Explore, to find something meaningful. Or Quiet, to rest and unwind.`;
-
-    const timer = window.setTimeout(async () => {
-      try {
-        // Speak the welcome.
-        await speakInstructions(text);
-
-        // Welcome is completely finished — now start listening.
-        if (supported && recognition.current) {
-          setHeard("");
-          setReply("");
-          setListening(true);
-
-          recognition.current.start();
-        }
-      } catch (error) {
-        console.error("PACE welcome failed:", error);
-      }
-    }, 500);
-
+  useEffect(() => {
+    if (!user?.id) return;
+    let active = true;
+    const load = async () => {
+      const events = await listMyEvents(user.id);
+      if (active) setMyEvents(events.filter((event) => event.kind !== "activity").slice(0, 3));
+    };
+    void load();
+    const timer = window.setInterval(() => void load(), 5000);
     return () => {
-      window.clearTimeout(timer);
+      active = false;
+      window.clearInterval(timer);
     };
-  }, [accessibility.voiceInstructions, name, greeting, supported]);
+  }, [user?.id]);
 
-  useEffect(() => {
-    const scope = window as typeof window & {
-      SpeechRecognition?: RecognitionConstructor;
-      webkitSpeechRecognition?: RecognitionConstructor;
-    };
-    const Recognition = scope.SpeechRecognition ?? scope.webkitSpeechRecognition;
-    if (!Recognition) return;
-    setSupported(true);
-    const instance = new Recognition();
-    instance.lang = "en-US";
-    instance.interimResults = false;
-    instance.continuous = false;
-    instance.onresult = (event) => handleWords(event.results[0]?.[0]?.transcript ?? "");
-    instance.onerror = () => {
-      setReply("I couldn't hear that. You can tap a choice or type below.");
-      setListening(false);
-    };
-    instance.onend = () => setListening(false);
-    recognition.current = instance;
-    return () => instance.stop();
-  }, []);
+  const lastMoment = preferences.lastMoment;
+  const busy = voice.speaking || voice.listening;
 
-  const handleWords = (words: string) => {
-    const clean = words.trim();
-    if (!clean) return;
-
-    const result = understandPaceChoice(clean);
-
-    setHeard(clean);
-    setReply(result.reply);
-    setListening(false);
-
-    void speakInstructions(result.reply).catch(() => {
-      setReply(`${result.reply} If you cannot hear PACE, please check your device volume.`);
-    });
-
-    const destination = result.path;
-
-    if (destination) {
-      window.setTimeout(() => void navigate({ to: destination }), 1100);
-    }
-  };
   return (
     <div className="senior-home">
+      <div className="voice-bar">
+        <Button className="voice-bar-button" size="xl" onClick={voice.startPace} disabled={busy}>
+          <Volume2 aria-hidden />
+          Start PACE
+        </Button>
+        <Button
+          className="voice-bar-button"
+          size="xl"
+          variant="outline"
+          onClick={voice.talk}
+          disabled={!voice.started || busy}
+        >
+          <Mic aria-hidden />
+          {voice.listening ? "Listening…" : "Talk to PACE"}
+        </Button>
+        {busy && (
+          <Button className="voice-bar-button" size="xl" variant="secondary" onClick={voice.stop}>
+            <Square aria-hidden />
+            Stop
+          </Button>
+        )}
+      </div>
+      {(voice.heard || voice.reply) && (
+        <div className="voice-status" role="status" aria-live="polite">
+          {voice.heard && (
+            <p>
+              <strong>You said:</strong> “{voice.heard}”
+            </p>
+          )}
+          {voice.reply && <p className="pace-reply">{voice.reply}</p>}
+        </div>
+      )}
+
       <div className="senior-topline">
         <div>
           <p>
             {greeting}, {name} <span aria-hidden>♥</span>
           </p>
           <h1>What would you like right now?</h1>
-          {blocked && (
-            <p className="pace-reply" role="status">
-              Tap anywhere on the screen to let PACE speak, then tap “Hear welcome.”
-            </p>
-          )}
         </div>
         <div className="home-tools">
           <Button variant="ghost" size="iconLg" asChild>
@@ -190,21 +146,29 @@ function SeniorHome() {
               <Settings />
             </Link>
           </Button>
-
-          <Button variant="outline" size="lg" asChild onClick={() => setMode("staff")}>
-            <Link to="/staff">
-              <UsersRound />
-              Staff
-            </Link>
-          </Button>
         </div>
       </div>
+
+      {myEvents.length > 0 && (
+        <section className="request-status" aria-live="polite">
+          <h2>What the team is doing for you</h2>
+          {myEvents.map((event) => (
+            <p key={event.id}>
+              {event.status === "in_progress" && event.label.toLowerCase().includes("daughter")
+                ? "Your daughter is being called."
+                : friendlyStatus(event)}
+            </p>
+          ))}
+        </section>
+      )}
+
       {lastMoment && (
         <Link to={lastMoment.path as "/listen"} className="senior-continue">
           <strong>Continue where you left off</strong>
           <small>{lastMoment.label}</small>
         </Link>
       )}
+
       <div className="senior-choice-grid">
         {orderedChoices.map(({ to, label, detail, Icon, tone }) => (
           <Link
@@ -212,6 +176,7 @@ function SeniorHome() {
             to={to}
             onClick={() => rememberChoice(label, to)}
             className={`senior-choice senior-choice-${tone}`}
+            aria-label={`${label}: ${detail}`}
           >
             <Icon aria-hidden />
             <span>
@@ -221,41 +186,26 @@ function SeniorHome() {
           </Link>
         ))}
       </div>
+
       <section className="voice-choice">
         <Mic aria-hidden />
         <div>
           <h2>Talk to PACE</h2>
-          <p>{listening ? "I'm listening…" : "You can say, “I want music” or “I want to talk to my daughter.”"}</p>
-          {heard && (
-            <p className="voice-confirm">
-              <strong>I heard:</strong> “{heard}”
-            </p>
-          )}
-          {reply && <p className="pace-reply">{reply}</p>}
+          <p>
+            {voice.listening
+              ? "I'm listening…"
+              : "You can say, “I want music” or “I want to talk to my daughter.”"}
+          </p>
+          <div className="page-voice-actions">
+            <Button size="xl" onClick={voice.talk} disabled={!voice.started || busy}>
+              <Mic aria-hidden />
+              {voice.listening ? "Listening…" : "Talk to PACE"}
+            </Button>
+            {!voice.started && <p className="simple-note">Tap “Start PACE” at the top first.</p>}
+          </div>
         </div>
       </section>
-      <form
-        className="voice-fallback"
-        onSubmit={(event) => {
-          event.preventDefault();
-          primeSpeechForGesture();
-          handleWords(typed);
-          setTyped("");
-        }}
-      >
-        <label htmlFor="pace-request">Or tell PACE in your own words</label>
-        <div>
-          <input
-            id="pace-request"
-            value={typed}
-            onChange={(event) => setTyped(event.target.value)}
-            placeholder="I want something relaxing"
-          />
-          <Button size="xl" type="submit" disabled={!typed.trim()}>
-            Tell PACE
-          </Button>
-        </div>
-      </form>
+
       <p className="mission-line">PACE doesn’t decide what matters to you. PACE helps you show us what matters.</p>
     </div>
   );
