@@ -116,10 +116,15 @@ function isSameDay(a: Date, b: Date) {
 
 export function MyDayPage() {
   const navigate = useNavigate();
-  const { user, profile, preferences } = usePaceAuth();
+  const { loading, session, user, profile, preferences } = usePaceAuth();
   const [today] = useState(() => new Date());
   const [selectedDate, setSelectedDate] = useState(() => new Date());
   const [spoken, setSpoken] = useState(false);
+
+  useEffect(() => {
+    if (loading || !session || !profile || preferences.onboarded) return;
+    void navigate({ to: "/onboarding", replace: true });
+  }, [loading, session, profile, preferences.onboarded, navigate]);
 
   const greeting = useMemo(() => greetingFor(today.getHours()), [today]);
   const schedule = useMemo(
