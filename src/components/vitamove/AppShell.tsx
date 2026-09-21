@@ -52,12 +52,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   if (isStaffArea && role !== "staff") return <Navigate to="/" replace />;
 
   const links = isStaff
-    ? ([
-        ["/staff", "Overview"],
-        ["/connect", "Connections"],
-        ["/progress", "Moments"],
-        ["/button-audit", "Button audit"],
-      ] as const)
+    ? ([["/staff", "Residents"]] as const)
     : ([
         ["/", "Home"],
         ["/listen", "Listen"],
