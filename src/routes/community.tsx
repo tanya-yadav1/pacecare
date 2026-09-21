@@ -3,6 +3,7 @@ import { ChevronLeft, Coffee, MessageCircleHeart, Phone, Users, Video } from "lu
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ExperienceFeedback } from "@/components/pace/ExperienceFeedback";
+import { primeSpeechForGesture, speakInstructions } from "@/lib/speech";
 
 export const Route = createFileRoute("/community")({
   head: () => ({
@@ -19,12 +20,13 @@ export const Route = createFileRoute("/community")({
 });
 
 const connections = [
-  { title: "Call Maya", detail: "Your daughter", Icon: Phone, action: "Calling Maya…" },
+  { title: "Call Maya", detail: "Your daughter", Icon: Phone, action: "Calling Maya…", kind: "call" as const },
   {
     title: "Video with family",
     detail: "Family group",
     Icon: Video,
     action: "Opening your family video call…",
+    kind: "call" as const,
   },
   {
     title: "Garden listening circle",
@@ -42,6 +44,32 @@ const connections = [
 
 function Connect() {
   const [selected, setSelected] = useState<(typeof connections)[number] | null>(null);
+  const [callStage, setCallStage] = useState<"ringing" | "connected" | null>(null);
+
+  const choose = (item: (typeof connections)[number]) => {
+    primeSpeechForGesture();
+    setSelected(item);
+    if (item.kind === "call") {
+      setCallStage("ringing");
+      void speakInstructions(item.action).catch(() => {});
+      window.setTimeout(() => {
+        setCallStage((stage) => {
+          if (stage !== "ringing") return stage;
+          void speakInstructions("You are connected. This is a sample call screen for practice.").catch(() => {});
+          return "connected";
+        });
+      }, 2600);
+    } else {
+      setCallStage(null);
+      void speakInstructions(item.action).catch(() => {});
+    }
+  };
+
+  const close = () => {
+    setSelected(null);
+    setCallStage(null);
+  };
+
   return (
     <div className="simple-page wide">
       <Link to="/" className="simple-back">
@@ -58,7 +86,7 @@ function Connect() {
       </header>
       <div className="connection-grid">
         {connections.map((item) => (
-          <Button key={item.title} variant="outline" onClick={() => setSelected(item)}>
+          <Button key={item.title} variant="outline" onClick={() => choose(item)}>
             <item.Icon />
             <span>
               <strong>{item.title}</strong>
@@ -67,7 +95,25 @@ function Connect() {
           </Button>
         ))}
       </div>
-      {selected && (
+      {selected && selected.kind === "call" && (
+        <section className="connection-confirm call-screen" role="status" aria-live="polite">
+          <selected.Icon />
+          <div>
+            <p className="eyebrow">{callStage === "connected" ? "Connected" : "Calling"}</p>
+            <h2>{selected.title}</h2>
+            <p>
+              {callStage === "connected"
+                ? "You are connected. This is a sample call screen for practice."
+                : selected.action}
+            </p>
+            {callStage === "ringing" && <p className="call-ringing">Ringing…</p>}
+          </div>
+          <Button size="xl" variant={callStage === "connected" ? "default" : "outline"} onClick={close}>
+            {callStage === "connected" ? "End call" : "Cancel"}
+          </Button>
+        </section>
+      )}
+      {selected && selected.kind !== "call" && (
         <section className="connection-confirm" role="status">
           <selected.Icon />
           <div>
@@ -75,7 +121,7 @@ function Connect() {
             <h2>{selected.title}</h2>
             <p>{selected.action}</p>
           </div>
-          <Button size="xl" onClick={() => setSelected(null)}>
+          <Button size="xl" onClick={close}>
             Done
           </Button>
         </section>
