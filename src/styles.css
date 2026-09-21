@@ -1728,15 +1728,19 @@ html.reduce-motion *::after {
 }
 @media (max-width: 540px) {
   .welcome-page {
-    padding-top: 1.25rem;
+    padding-top: 1rem;
   }
-  .welcome-logo,
-  .welcome-spacer {
-    width: 3.5rem;
-    height: 3.5rem;
-    flex-basis: 3.5rem;
+  .welcome-logo {
+    width: 3.25rem;
+    height: 3.25rem;
   }
-  .welcome-masthead .auth-title {
+  .welcome-brand-title {
+    font-size: 1.7rem;
+  }
+  .welcome-brand-subtitle {
+    font-size: 0.8rem;
+  }
+  .welcome-page-title {
     font-size: 1.55rem;
   }
   .welcome-demo {
