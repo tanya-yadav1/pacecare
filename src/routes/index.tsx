@@ -140,17 +140,23 @@ function SeniorHome() {
   const handleWords = (words: string) => {
     const clean = words.trim();
     if (!clean) return;
+
     const result = understandPaceChoice(clean);
+
     setHeard(clean);
     setReply(result.reply);
     setListening(false);
+
     void speakInstructions(result.reply).catch(() => {
       setReply(`${result.reply} If you cannot hear PACE, please check your device volume.`);
     });
-    const destination = result.path;
-    if (destination) window.setTimeout(() => void navigate({ to: destination }), 1100);
-  };
 
+    const destination = result.path;
+
+    if (destination) {
+      window.setTimeout(() => void navigate({ to: destination }), 1100);
+    }
+  };
   return (
     <div className="senior-home">
       <div className="senior-topline">
