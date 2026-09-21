@@ -113,10 +113,14 @@ function StaffMode() {
 
   const saveResident = async () => {
     if (!selected) return;
-    await supabase
+    const { error } = await supabase
       .from("profiles")
       .update({ greeting_name: nameDraft.trim(), staff_notes: noteDraft.trim() || null })
       .eq("id", selected.id);
+    if (error) {
+      setSaveMessage("Could not save. Please try again.");
+      return;
+    }
     setSaveMessage("Saved.");
     window.setTimeout(() => setSaveMessage(""), 4000);
     void loadResidents();
