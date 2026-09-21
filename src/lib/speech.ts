@@ -75,6 +75,23 @@ export function primeSpeechForGesture() {
   }).catch(() => {});
 }
 
+// Use the device voice synchronously during a tap. This avoids the browser
+// discarding audio permission while generated speech is still downloading.
+export function speakImmediatelyOnGesture(text: string) {
+  if (typeof window === "undefined" || !("speechSynthesis" in window)) return false;
+  const Utterance = window.SpeechSynthesisUtterance;
+  if (!Utterance) return false;
+  window.speechSynthesis.cancel();
+  const message = new Utterance(text);
+  message.rate = 0.84;
+  message.pitch = 1;
+  message.volume = 1;
+  window.speechSynthesis.speak(message);
+  setBlocked(false);
+  unlocked = true;
+  return true;
+}
+
 function decodeBase64(value: string) {
   const binary = atob(value);
   const bytes = new Uint8Array(binary.length);
