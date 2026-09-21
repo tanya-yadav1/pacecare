@@ -63,6 +63,7 @@
   --color-success: var(--success);
   --color-success-foreground: var(--success-foreground);
   --font-sans: "Atkinson Hyperlegible", Arial, sans-serif;
+  --font-serif: "Playfair Display", Georgia, serif;
 }
 
 :root {
@@ -1563,6 +1564,61 @@ html.reduce-motion *::after {
   margin: 0 auto 1.25rem;
   width: min(100%, 42rem);
 }
+
+/* Brand / logo lockup */
+.pace-logo-mark {
+  --logo-path: var(--foreground);
+  --logo-accent: var(--primary);
+  --logo-dot: var(--accent);
+  flex: 0 0 auto;
+  display: block;
+}
+.pace-logo-dot {
+  animation: pace-pulse 3s ease-in-out infinite;
+  transform-origin: center;
+}
+@keyframes pace-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.12); opacity: 0.92; }
+}
+.brand-lockup {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+.brand-lockup-compact {
+  gap: 0.5rem;
+}
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  line-height: 1.1;
+}
+.brand-title {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  color: var(--foreground);
+  letter-spacing: 0.02em;
+}
+.brand-lockup-default .brand-title {
+  font-size: clamp(1.5rem, 3.2vw, 2rem);
+}
+.brand-lockup-compact .brand-title {
+  font-size: clamp(1.25rem, 2.4vw, 1.55rem);
+}
+.brand-subtitle {
+  font-size: clamp(0.65rem, 1.4vw, 0.8rem);
+  font-weight: 600;
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  max-width: 16rem;
+  margin-top: 0.15rem;
+}
+
 .welcome-content {
   width: min(100%, 39rem);
   margin: 0 auto;
@@ -2076,5 +2132,267 @@ html.reduce-motion *::after {
   }
   .stretch-text {
     font-size: 1.35rem;
+  }
+}
+
+/* My Day senior dashboard */
+.my-day-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem;
+  max-width: 56rem;
+  margin: 0 auto;
+}
+.my-day-profile {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  background: var(--color-card);
+  border: 2px solid var(--color-border);
+  border-radius: 1.25rem;
+  padding: 1.25rem;
+}
+.my-day-avatar {
+  width: 4rem;
+  height: 4rem;
+  display: grid;
+  place-items: center;
+  background: var(--color-muted);
+  border-radius: 9999px;
+  color: var(--color-muted-foreground);
+}
+.my-day-greeting {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-foreground);
+  margin: 0;
+}
+.my-day-date {
+  font-size: 1.1rem;
+  color: var(--color-muted-foreground);
+  margin: 0.25rem 0 0;
+}
+.my-day-edit-profile {
+  justify-self: end;
+}
+.my-day-calendar {
+  background: var(--color-card);
+  border: 2px solid var(--color-border);
+  border-radius: 1.25rem;
+  padding: 1.25rem;
+}
+.my-day-calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.my-day-calendar-header h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0;
+}
+.my-day-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+  text-align: center;
+  font-weight: 600;
+  color: var(--color-muted-foreground);
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+.my-day-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+}
+.my-day-day {
+  min-height: 3rem;
+  border-radius: 0.75rem;
+  border: 2px solid transparent;
+  background: var(--color-muted);
+  color: var(--color-foreground);
+  font-size: 1.15rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.my-day-day:hover {
+  background: var(--color-secondary);
+}
+.my-day-day-empty {
+  background: transparent;
+}
+.my-day-day-today {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+.my-day-day-selected {
+  background: var(--color-primary);
+  color: var(--color-primary-foreground);
+}
+.my-day-day-selected:hover {
+  background: var(--color-primary);
+}
+.my-day-section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0 0 1rem;
+}
+.my-day-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.my-day-card {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 6rem 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 1rem;
+  row-gap: 0.25rem;
+  text-align: left;
+  background: var(--color-card);
+  border: 2px solid var(--color-border);
+  border-radius: 1.25rem;
+  padding: 1.25rem;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.my-day-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px -6px color-mix(in oklab, var(--color-foreground) 12%, transparent);
+}
+.my-day-card-listen {
+  border-left: 8px solid var(--color-chart-1);
+}
+.my-day-card-connect {
+  border-left: 8px solid var(--color-chart-2);
+}
+.my-day-card-explore {
+  border-left: 8px solid var(--color-chart-3);
+}
+.my-day-card-quiet {
+  border-left: 8px solid var(--color-chart-4);
+}
+.my-day-time {
+  grid-row: 1 / -1;
+  align-self: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--color-muted-foreground);
+}
+.my-day-card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--color-foreground);
+}
+.my-day-card-detail {
+  font-size: 1.1rem;
+  color: var(--color-muted-foreground);
+}
+.my-day-reminders,
+.my-day-profile-card {
+  background: var(--color-card);
+  border: 2px solid var(--color-border);
+  border-radius: 1.25rem;
+  padding: 1.25rem;
+}
+.my-day-dl {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0 0 1rem;
+}
+.my-day-dl div {
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  gap: 1rem;
+  align-items: baseline;
+}
+.my-day-dl dt {
+  font-weight: 700;
+  color: var(--color-muted-foreground);
+  font-size: 1rem;
+}
+.my-day-dl dd {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--color-foreground);
+}
+@media (max-width: 640px) {
+  .my-day-profile {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+  .my-day-edit-profile {
+    justify-self: center;
+  }
+  .my-day-card {
+    grid-template-columns: 1fr;
+  }
+  .my-day-time {
+    grid-row: auto;
+  }
+  .my-day-dl div {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+}
+
+/* Staff senior preview */
+.senior-preview-page {
+  min-height: 100vh;
+  background: var(--color-background);
+}
+.senior-preview-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  background: var(--color-foreground);
+  color: var(--color-background);
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  font-size: 1rem;
+}
+.senior-preview-banner a {
+  margin-left: auto;
+}
+.senior-preview-inner {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+}
+.senior-preview-greeting {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-foreground);
+  margin: 0 0 0.25rem;
+}
+.senior-preview-inner h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--color-foreground);
+  margin: 0 0 1.5rem;
+}
+@media (max-width: 640px) {
+  .senior-preview-banner a {
+    margin-left: 0;
+    width: 100%;
   }
 }

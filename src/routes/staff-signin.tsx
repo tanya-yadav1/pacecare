@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, BriefcaseBusiness, MonitorPlay, ShieldCheck } from "lucide-react";
 import { useEffect, useState } from "react";
-import paceLogo from "@/assets/pace-logo.png";
+import { Brand } from "@/components/vitamove/Brand";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { usePaceAuth } from "@/lib/pace-auth";
@@ -156,13 +156,7 @@ function StaffSignIn() {
   return (
     <div className="welcome-page staff-welcome-page">
       <header className="welcome-masthead">
-        <div className="welcome-logo-wrap">
-          <img src={paceLogo} alt="PACE" className="welcome-logo" />
-        </div>
-        <div className="welcome-brand-text">
-          <h1 className="welcome-brand-title">PACE</h1>
-          <p className="welcome-brand-subtitle">Personalized Aging & Connection Experience</p>
-        </div>
+        <Brand />
       </header>
       <h2 className="auth-title welcome-page-title">Staff access</h2>
       <p className="welcome-tagline">Resident support, requests, and meaningful moments.</p>
