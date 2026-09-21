@@ -187,24 +187,6 @@ function SeniorHome() {
         ))}
       </div>
 
-      <section className="voice-choice">
-        <Mic aria-hidden />
-        <div>
-          <h2>Talk to PACE</h2>
-          <p>
-            {voice.listening
-              ? "I'm listening…"
-              : "You can say, “I want music” or “I want to talk to my daughter.”"}
-          </p>
-          <div className="page-voice-actions">
-            <Button size="xl" onClick={voice.talk} disabled={!voice.started || busy}>
-              <Mic aria-hidden />
-              {voice.listening ? "Listening…" : "Talk to PACE"}
-            </Button>
-            {!voice.started && <p className="simple-note">Tap “Start PACE” at the top first.</p>}
-          </div>
-        </div>
-      </section>
 
       <p className="mission-line">PACE doesn’t decide what matters to you. PACE helps you show us what matters.</p>
     </div>
