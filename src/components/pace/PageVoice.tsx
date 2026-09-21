@@ -4,11 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useLumaStrideWellness } from "@/lib/lumastride-wellness";
 import { understandPaceChoice } from "@/lib/pace-voice";
-import {
-  onSpeechBlocked,
-  primeSpeechForGesture,
-  speakInstructions,
-} from "@/lib/speech";
+import { onSpeechBlocked, primeSpeechForGesture, speakInstructions } from "@/lib/speech";
 
 type BrowserRecognition = {
   lang: string;
@@ -16,11 +12,7 @@ type BrowserRecognition = {
   continuous: boolean;
   start: () => void;
   stop: () => void;
-  onresult: (
-    event: {
-      results: ArrayLike<{ 0: { transcript: string } }>;
-    }
-  ) => void;
+  onresult: ((event: { results: ArrayLike<{ 0: { transcript: string } }> }) => void) | null;
   onerror: (() => void) | null;
   onend: (() => void) | null;
 };
@@ -28,38 +20,21 @@ type BrowserRecognition = {
 type RecognitionConstructor = new () => BrowserRecognition;
 
 const pageIntros: Record<string, string> = {
-  "/":
-    "Good morning. I'm PACE. What would you like to do today? You can tell me, or choose something on the screen.",
-
-  "/music":
-    "Listen. Here you can play music you enjoy. Tap a song, then press play, pause, or stop.",
-
+  "/": "Good morning. I'm PACE. What would you like to do today? You can tell me, or choose something on the screen.",
+  "/music": "Listen. Here you can play music you enjoy. Tap a song, then press play, pause, or stop.",
   "/community":
     "Connect. Here you can reach family, friends, or neighbors. Choose someone you would like to connect with.",
-
-  "/mind-body":
-    "Explore. Here you can discover gentle movement, stretching, or breathing activities.",
-
-  "/relax":
-    "Quiet. Take a calm minute to rest. Choose a peaceful sound or simply breathe.",
-
-  "/progress":
-    "My Journey. Look back at moments you enjoyed and add a short note if you like.",
-
+  "/mind-body": "Explore. Here you can discover gentle movement, stretching, or breathing activities.",
+  "/relax": "Quiet. Take a calm minute to rest. Choose a peaceful sound or simply breathe.",
+  "/progress": "My Journey. Look back at moments you enjoyed and add a short note if you like.",
   "/accessibility":
     "Accessibility settings. Make text larger, turn on high contrast, or switch voice instructions on or off.",
-
-  "/staff":
-    "Staff overview. This screen shows sample residents and thoughtful connection ideas.",
-
-  "/pace-demo":
-    "PACE demo. This is a short sample walk-through with pretend data.",
+  "/staff": "Staff overview. This screen shows sample residents and thoughtful connection ideas.",
+  "/pace-demo": "PACE demo. This is a short sample walk-through with pretend data.",
 };
 
 function introFor(path: string, name: string) {
-  const base =
-    pageIntros[path] ??
-    "I'm PACE. You can talk to me or choose something on the screen.";
+  const base = pageIntros[path] ?? "I'm PACE. You can talk to me or choose something on the screen.";
 
   if (path === "/") {
     return base.replace("Good morning.", `Good morning, ${name}.`);
@@ -74,7 +49,6 @@ export function PageVoice() {
   });
 
   const navigate = useNavigate();
-
   const { name, accessibility } = useLumaStrideWellness();
 
   const recognition = useRef<BrowserRecognition | null>(null);
@@ -86,26 +60,80 @@ export function PageVoice() {
   const [supported, setSupported] = useState(false);
   const [blocked, setBlocked] = useState(false);
 
-  /*
-   * Detect when browser speech is blocked.
-   */
   useEffect(() => {
     const cleanup = onSpeechBlocked(setBlocked);
-
     return cleanup;
   }, []);
 
-  /*
-   * Set up browser speech recognition.
-   */
+  const speak = async (text: string) => {
+    setSpeaking(true);
+
+    try {
+      await speakInstructions(text);
+    } catch {
+      setBlocked(true);
+    } finally {
+      setSpeaking(false);
+    }
+  };
+
+  const handleWords = (words: string) => {
+    const clean = words.trim();
+
+    if (!clean) {
+      return;
+    }
+
+    const lower = clean.toLowerCase();
+
+    if (/home|start over|main page/.test(lower)) {
+      setHeard(clean);
+      setReply("Going home.");
+      void speak("Going home.");
+
+      window.setTimeout(() => {
+        void navigate({ to: "/" });
+      }, 900);
+
+      setListening(false);
+      return;
+    }
+
+    if (/back|go back|previous/.test(lower)) {
+      setHeard(clean);
+      setReply("Going back.");
+      void speak("Going back.");
+
+      window.setTimeout(() => {
+        window.history.back();
+      }, 900);
+
+      setListening(false);
+      return;
+    }
+
+    const result = understandPaceChoice(clean);
+
+    setHeard(clean);
+    setReply(result.reply);
+    setListening(false);
+
+    void speak(result.reply);
+
+    if (result.path) {
+      window.setTimeout(() => {
+        void navigate({ to: result.path });
+      }, 1100);
+    }
+  };
+
   useEffect(() => {
     const scope = window as typeof window & {
       SpeechRecognition?: RecognitionConstructor;
       webkitSpeechRecognition?: RecognitionConstructor;
     };
 
-    const Recognition =
-      scope.SpeechRecognition ?? scope.webkitSpeechRecognition;
+    const Recognition = scope.SpeechRecognition ?? scope.webkitSpeechRecognition;
 
     if (!Recognition) {
       setSupported(false);
@@ -121,18 +149,13 @@ export function PageVoice() {
     instance.continuous = false;
 
     instance.onresult = (event) => {
-      const transcript =
-        event.results[0]?.[0]?.transcript ?? "";
-
+      const transcript = event.results[0]?.[0]?.transcript ?? "";
       handleWords(transcript);
     };
 
     instance.onerror = () => {
-      setReply(
-        "I couldn't hear that. You can tap a choice or type on the home screen."
-      );
-
       setListening(false);
+      setReply("I couldn't hear that. You can tap a choice or type on the home screen.");
     };
 
     instance.onend = () => {
@@ -147,12 +170,6 @@ export function PageVoice() {
     };
   }, []);
 
-  /*
-   * Try to introduce PACE when the page opens.
-   *
-   * If the browser allows speech, PACE speaks automatically.
-   * If the browser blocks it, the Start PACE button appears.
-   */
   useEffect(() => {
     if (!accessibility.voiceInstructions) {
       return;
@@ -169,32 +186,8 @@ export function PageVoice() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [path, accessibility.voiceInstructions, name]);
 
-  /*
-   * Speak through the existing PACE speech system.
-   */
-  const speak = async (text: string) => {
-    setSpeaking(true);
-
-    try {
-      await speakInstructions(text);
-    } catch {
-      /*
-       * Browser may block automatic audio.
-       * Show the large Start PACE fallback.
-       */
-      setBlocked(true);
-    } finally {
-      setSpeaking(false);
-    }
-  };
-
-  /*
-   * Start PACE after the senior taps the screen.
-   * This user gesture allows browsers to unlock audio.
-   */
   const startPace = () => {
     primeSpeechForGesture();
-
     setBlocked(false);
     setReply("");
     setHeard("");
@@ -202,20 +195,14 @@ export function PageVoice() {
     void speak(introFor(path, name));
   };
 
-  /*
-   * Start speech recognition.
-   */
   const startListening = () => {
     primeSpeechForGesture();
 
     if (!supported) {
-      const message =
-        "Voice listening isn't available on this device. You can choose an option on the screen instead.";
+      const message = "Voice listening isn't available on this device. You can choose an option on the screen instead.";
 
       setReply(message);
-
       void speak(message);
-
       return;
     }
 
@@ -232,112 +219,25 @@ export function PageVoice() {
     } catch {
       setListening(false);
 
-      const message =
-        "Let's try that again. You can tap a choice on the screen.";
+      const message = "Let's try that again. You can tap a choice on the screen.";
 
       setReply(message);
-
       void speak(message);
     }
   };
 
-  /*
-   * Repeat the current page introduction.
-   */
   const hearPage = () => {
     primeSpeechForGesture();
-
     setBlocked(false);
-
     void speak(introFor(path, name));
   };
 
-  /*
-   * Handle what the senior says.
-   */
-  const handleWords = (words: string) => {
-    const clean = words.trim();
-
-    if (!clean) {
-      return;
-    }
-
-    const lower = clean.toLowerCase();
-
-    /*
-     * Home command.
-     */
-    if (/home|start over|main page/.test(lower)) {
-      setHeard(clean);
-      setReply("Going home.");
-
-      void speak("Going home.");
-
-      window.setTimeout(() => {
-        void navigate({ to: "/" });
-      }, 900);
-
-      setListening(false);
-
-      return;
-    }
-
-    /*
-     * Back command.
-     */
-    if (/back|go back|previous/.test(lower)) {
-      setHeard(clean);
-      setReply("Going back.");
-
-      void speak("Going back.");
-
-      window.setTimeout(() => {
-        window.history.back();
-      }, 900);
-
-      setListening(false);
-
-      return;
-    }
-
-    /*
-     * Use the existing PACE voice interpretation system.
-     */
-    const result = understandPaceChoice(clean);
-
-    setHeard(clean);
-    setReply(result.reply);
-    setListening(false);
-
-    void speak(result.reply);
-
-    const destination = result.path;
-
-    if (destination) {
-      window.setTimeout(() => {
-        void navigate({ to: destination });
-      }, 1100);
-    }
-  };
-
   return (
-    <div
-      className="page-voice"
-      role="region"
-      aria-label="PACE voice assistant"
-    >
+    <div className="page-voice" role="region" aria-label="PACE voice assistant">
       <div className="page-voice-inner">
-
-        {/*
-         * Browser blocked automatic speech.
-         */}
         {blocked ? (
           <div className="page-voice-welcome">
-
-            <p
-              className="page-voice-reply"
-              aria-live="polite"
-            >
+            <p className="page-voice-reply" aria-live="polite">
               PACE is ready.
               <br />
               Tap once and I'll talk with you.
@@ -353,50 +253,20 @@ export function PageVoice() {
               <Volume2 aria-hidden />
               Tap to Start PACE
             </Button>
-
           </div>
-
         ) : reply ? (
-
-          /*
-           * PACE response after the senior speaks.
-           */
-          <p
-            className="page-voice-reply"
-            aria-live="polite"
-          >
+          <p className="page-voice-reply" aria-live="polite">
             {reply}
 
-            {heard && (
-              <span className="sr-only">
-                {" "}
-                You said: {heard}.
-              </span>
-            )}
+            {heard && <span className="sr-only"> You said: {heard}.</span>}
           </p>
-
         ) : (
-
-          /*
-           * Normal PACE status.
-           */
-          <p
-            className="page-voice-hint"
-            aria-live="polite"
-          >
-            {speaking
-              ? "PACE is speaking…"
-              : listening
-                ? "I'm listening… Take your time."
-                : `Good morning, ${name}.`}
+          <p className="page-voice-hint" aria-live="polite">
+            {speaking ? "PACE is speaking…" : listening ? "I'm listening… Take your time." : `Good morning, ${name}.`}
           </p>
         )}
 
         <div className="page-voice-actions">
-
-          {/*
-           * Talk to PACE.
-           */
           <Button
             variant={listening ? "default" : "amber"}
             size="xl"
@@ -405,29 +275,13 @@ export function PageVoice() {
             aria-label="Talk to PACE"
           >
             <Mic aria-hidden />
-
-            {listening
-              ? "Listening…"
-              : "Talk to PACE"}
+            {listening ? "Listening…" : "Talk to PACE"}
           </Button>
 
-          {/*
-           * Hear PACE.
-           */
-          <Button
-            variant="secondary"
-            size="xl"
-            onClick={hearPage}
-            disabled={speaking}
-            aria-label="Hear PACE"
-          >
+          <Button variant="secondary" size="xl" onClick={hearPage} disabled={speaking} aria-label="Hear PACE">
             <Volume2 aria-hidden />
-
-            {speaking
-              ? "Speaking…"
-              : "Hear PACE"}
+            {speaking ? "Speaking…" : "Hear PACE"}
           </Button>
-
         </div>
       </div>
     </div>
