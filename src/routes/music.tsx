@@ -62,9 +62,15 @@ const catalog: MusicFavorite[] = [
 function Music() {
   const state = useLumaStrideWellness();
   const [query, setQuery] = useState("");
-  const [playing, setPlaying] = useState<string | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [playing, setPlaying] = useState<string | null>(() => currentSongId());
+  const [isPlaying, setIsPlaying] = useState(() => currentSongId() !== null);
   const selected = catalog.find((song) => song.id === playing) ?? null;
+  const musicActive = selected !== null || currentSongId() !== null;
+
+  useEffect(() => {
+    // Stop the music when leaving this page so nothing keeps playing elsewhere.
+    return () => stopSong();
+  }, []);
   const target = state.targetCadence ?? state.cadence;
   const results = useMemo(
     () =>
