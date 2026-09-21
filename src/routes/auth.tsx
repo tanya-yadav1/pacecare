@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { KeyRound, Mail } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Brand } from "@/components/vitamove/Brand";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { usePaceAuth } from "@/lib/pace-auth";
@@ -78,8 +79,11 @@ function SeniorSignIn() {
 
   if (sent) {
     return (
-      <div className="simple-page">
-        <h1>Check your email</h1>
+      <div className="simple-page auth-page">
+        <div className="auth-brand">
+          <Brand />
+        </div>
+        <h1 className="auth-title">Check your email</h1>
         <p className="simple-lead">
           PACE sent a sign-in link to {email}. Open the email and tap the big link.
         </p>
@@ -94,10 +98,12 @@ function SeniorSignIn() {
   }
 
   return (
-    <div className="simple-page">
-      <p className="eyebrow">PACE</p>
-      <h1>Welcome back</h1>
-      <p className="simple-lead">Your voice. Your choice. Your moment.</p>
+    <div className="simple-page auth-page">
+      <div className="auth-brand">
+        <Brand />
+      </div>
+      <h1 className="auth-title">Welcome to PACE</h1>
+      <p className="auth-tagline">Your voice. Your choice. Your moment.</p>
 
       <form
         className="auth-form"
