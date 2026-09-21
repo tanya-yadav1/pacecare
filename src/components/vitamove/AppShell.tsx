@@ -1,8 +1,8 @@
 import { Link, Navigate, useRouterState } from "@tanstack/react-router";
-import { Accessibility, Home, LogOut, Menu, Settings, UsersRound, X } from "lucide-react";
+import { Accessibility, Home, LogOut, Menu, Settings, X } from "lucide-react";
 import { useState } from "react";
 import { Brand } from "./Brand";
-import { PageVoice } from "@/components/pace/PageVoice";
+import { SeniorControls } from "@/components/pace/SeniorControls";
 import { Button } from "@/components/ui/button";
 import { useLumaStrideWellness } from "@/lib/lumastride-wellness";
 import { usePaceAuth } from "@/lib/pace-auth";
@@ -64,6 +64,44 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         ["/explore", "Explore"],
         ["/quiet", "Quiet"],
       ] as const);
+  if (isStaff) {
+    return (
+      <div className="staff-shell">
+        <div className="staff-banner" role="banner">
+          Staff Mode
+        </div>
+        <div className="staff-body">
+          <nav className="staff-sidebar" aria-label="Staff navigation">
+            <Brand compact />
+            {links.map(([to, label]) => (
+              <Link
+                key={to}
+                to={to}
+                className={path === to ? "nav-link nav-link-active" : "nav-link"}
+                aria-current={path === to ? "page" : undefined}
+              >
+                {label}
+              </Link>
+            ))}
+            <Button variant="outline" size="lg" asChild onClick={() => setMode("senior")}>
+              <Link to="/">
+                <Home />
+                Senior Mode
+              </Link>
+            </Button>
+            <Button variant="ghost" size="lg" onClick={() => void signOut()}>
+              <LogOut />
+              Sign out
+            </Button>
+          </nav>
+          <main className="staff-main" id="pace-main">
+            {children}
+          </main>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <header className="pace-header">
@@ -89,16 +127,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 <Accessibility />
               </Link>
             </Button>
-            {role === "staff" && (
-              <Button
-                variant="outline"
-                size="lg"
-                asChild
-                onClick={() => setMode(isStaff ? "senior" : "staff")}
-              >
-                <Link to={isStaff ? "/" : "/staff"}>
-                  {isStaff ? <Home /> : <UsersRound />}
-                  <span className="hidden sm:inline">{isStaff ? "Senior Mode" : "Staff Mode"}</span>
+            {isStaff && role === "staff" && (
+              <Button variant="outline" size="lg" asChild onClick={() => setMode("senior")}>
+                <Link to="/">
+                  <Home />
+                  <span className="hidden sm:inline">Senior Mode</span>
                 </Link>
               </Button>
             )}
@@ -133,9 +166,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         )}
       </header>
 
-      <main className="pace-main">
+      <main className="pace-main" id="pace-main">
+        {!isStaff && path !== "/" && <SeniorControls />}
         {children}
-        <PageVoice />
       </main>
       <footer className="pace-disclaimer">
         PACE supports personal choice and connection. It does not diagnose, cure, or treat any medical or mental-health
