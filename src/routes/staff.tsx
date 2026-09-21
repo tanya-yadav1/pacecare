@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CheckCircle2, ClipboardPen, LifeBuoy, Search, Timer, Users } from "lucide-react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
@@ -52,6 +52,7 @@ function StaffMode() {
   const [pinEmail, setPinEmail] = useState("");
   const [pinValue, setPinValue] = useState("");
   const [pinMessage, setPinMessage] = useState("");
+  const editRef = useRef<HTMLSelectElement | HTMLElement | null>(null);
 
   const loadResidents = useCallback(async () => {
     const { data } = await supabase
@@ -112,10 +113,14 @@ function StaffMode() {
 
   const saveResident = async () => {
     if (!selected) return;
-    await supabase
+    const { error } = await supabase
       .from("profiles")
       .update({ greeting_name: nameDraft.trim(), staff_notes: noteDraft.trim() || null })
       .eq("id", selected.id);
+    if (error) {
+      setSaveMessage("Could not save. Please try again.");
+      return;
+    }
     setSaveMessage("Saved.");
     window.setTimeout(() => setSaveMessage(""), 4000);
     void loadResidents();
@@ -226,6 +231,11 @@ function StaffMode() {
                     setSelectedId(resident.id);
                     setNameDraft(resident.greeting_name ?? "");
                     setNoteDraft(resident.staff_notes ?? "");
+                    setSaveMessage("");
+                    window.setTimeout(() => {
+                      (editRef.current as HTMLElement | null)?.scrollIntoView({ behavior: "smooth", block: "center" });
+                      document.getElementById("resident-name")?.focus();
+                    }, 60);
                   }}
                 >
                   <ClipboardPen aria-hidden /> Edit
@@ -237,7 +247,13 @@ function StaffMode() {
       </section>
 
       {selected && (
-        <section className="staff-card" aria-labelledby="edit-heading">
+        <section
+          className="staff-card"
+          aria-labelledby="edit-heading"
+          ref={(node) => {
+            editRef.current = node;
+          }}
+        >
           <h2 id="edit-heading">Edit {selected.display_name || selected.email}</h2>
           <label htmlFor="resident-name">Preferred name</label>
           <Input id="resident-name" value={nameDraft} onChange={(event) => setNameDraft(event.target.value)} />
