@@ -13,6 +13,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLumaStrideWellness } from "@/lib/lumastride-wellness";
+import { setResidentPin } from "@/lib/pace-pin.functions";
 
 export const Route = createFileRoute("/staff")({
   head: () => ({
@@ -63,6 +64,9 @@ function StaffMode() {
   const { setMode } = useLumaStrideWellness();
   const [selected, setSelected] = useState(residents[0]);
   const [handoff, setHandoff] = useState("");
+  const [pinEmail, setPinEmail] = useState("");
+  const [pinValue, setPinValue] = useState("");
+  const [pinMessage, setPinMessage] = useState("");
   const [saved, setSaved] = useState<string[]>([]);
   if (!selected) return null;
   return (
@@ -164,6 +168,44 @@ function StaffMode() {
               <span className="consent-label">Sharing choice confirmed</span>
             </article>
           </div>
+          <section className="handoff-panel">
+            <ClipboardPen />
+            <div>
+              <h2>Sign-in PIN for a resident</h2>
+              <p>
+                Set a simple 4-digit PIN so a resident can sign in without email. Enter their PACE
+                email address.
+              </p>
+              <div className="entry-row">
+                <Input
+                  value={pinEmail}
+                  onChange={(event) => setPinEmail(event.target.value)}
+                  placeholder="eleanor@example.com"
+                  aria-label="Resident email"
+                />
+                <Input
+                  value={pinValue}
+                  onChange={(event) => setPinValue(event.target.value.replace(/\D/g, "").slice(0, 4))}
+                  placeholder="1234"
+                  aria-label="Four digit PIN"
+                />
+                <Button
+                  size="xl"
+                  disabled={pinValue.length !== 4 || !pinEmail.trim()}
+                  onClick={async () => {
+                    const result = await setResidentPin({
+                      data: { email: pinEmail.trim(), pin: pinValue },
+                    });
+                    setPinMessage(result.message ?? "");
+                    if (result.ok) setPinValue("");
+                  }}
+                >
+                  Save PIN
+                </Button>
+              </div>
+              {pinMessage && <p className="saved-line">{pinMessage}</p>}
+            </div>
+          </section>
           <section className="handoff-panel">
             <ClipboardPen />
             <div>

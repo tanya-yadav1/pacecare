@@ -3,6 +3,7 @@ import { Headphones, Leaf, MessageCircleHeart, Mic, Moon, Settings, UsersRound }
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useLumaStrideWellness } from "@/lib/lumastride-wellness";
+import { usePaceAuth } from "@/lib/pace-auth";
 import { understandPaceChoice } from "@/lib/pace-voice";
 import { onSpeechBlocked, primeSpeechForGesture, speakImmediatelyOnGesture, speakInstructions } from "@/lib/speech";
 
@@ -61,9 +62,17 @@ const choices = [
   { to: "/relax" as const, label: "Quiet", detail: "Rest and unwind", Icon: Moon, tone: "quiet" },
 ];
 
+function greetingFor(hour: number) {
+  if (hour < 12) return "Good morning";
+  if (hour < 17) return "Good afternoon";
+  return "Good evening";
+}
+
 function SeniorHome() {
   const { name, setMode, accessibility } = useLumaStrideWellness();
+  const { loading, session, preferences, savePreferences } = usePaceAuth();
   const navigate = useNavigate();
+  const [greeting] = useState(() => greetingFor(new Date().getHours()));
   const recognition = useRef<BrowserRecognition | null>(null);
   const [listening, setListening] = useState(false);
   const [heard, setHeard] = useState("");
@@ -75,9 +84,26 @@ function SeniorHome() {
   useEffect(() => onSpeechBlocked(setBlocked), []);
 
   useEffect(() => {
+    if (loading || !session || preferences.onboarded) return;
+    void navigate({ to: "/onboarding", replace: true });
+  }, [loading, session, preferences.onboarded, navigate]);
+
+  const orderedChoices = [...choices].sort(
+    (a, b) => (preferences.tileUsage[b.label] ?? 0) - (preferences.tileUsage[a.label] ?? 0),
+  );
+  const lastMoment = preferences.lastMoment;
+
+  const rememberChoice = (label: string, path: string) => {
+    void savePreferences({
+      tileUsage: { ...preferences.tileUsage, [label]: (preferences.tileUsage[label] ?? 0) + 1 },
+      lastMoment: { label, path },
+    });
+  };
+
+  useEffect(() => {
     if (!accessibility.voiceInstructions) return;
 
-    const text = `Good morning, ${name}. What would you like right now? Listen, for music you enjoy. Connect, with family, friends, and neighbors. Explore, to find something meaningful. Or Quiet, to rest and unwind.`;
+    const text = `${greeting}, ${name}. What would you like right now? Listen, for music you enjoy. Connect, with family, friends, and neighbors. Explore, to find something meaningful. Or Quiet, to rest and unwind.`;
 
     const timer = window.setTimeout(async () => {
       try {
@@ -100,7 +126,7 @@ function SeniorHome() {
     return () => {
       window.clearTimeout(timer);
     };
-  }, [accessibility.voiceInstructions, name, supported]);
+  }, [accessibility.voiceInstructions, name, greeting, supported]);
 
   useEffect(() => {
     const scope = window as typeof window & {
@@ -149,7 +175,7 @@ function SeniorHome() {
       <div className="senior-topline">
         <div>
           <p>
-            Good morning, {name} <span aria-hidden>♥</span>
+            {greeting}, {name} <span aria-hidden>♥</span>
           </p>
           <h1>What would you like right now?</h1>
           {blocked && (
@@ -160,7 +186,7 @@ function SeniorHome() {
         </div>
         <div className="home-tools">
           <Button variant="ghost" size="iconLg" asChild>
-            <Link to="/accessibility" aria-label="Accessibility settings">
+            <Link to="/settings" aria-label="My settings">
               <Settings />
             </Link>
           </Button>
@@ -173,9 +199,20 @@ function SeniorHome() {
           </Button>
         </div>
       </div>
+      {lastMoment && (
+        <Link to={lastMoment.path as "/music"} className="senior-continue">
+          <strong>Continue where you left off</strong>
+          <small>{lastMoment.label}</small>
+        </Link>
+      )}
       <div className="senior-choice-grid">
-        {choices.map(({ to, label, detail, Icon, tone }) => (
-          <Link key={to} to={to} className={`senior-choice senior-choice-${tone}`}>
+        {orderedChoices.map(({ to, label, detail, Icon, tone }) => (
+          <Link
+            key={to}
+            to={to}
+            onClick={() => rememberChoice(label, to)}
+            className={`senior-choice senior-choice-${tone}`}
+          >
             <Icon aria-hidden />
             <span>
               <strong>{label}</strong>

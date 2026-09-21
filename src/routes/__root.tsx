@@ -15,6 +15,7 @@ import { VitaMoveProvider } from "../lib/vitamove-state";
 import { AppShell } from "../components/vitamove/AppShell";
 import { Brand } from "../components/vitamove/Brand";
 import { LumaStrideWellnessProvider } from "../lib/lumastride-wellness";
+import { PaceAuthProvider } from "../lib/pace-auth";
 
 function NotFoundComponent() {
   return (
@@ -126,7 +127,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <VitaMoveProvider><LumaStrideWellnessProvider><AppShell><Outlet /></AppShell></LumaStrideWellnessProvider></VitaMoveProvider>
+      <PaceAuthProvider><VitaMoveProvider><LumaStrideWellnessProvider><AppShell><Outlet /></AppShell></LumaStrideWellnessProvider></VitaMoveProvider></PaceAuthProvider>
     </QueryClientProvider>
   );
 }

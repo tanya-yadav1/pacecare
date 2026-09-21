@@ -8,6 +8,13 @@
       "when": 1789933475690,
       "tag": "0000_create_vitamove_profiles",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1789998386261,
+      "tag": "0001_pace_accounts_roles",
+      "breakpoints": true
     }
   ]
 }
