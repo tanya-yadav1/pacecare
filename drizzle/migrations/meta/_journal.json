@@ -29,6 +29,13 @@
       "when": 1790000474517,
       "tag": "0003_pace_creations",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1790002857594,
+      "tag": "0004_pace_music_catalog",
+      "breakpoints": true
     }
   ]
 }
