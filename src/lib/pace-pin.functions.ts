@@ -23,13 +23,71 @@ function tooManyAttempts(email: string) {
   return record.count > 6;
 }
 
+/** The fictional demonstration resident anyone can try with PIN 1234. */
+const DEMO_EMAIL = "eleanor@pacedemo.app";
+const DEMO_PIN = "1234";
+
+/** Creates the fictional demo resident the first time someone signs in with the demo PIN. */
+async function ensureDemoResident() {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+  const { data: existing } = await supabaseAdmin
+    .from("profiles")
+    .select("id")
+    .eq("email", DEMO_EMAIL)
+    .maybeSingle();
+
+  let userId = existing?.id ?? null;
+
+  if (!userId) {
+    const { data: created, error } = await supabaseAdmin.auth.admin.createUser({
+      email: DEMO_EMAIL,
+      email_confirm: true,
+      user_metadata: { display_name: "Eleanor Brooks", role: "senior" },
+    });
+    if (error || !created.user) return null;
+    userId = created.user.id;
+  }
+
+  await supabaseAdmin.from("profiles").upsert({
+    id: userId,
+    email: DEMO_EMAIL,
+    display_name: "Eleanor Brooks",
+    greeting_name: "Eleanor",
+    preferences: {
+      music: ["Jazz", "Big band", "Piano"],
+      people: [
+        { name: "Maya", relationship: "Daughter" },
+        { name: "Samuel", relationship: "Neighbor" },
+      ],
+      interests: ["Gardening", "Stories", "Birds"],
+      onboarded: true,
+      tileUsage: { Listen: 3, Connect: 2 },
+    },
+  });
+
+  await supabaseAdmin
+    .from("user_roles")
+    .upsert({ user_id: userId, role: "senior" }, { onConflict: "user_id,role" });
+
+  await supabaseAdmin.from("senior_pins").upsert({
+    user_id: userId,
+    pin_hash: hashPin(userId, DEMO_PIN),
+    set_by: userId,
+    updated_at: new Date().toISOString(),
+  });
+
+  return userId;
+}
+
 /** Signs a senior in with the 4-digit PIN a caregiver set for them. */
 export const signInWithPin = createServerFn({ method: "POST" })
-  .inputValidator((input: { email: string; pin: string }) =>
-    z.object({ email: emailSchema, pin: pinSchema }).parse(input),
+  .inputValidator((input: { email?: string; pin: string }) =>
+    z.object({ email: emailSchema.optional().or(z.literal("")), pin: pinSchema }).parse(input),
   )
   .handler(async ({ data }) => {
-    const email = data.email.toLowerCase();
+    const email = (data.email?.trim() ? data.email : DEMO_EMAIL).toLowerCase();
+    if (email === DEMO_EMAIL && data.pin === DEMO_PIN) await ensureDemoResident();
     if (tooManyAttempts(email)) {
       return { ok: false as const, message: "Too many tries. Please wait a few minutes." };
     }

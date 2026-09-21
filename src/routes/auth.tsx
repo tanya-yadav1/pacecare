@@ -107,12 +107,12 @@ function SeniorSignIn() {
           else void sendLink();
         }}
       >
-        <label htmlFor="pace-email">Your email</label>
+        <label htmlFor="pace-email">Your email{usePin ? " (not needed for the demo PIN)" : ""}</label>
         <input
           id="pace-email"
           type="email"
           autoComplete="email"
-          required
+          required={!usePin}
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           placeholder="eleanor@example.com"
@@ -133,11 +133,18 @@ function SeniorSignIn() {
           </>
         )}
 
-        <Button size="xl" type="submit" disabled={busy || !email.trim()}>
+        <Button size="xl" type="submit" disabled={busy || (usePin ? pin.length !== 4 : !email.trim())}>
           {usePin ? <KeyRound /> : <Mail />}
           {usePin ? "Sign in" : "Send my sign-in link"}
         </Button>
       </form>
+
+      {usePin && (
+        <p className="simple-note">
+          Trying the demonstration? Leave the email empty and enter PIN <strong>1234</strong> to sign
+          in as Eleanor, our fictional resident.
+        </p>
+      )}
 
       {message && (
         <p className="pace-reply" role="status">
