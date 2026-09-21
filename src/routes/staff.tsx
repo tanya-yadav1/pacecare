@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CheckCircle2, ClipboardPen, LifeBuoy, Search, Timer, Users } from "lucide-react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
@@ -52,6 +52,7 @@ function StaffMode() {
   const [pinEmail, setPinEmail] = useState("");
   const [pinValue, setPinValue] = useState("");
   const [pinMessage, setPinMessage] = useState("");
+  const editRef = useRef<HTMLSelectElement | HTMLElement | null>(null);
 
   const loadResidents = useCallback(async () => {
     const { data } = await supabase
