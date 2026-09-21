@@ -36,24 +36,15 @@ webkitSpeechRecognition?: SpeechRecognitionConstructor;
 };
 
 const pageIntros: Record<string, string> = {
-"/":
-"Good morning. I'm PACE. I'm here to help you enjoy your day and stay connected. What would you like to do today? You can say listen, connect, explore, or quiet.",
-"/music":
-"Listen. Here you can enjoy music you like. You can choose a song and play it.",
-"/community":
-"Connect. Here you can reach family, friends, or neighbors. Choose someone you would like to connect with.",
-"/mind-body":
-"Explore. Here you can discover gentle movement, stretching, or breathing activities.",
-"/relax":
-"Quiet. Take a calm minute to rest. Choose a peaceful sound or simply breathe.",
-"/progress":
-"My Journey. Look back at moments you enjoyed and add a short note if you like.",
-"/accessibility":
-"Accessibility settings. Here you can make text larger, turn on high contrast, and adjust voice settings.",
-"/staff":
-"Staff overview. This screen shows residents and thoughtful connection ideas.",
-"/pace-demo":
-"PACE demo. This is a short sample walk-through with pretend data.",
+"/": "Good morning. I'm PACE. I'm here to help you enjoy your day and stay connected. What would you like to do today? You can say listen, connect, explore, or quiet.",
+"/music": "Listen. Here you can enjoy music you like. You can choose a song and play it.",
+"/community": "Connect. Here you can reach family, friends, or neighbors. Choose someone you would like to connect with.",
+"/mind-body": "Explore. Here you can discover gentle movement, stretching, or breathing activities.",
+"/relax": "Quiet. Take a calm minute to rest. Choose a peaceful sound or simply breathe.",
+"/progress": "My Journey. Look back at moments you enjoyed and add a short note if you like.",
+"/accessibility": "Accessibility settings. Here you can make text larger, turn on high contrast, and adjust voice settings.",
+"/staff": "Staff overview. This screen shows residents and thoughtful connection ideas.",
+"/pace-demo": "PACE demo. This is a short sample walk-through with pretend data.",
 };
 
 function introFor(path: string, name: string): string {
@@ -62,7 +53,10 @@ pageIntros[path] ??
 "I'm PACE. You can talk to me or choose something on the screen.";
 
 if (path === "/") {
-return base.replace("Good morning.", Good morning, ${name}.);
+return base.replace(
+"Good morning.",
+Good morning, ${name}.,
+);
 }
 
 return base;
@@ -77,14 +71,18 @@ if (!("speechSynthesis" in window)) {
 return false;
 }
 
-if (typeof window.SpeechSynthesisUtterance === "undefined") {
+if (
+typeof window.SpeechSynthesisUtterance === "undefined"
+) {
 return false;
 }
 
 try {
 window.speechSynthesis.cancel();
 
-const utterance = new window.SpeechSynthesisUtterance(text);
+const utterance =
+  new window.SpeechSynthesisUtterance(text);
+
 utterance.rate = 0.82;
 utterance.pitch = 1;
 utterance.volume = 1;
@@ -106,12 +104,20 @@ select: (state) => state.location.pathname,
 const navigate = useNavigate();
 const { name } = useLumaStrideWellness();
 
-const recognition = useRef<SpeechRecognitionLike | null>(null);
-const speechTimer = useRef<number | null>(null);
-const speechSafetyTimer = useRef<number | null>(null);
-const navigationTimer = useRef<number | null>(null);
+const recognition =
+useRef<SpeechRecognitionLike | null>(null);
 
-const handleWordsRef = useRef<(words: string) => void>(() => {});
+const speechTimer =
+useRef<number | null>(null);
+
+const speechSafetyTimer =
+useRef<number | null>(null);
+
+const navigationTimer =
+useRef<number | null>(null);
+
+const handleWordsRef =
+useRef<(words: string) => void>(() => {});
 
 const [speaking, setSpeaking] = useState(false);
 const [listening, setListening] = useState(false);
@@ -172,10 +178,12 @@ const checkSpeech = () => {
     return;
   }
 
-  speechTimer.current = window.setTimeout(checkSpeech, 200);
+  speechTimer.current =
+    window.setTimeout(checkSpeech, 200);
 };
 
-speechTimer.current = window.setTimeout(checkSpeech, 200);
+speechTimer.current =
+  window.setTimeout(checkSpeech, 200);
 
 speechSafetyTimer.current = window.setTimeout(() => {
   setSpeaking(false);
@@ -243,7 +251,10 @@ if (result.path) {
 
   navigationTimer.current = window.setTimeout(() => {
     navigationTimer.current = null;
-    void navigate({ to: result.path as any });
+
+    void navigate({
+      to: result.path as any,
+    });
   }, 1200);
 }
 
@@ -276,7 +287,9 @@ instance.interimResults = false;
 instance.continuous = false;
 
 instance.onresult = (event) => {
-  const transcript = event.results?.[0]?.[0]?.transcript ?? "";
+  const transcript =
+    event.results?.[0]?.[0]?.transcript ?? "";
+
   handleWordsRef.current(transcript);
 };
 
@@ -433,7 +446,9 @@ return (
         aria-label="Talk to PACE"
       >
         <Mic aria-hidden />
-        {listening ? "Listening..." : "Talk to PACE"}
+        {listening
+          ? "Listening..."
+          : "Talk to PACE"}
       </Button>
 
       <Button
@@ -444,7 +459,9 @@ return (
         aria-label="Hear PACE"
       >
         <Volume2 aria-hidden />
-        {speaking ? "Speaking..." : "Hear PACE"}
+        {speaking
+          ? "Speaking..."
+          : "Hear PACE"}
       </Button>
     </div>
   </div>
