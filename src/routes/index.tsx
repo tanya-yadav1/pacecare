@@ -1,22 +1,58 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { Activity, Brain, CalendarDays, FileHeart, Search } from "lucide-react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { Headphones, Leaf, MessageCircleHeart, Mic, Moon, Settings, UsersRound } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useLumaStrideWellness } from "@/lib/lumastride-wellness";
+import { understandPaceChoice } from "@/lib/pace-voice";
+import { speakInstructions } from "@/lib/speech";
 
-export const Route = createFileRoute("/")({
- head:()=>({meta:[{title:"PACE — Understand. Practice. Prepare."},{name:"description",content:"Personalized assessments, movement activities, wellness practices, and progress tracking for people living with Parkinson's."},{property:"og:title",content:"PACE — Understand. Practice. Prepare."},{property:"og:description",content:"Understand your movement, practice evidence-informed wellness activities, and prepare useful information for your healthcare team."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary_large_image"}]}), component: Home
-});
-function Home(){
- const { name } = useLumaStrideWellness();
-  const actions = [
-   { to: "/symptoms", label: "CHECK", detail: "Understand my movement", Icon: Search, tone: "walk" },
-   { to: "/move", label: "MOVE", detail: "Practice movement", Icon: Activity, tone: "exercise" },
-   { to: "/mind-body", label: "WELLNESS", detail: "Yoga, music & relaxation", Icon: Brain, tone: "relax" },
-   { to: "/care", label: "CARE", detail: "My care & doctor visit", Icon: FileHeart, tone: "voice" },
- ] as const;
-   return <section className="home-simple">
-    <div className="home-intro"><p>Good morning, {name}</p><h1>What would you like to do today?</h1><p>PACE helps you understand, practice, track, and prepare—one simple step at a time.</p></div>
-   <div className="home-actions">{actions.map(({to,label,detail,Icon,tone})=><Link key={to} to={to} className={`home-action home-action-${tone}`}><Icon aria-hidden/><span><strong>{label}</strong><small>{detail}</small></span></Link>)}</div>
-    <section className="today-pace"><div><p className="eyebrow">Today’s PACE</p><h2>Your wellness plan</h2></div><ul><li>Walking <b>10 min</b></li><li>Gentle Yoga <b>5 min</b></li><li>Balance <b>5 min</b></li></ul><Button size="xl" variant="amber" asChild><Link to="/my-day"><CalendarDays/>Start Today</Link></Button></section>
- </section>;
+export const Route = createFileRoute("/")({ head: () => ({ meta: [
+  { title: "PACE — Personalized Aging & Connection Experience" },
+  { name: "description", content: "A warm, voice-first experience that helps older adults express what they want and connect with meaningful moments and people." },
+  { property: "og:title", content: "PACE — Your voice. Your choice. Your moment." },
+  { property: "og:description", content: "PACE helps older adults show what matters to them." },
+  { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
+] }), component: SeniorHome });
+
+type BrowserRecognition = { lang: string; interimResults: boolean; continuous: boolean; start: () => void; stop: () => void; onresult: ((event: { results: ArrayLike<{ 0: { transcript: string } }> }) => void) | null; onerror: (() => void) | null; onend: (() => void) | null };
+type RecognitionConstructor = new () => BrowserRecognition;
+
+const choices = [
+  { to: "/music" as const, label: "Listen", detail: "Music I enjoy", Icon: Headphones, tone: "listen" },
+  { to: "/community" as const, label: "Connect", detail: "Family, friends & neighbors", Icon: MessageCircleHeart, tone: "connect" },
+  { to: "/mind-body" as const, label: "Explore", detail: "Find something meaningful", Icon: Leaf, tone: "explore" },
+  { to: "/relax" as const, label: "Quiet", detail: "Rest and unwind", Icon: Moon, tone: "quiet" },
+];
+
+function SeniorHome() {
+  const { name, accessibility, setMode } = useLumaStrideWellness();
+  const navigate = useNavigate();
+  const recognition = useRef<BrowserRecognition | null>(null);
+  const [listening, setListening] = useState(false);
+  const [heard, setHeard] = useState("");
+  const [reply, setReply] = useState("");
+  const [typed, setTyped] = useState("");
+  const [supported, setSupported] = useState(false);
+
+  useEffect(() => {
+    const scope = window as typeof window & { SpeechRecognition?: RecognitionConstructor; webkitSpeechRecognition?: RecognitionConstructor };
+    const Recognition = scope.SpeechRecognition ?? scope.webkitSpeechRecognition;
+    if (!Recognition) return;
+    setSupported(true);
+    const instance = new Recognition(); instance.lang = "en-US"; instance.interimResults = false; instance.continuous = false;
+    instance.onresult = (event) => handleWords(event.results[0]?.[0]?.transcript ?? "");
+    instance.onerror = () => { setReply("I couldn't hear that. You can tap a choice or type below."); setListening(false); };
+    instance.onend = () => setListening(false);
+    recognition.current = instance;
+    return () => instance.stop();
+  }, []);
+
+  const handleWords = (words: string) => {
+    const clean = words.trim(); if (!clean) return;
+    const result = understandPaceChoice(clean); setHeard(clean); setReply(result.reply); setListening(false);
+    if (accessibility.voiceInstructions) void speakInstructions(result.reply).catch(() => undefined);
+    if (result.path) window.setTimeout(() => void navigate({ to: result.path }), 1100);
+  };
+
+  return <div className="senior-home"><div className="senior-topline"><div><p>Good morning, {name} <span aria-hidden>♥</span></p><h1>What would you like right now?</h1></div><div className="home-tools"><Button variant="ghost" size="iconLg" asChild><Link to="/accessibility" aria-label="Accessibility settings"><Settings/></Link></Button><Button variant="outline" size="lg" asChild onClick={() => setMode("staff")}><Link to="/staff"><UsersRound/>Staff</Link></Button></div></div><div className="senior-choice-grid">{choices.map(({ to, label, detail, Icon, tone }) => <Link key={to} to={to} className={`senior-choice senior-choice-${tone}`}><Icon aria-hidden/><span><strong>{label}</strong><small>{detail}</small></span></Link>)}</div><section className="voice-choice"><Mic aria-hidden/><div><h2>Talk to PACE</h2><p>{listening ? "I'm listening…" : "You can say, “I want music” or “I want to talk to my daughter.”"}</p>{heard && <p className="voice-confirm"><strong>I heard:</strong> “{heard}”</p>}{reply && <p className="pace-reply">{reply}</p>}</div><Button size="xl" variant="amber" onClick={() => { if (supported) { setListening(true); setHeard(""); setReply(""); recognition.current?.start(); } else setReply("Voice listening isn't available here. You can type or tap a choice."); }} disabled={listening}>{listening ? "Listening…" : "Speak"}</Button></section><form className="voice-fallback" onSubmit={(event) => { event.preventDefault(); handleWords(typed); setTyped(""); }}><label htmlFor="pace-request">Or tell PACE in your own words</label><div><input id="pace-request" value={typed} onChange={(event) => setTyped(event.target.value)} placeholder="I want something relaxing"/><Button size="xl" type="submit" disabled={!typed.trim()}>Tell PACE</Button></div></form><p className="mission-line">PACE doesn’t decide what matters to you. PACE helps you show us what matters.</p></div>;
 }

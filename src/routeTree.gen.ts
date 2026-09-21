@@ -28,6 +28,7 @@ import { Route as RelaxRouteImport } from './routes/relax'
 import { Route as RemediesRouteImport } from './routes/remedies'
 import { Route as RewardsRouteImport } from './routes/rewards'
 import { Route as ScreeningRouteImport } from './routes/screening'
+import { Route as StaffRouteImport } from './routes/staff'
 import { Route as SymptomsRouteImport } from './routes/symptoms'
 import { Route as TherapyRouteImport } from './routes/therapy'
 import { Route as TreatmentInfoRouteImport } from './routes/treatment-info'
@@ -130,6 +131,11 @@ const ScreeningRoute = ScreeningRouteImport.update({
   path: '/screening',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StaffRoute = StaffRouteImport.update({
+  id: '/staff',
+  path: '/staff',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SymptomsRoute = SymptomsRouteImport.update({
   id: '/symptoms',
   path: '/symptoms',
@@ -181,6 +187,7 @@ export interface FileRoutesByFullPath {
   '/remedies': typeof RemediesRoute
   '/rewards': typeof RewardsRoute
   '/screening': typeof ScreeningRoute
+  '/staff': typeof StaffRoute
   '/symptoms': typeof SymptomsRoute
   '/therapy': typeof TherapyRoute
   '/treatment-info': typeof TreatmentInfoRoute
@@ -208,6 +215,7 @@ export interface FileRoutesByTo {
   '/remedies': typeof RemediesRoute
   '/rewards': typeof RewardsRoute
   '/screening': typeof ScreeningRoute
+  '/staff': typeof StaffRoute
   '/symptoms': typeof SymptomsRoute
   '/therapy': typeof TherapyRoute
   '/treatment-info': typeof TreatmentInfoRoute
@@ -236,6 +244,7 @@ export interface FileRoutesById {
   '/remedies': typeof RemediesRoute
   '/rewards': typeof RewardsRoute
   '/screening': typeof ScreeningRoute
+  '/staff': typeof StaffRoute
   '/symptoms': typeof SymptomsRoute
   '/therapy': typeof TherapyRoute
   '/treatment-info': typeof TreatmentInfoRoute
@@ -265,6 +274,7 @@ export interface FileRouteTypes {
     | '/remedies'
     | '/rewards'
     | '/screening'
+    | '/staff'
     | '/symptoms'
     | '/therapy'
     | '/treatment-info'
@@ -292,6 +302,7 @@ export interface FileRouteTypes {
     | '/remedies'
     | '/rewards'
     | '/screening'
+    | '/staff'
     | '/symptoms'
     | '/therapy'
     | '/treatment-info'
@@ -319,6 +330,7 @@ export interface FileRouteTypes {
     | '/remedies'
     | '/rewards'
     | '/screening'
+    | '/staff'
     | '/symptoms'
     | '/therapy'
     | '/treatment-info'
@@ -347,6 +359,7 @@ export interface RootRouteChildren {
   RemediesRoute: typeof RemediesRoute
   RewardsRoute: typeof RewardsRoute
   ScreeningRoute: typeof ScreeningRoute
+  StaffRoute: typeof StaffRoute
   SymptomsRoute: typeof SymptomsRoute
   TherapyRoute: typeof TherapyRoute
   TreatmentInfoRoute: typeof TreatmentInfoRoute
@@ -490,6 +503,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ScreeningRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/staff': {
+      id: '/staff'
+      path: '/staff'
+      fullPath: '/staff'
+      preLoaderRoute: typeof StaffRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/symptoms': {
       id: '/symptoms'
       path: '/symptoms'
@@ -555,6 +575,7 @@ const rootRouteChildren: RootRouteChildren = {
   RemediesRoute: RemediesRoute,
   RewardsRoute: RewardsRoute,
   ScreeningRoute: ScreeningRoute,
+  StaffRoute: StaffRoute,
   SymptomsRoute: SymptomsRoute,
   TherapyRoute: TherapyRoute,
   TreatmentInfoRoute: TreatmentInfoRoute,
