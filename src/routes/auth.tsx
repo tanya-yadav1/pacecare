@@ -1,5 +1,5 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { KeyRound, Mail } from "lucide-react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { ArrowRight, KeyRound, Mail, ShieldCheck, UserRound } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Brand } from "@/components/vitamove/Brand";
 import { Button } from "@/components/ui/button";
@@ -56,10 +56,10 @@ function SeniorSignIn() {
     void speakInstructions("Check your email. PACE sent you a sign in link.").catch(() => {});
   };
 
-  const submitPin = async () => {
+  const submitPin = async (pinOverride?: string) => {
     setBusy(true);
     setMessage("");
-    const result = await signInWithPin({ data: { email: email.trim(), pin } });
+    const result = await signInWithPin({ data: { email: email.trim(), pin: pinOverride ?? pin } });
     if (!result.ok) {
       setBusy(false);
       setMessage(result.message);
@@ -98,14 +98,29 @@ function SeniorSignIn() {
   }
 
   return (
-    <div className="simple-page auth-page">
-      <div className="auth-brand">
+    <div className="welcome-page">
+      <header className="welcome-masthead">
         <Brand />
-      </div>
-      <h1 className="auth-title">Welcome to PACE</h1>
+        <h1 className="auth-title">Welcome to PACE</h1>
+        <p>Your voice. Your choice. Your moment.</p>
+      </header>
+
+      <main className="welcome-content">
+        <section className="welcome-demo" aria-labelledby="demo-heading">
+          <span className="welcome-badge">Competition demo</span>
+          <h2 id="demo-heading">Experience PACE as Eleanor</h2>
+          <p>Enter the fictional senior experience with one tap. No account details needed.</p>
+          <Button className="welcome-demo-button" size="xl" disabled={busy} onClick={() => void submitPin("1234")}>
+            <UserRound />
+            Start senior demo
+            <ArrowRight />
+          </Button>
+        </section>
+
+        <div className="welcome-divider"><span>Or sign in to your account</span></div>
 
       <form
-        className="auth-form"
+        className="auth-form welcome-signin"
         onSubmit={(event) => {
           event.preventDefault();
           if (usePin) void submitPin();
@@ -145,9 +160,8 @@ function SeniorSignIn() {
       </form>
 
       {usePin && (
-        <p className="simple-note">
-          Trying the demonstration? Leave the email empty and enter PIN <strong>1234</strong> to sign
-          in as Eleanor, our fictional resident.
+        <p className="welcome-help">
+          Your caregiver can give you a 4-digit PIN. The demo PIN is <strong>1234</strong>.
         </p>
       )}
 
@@ -158,6 +172,7 @@ function SeniorSignIn() {
       )}
 
       <Button
+        className="welcome-switch"
         size="xl"
         variant="outline"
         onClick={() => {
@@ -168,15 +183,21 @@ function SeniorSignIn() {
         {usePin ? "Email me a link instead" : "I have a PIN"}
       </Button>
 
-      <p className="simple-note">
-        <strong>Your privacy:</strong> PACE saves only your name, what you choose, and how you say it
-        felt. Nothing is sold or shared outside your care team, and you can delete everything at any
-        time from My Settings.
-      </p>
+        <Button className="welcome-staff" size="xl" asChild>
+          <Link to="/staff-signin">
+            <span>
+              <strong>Staff sign in</strong>
+              <small>Caregivers and team members</small>
+            </span>
+            <ShieldCheck />
+          </Link>
+        </Button>
 
-      <p className="simple-note">
-        Are you a caregiver or staff member? <a href="/staff-signin">Staff sign in</a>
-      </p>
+        <p className="welcome-privacy">
+          <ShieldCheck aria-hidden />
+          <span><strong>Your privacy matters.</strong> PACE saves only what is needed to support your choices. Your information is never sold.</span>
+        </p>
+      </main>
     </div>
   );
 }

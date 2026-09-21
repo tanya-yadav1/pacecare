@@ -1465,6 +1465,189 @@ html.reduce-motion *::after {
 }
 
 /* ---- Sign-in front page: big bold brand ---- */
+.welcome-page {
+  min-height: 100vh;
+  padding: 2rem 1.25rem 4rem;
+  background: linear-gradient(180deg, var(--background) 0%, var(--surface) 100%);
+}
+.welcome-masthead {
+  width: min(100%, 42rem);
+  margin: 0 auto 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.welcome-masthead > div:first-child {
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.welcome-masthead > div:first-child > div {
+  text-align: center;
+}
+.welcome-masthead img {
+  width: 7.25rem;
+  height: 7.25rem;
+}
+.welcome-masthead strong {
+  font-size: 2.25rem;
+}
+.welcome-masthead small,
+.welcome-masthead span {
+  display: block;
+}
+.welcome-masthead > p {
+  margin-top: 0.6rem;
+  color: var(--muted-foreground);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.welcome-content {
+  width: min(100%, 39rem);
+  margin: 0 auto;
+  display: grid;
+  gap: 1.1rem;
+}
+.welcome-demo {
+  border: 3px solid var(--primary);
+  border-radius: 0.75rem;
+  background: var(--card);
+  padding: 1.5rem;
+  text-align: left;
+  box-shadow: 0 18px 45px color-mix(in oklab, var(--foreground) 10%, transparent);
+}
+.welcome-badge {
+  display: inline-flex;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-foreground);
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.welcome-demo h2,
+.staff-signin-heading h2 {
+  margin-top: 0.75rem;
+  font-size: 1.65rem;
+  line-height: 1.2;
+}
+.welcome-demo p,
+.staff-signin-heading p {
+  margin: 0.45rem 0 1rem;
+  color: var(--muted-foreground);
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.welcome-demo-button {
+  width: 100%;
+  min-height: 4.5rem;
+  justify-content: flex-start;
+  font-size: 1.2rem;
+}
+.welcome-demo-button svg:last-child {
+  margin-left: auto;
+}
+.welcome-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: var(--muted-foreground);
+  font-weight: 700;
+  text-align: center;
+}
+.welcome-divider::before,
+.welcome-divider::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: var(--border);
+}
+.welcome-signin {
+  max-width: none;
+}
+.welcome-switch {
+  width: 100%;
+}
+.welcome-help {
+  margin: 0;
+  color: var(--muted-foreground);
+  text-align: center;
+  font-weight: 700;
+}
+.welcome-staff {
+  width: 100%;
+  min-height: 5rem;
+  justify-content: space-between;
+  background: var(--foreground);
+  color: var(--background);
+  text-align: left;
+}
+.welcome-staff span,
+.staff-demo-entry span {
+  display: grid;
+  gap: 0.15rem;
+}
+.welcome-staff small,
+.staff-demo-entry small {
+  font-size: 0.9rem;
+  font-weight: 600;
+  opacity: 0.78;
+}
+.welcome-privacy {
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+  margin: 0.5rem 0 0;
+  border-top: 1px solid var(--border);
+  padding: 1rem 0;
+  color: var(--muted-foreground);
+  text-align: left;
+  font-size: 0.95rem;
+}
+.welcome-privacy svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  flex: 0 0 auto;
+  color: var(--primary);
+}
+.staff-demo-entry {
+  width: 100%;
+  min-height: 5.5rem;
+  justify-content: flex-start;
+  padding-inline: 1.25rem;
+  text-align: left;
+}
+.staff-demo-entry > svg {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+.staff-demo-pin {
+  margin-left: auto;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-foreground);
+  padding: 0.35rem 0.65rem;
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+.staff-signin-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+}
+.staff-signin-heading > svg {
+  margin-top: 0.8rem;
+  width: 2rem;
+  height: 2rem;
+  color: var(--primary);
+}
+.staff-signin-heading h2 {
+  margin-top: 0;
+}
+.back-to-senior {
+  width: 100%;
+}
 .auth-page {
   text-align: center;
 }
@@ -1480,7 +1663,7 @@ html.reduce-motion *::after {
 .auth-title {
   font-weight: 800;
   font-size: clamp(2.4rem, 6vw, 3.4rem);
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
 }
 .auth-tagline {
   font-size: clamp(1.3rem, 3vw, 1.6rem);
@@ -1491,6 +1674,27 @@ html.reduce-motion *::after {
 .auth-page .auth-form {
   text-align: left;
   font-size: 1.25rem;
+}
+@media (max-width: 540px) {
+  .welcome-page {
+    padding-top: 1.25rem;
+  }
+  .welcome-masthead img {
+    width: 5.5rem;
+    height: 5.5rem;
+  }
+  .welcome-masthead strong {
+    font-size: 1.8rem;
+  }
+  .welcome-masthead .auth-title {
+    font-size: 2.25rem;
+  }
+  .welcome-demo {
+    padding: 1.2rem;
+  }
+  .staff-demo-pin {
+    font-size: 0.75rem;
+  }
 }
 .auth-page .auth-form label {
   font-size: 1.25rem;

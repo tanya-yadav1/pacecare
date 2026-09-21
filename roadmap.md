@@ -63,3 +63,4 @@
 
 - [x] Click-by-click QA pass of every page; fix every problem found
 - [x] Fix Talk to PACE staying disabled on the home page
+- [x] Modernize the welcome experience with prominent branding and clear senior demo, personal, and staff entry paths.
