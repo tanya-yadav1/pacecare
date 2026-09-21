@@ -199,8 +199,8 @@ export function useSeniorVoice(options: {
     setStarted(true);
     setHeard("");
     setReply("");
-    speak([WELCOME_LINE, ...readAloudRef.current()].join(" "));
-  }, [speak]);
+    speakLines([WELCOME_LINE, ...readAloudRef.current()]);
+  }, [speakLines]);
 
   const talk = useCallback(() => {
     if (!supported || !recognition.current) {
