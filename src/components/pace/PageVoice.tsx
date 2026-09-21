@@ -36,15 +36,24 @@ webkitSpeechRecognition?: SpeechRecognitionConstructor;
 };
 
 const pageIntros: Record<string, string> = {
-"/": "Good morning. I'm PACE. I'm here to help you enjoy your day and stay connected. What would you like to do today? You can say listen, connect, explore, or quiet.",
-"/music": "Listen. Here you can enjoy music you like. You can choose a song and play it.",
-"/community": "Connect. Here you can reach family, friends, or neighbors. Choose someone you would like to connect with.",
-"/mind-body": "Explore. Here you can discover gentle movement, stretching, or breathing activities.",
-"/relax": "Quiet. Take a calm minute to rest. Choose a peaceful sound or simply breathe.",
-"/progress": "My Journey. Look back at moments you enjoyed and add a short note if you like.",
-"/accessibility": "Accessibility settings. Here you can make text larger, turn on high contrast, and adjust voice settings.",
-"/staff": "Staff overview. This screen shows residents and thoughtful connection ideas.",
-"/pace-demo": "PACE demo. This is a short sample walk-through with pretend data.",
+"/":
+"Good morning. I'm PACE. I'm here to help you enjoy your day and stay connected. What would you like to do today? You can say listen, connect, explore, or quiet.",
+"/music":
+"Listen. Here you can enjoy music you like. You can choose a song and play it.",
+"/community":
+"Connect. Here you can reach family, friends, or neighbors. Choose someone you would like to connect with.",
+"/mind-body":
+"Explore. Here you can discover gentle movement, stretching, or breathing activities.",
+"/relax":
+"Quiet. Take a calm minute to rest. Choose a peaceful sound or simply breathe.",
+"/progress":
+"My Journey. Look back at moments you enjoyed and add a short note if you like.",
+"/accessibility":
+"Accessibility settings. Here you can make text larger, turn on high contrast, and adjust voice settings.",
+"/staff":
+"Staff overview. This screen shows residents and thoughtful connection ideas.",
+"/pace-demo":
+"PACE demo. This is a short sample walk-through with pretend data.",
 };
 
 function introFor(path: string, name: string): string {
