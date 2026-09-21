@@ -192,6 +192,7 @@ export function PageVoice() {
     }
 
     const lower = clean.toLowerCase();
+    console.log("PACE command:", lower);
 
     setHeard(clean);
 
