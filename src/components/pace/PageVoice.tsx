@@ -11,9 +11,11 @@ interimResults: boolean;
 continuous: boolean;
 start: () => void;
 stop: () => void;
-onresult: ((event: {
+onresult:
+| ((event: {
 results: ArrayLike<{ 0: { transcript: string } }>;
-}) => void) | null;
+}) => void)
+| null;
 onerror: (() => void) | null;
 onend: (() => void) | null;
 };
@@ -61,13 +63,20 @@ return base.replace("Good morning.", `Good morning, ${name}.`);
 return base;
 }
 
-function speakWithBrowser(text: string): boolean {
-if (
-typeof window === "undefined" ||
-!("speechSynthesis" in window)
-) {
-return false;
-}
+/*
+
+* Simple browser speech.
+*
+* This does not use the generated speech API.
+* The browser speaks immediately when the user presses a button.
+  */
+  function speakWithBrowser(text: string): boolean {
+  if (
+  typeof window === "undefined" ||
+  !("speechSynthesis" in window)
+  ) {
+  return false;
+  }
 
 const SpeechSynthesisUtterance =
 window.SpeechSynthesisUtterance;
@@ -107,14 +116,21 @@ const [reply, setReply] = useState("");
 const [supported, setSupported] = useState(false);
 const [started, setStarted] = useState(false);
 
-useEffect(() => {
-const scope = window as typeof window & {
-SpeechRecognition?: RecognitionConstructor;
-webkitSpeechRecognition?: RecognitionConstructor;
-};
+/*
+
+* Set up browser speech recognition.
+  */
+  useEffect(() => {
+  const scope = window as typeof window & {
+  SpeechRecognition?: RecognitionConstructor;
+  webkitSpeechRecognition?: RecognitionConstructor;
+  };
 
 ```
 const Recognition =
+```
+
+```
   scope.SpeechRecognition ??
   scope.webkitSpeechRecognition;
 
@@ -160,65 +176,88 @@ return () => {
 
 }, []);
 
-const startPace = () => {
-const message = introFor(path, name);
+/*
+
+* Speak a message.
+  */
+  const speak = (text: string) => {
+  const worked = speakWithBrowser(text);
+
+```
+if (!worked) {
+```
+
+```
+  setSpeaking(false);
+  return;
+}
+
+setSpeaking(true);
+
+/*
+ * Check periodically whether the browser has finished speaking.
+ */
+const checkSpeech = window.setInterval(() => {
+  if (!window.speechSynthesis.speaking) {
+    window.clearInterval(checkSpeech);
+    setSpeaking(false);
+  }
+}, 200);
+
+/*
+ * Safety timeout in case a browser does not update correctly.
+ */
+window.setTimeout(() => {
+  window.clearInterval(checkSpeech);
+  setSpeaking(false);
+}, 15000);
+```
+
+};
+
+/*
+
+* Start PACE.
+*
+* This function is called directly from the Start PACE button.
+* That is important because browsers allow speech after a user gesture.
+  */
+  const startPace = () => {
+  const message = introFor(path, name);
 
 ```
 setStarted(true);
+```
+
+```
 setReply("");
 setHeard("");
-setSpeaking(true);
 
-const worked = speakWithBrowser(message);
-
-if (!worked) {
-  setSpeaking(false);
-
-  setReply(
-    "Voice is not available on this device. You can still use PACE by choosing an option on the screen."
-  );
-
-  return;
-}
-
-window.setTimeout(() => {
-  setSpeaking(false);
-}, 6000);
+speak(message);
 ```
 
 };
 
-const speak = (text: string) => {
-setSpeaking(true);
+/*
 
-```
-const worked = speakWithBrowser(text);
+* Start microphone listening.
+  */
+  const startListening = () => {
+  if (!supported) {
+  const message =
+  "Voice listening isn't available on this device. You can choose an option on the screen instead.";
 
-if (!worked) {
-  setSpeaking(false);
-  return;
-}
-
-window.setTimeout(() => {
-  setSpeaking(false);
-}, 5000);
-```
-
-};
-
-const startListening = () => {
-if (!supported) {
-const message =
-"Voice listening isn't available on this device. You can choose an option on the screen instead.";
-
-```
   setReply(message);
   speak(message);
 
   return;
-}
+  }
 
+```
 if (listening || speaking) {
+```
+
+```
   return;
 }
 
@@ -241,16 +280,31 @@ try {
 
 };
 
-const hearPage = () => {
-const message = introFor(path, name);
+/*
+
+* Hear the current page again.
+  */
+  const hearPage = () => {
+  const message = introFor(path, name);
+
+```
 speak(message);
+```
+
 };
 
-const handleWords = (words: string) => {
-const clean = words.trim();
+/*
+
+* Interpret what the senior says.
+  */
+  const handleWords = (words: string) => {
+  const clean = words.trim();
 
 ```
 if (!clean) {
+```
+
+```
   setListening(false);
   return;
 }
@@ -260,6 +314,9 @@ const lower = clean.toLowerCase();
 setHeard(clean);
 setListening(false);
 
+/*
+ * HOME
+ */
 if (
   lower.includes("home") ||
   lower.includes("start over") ||
@@ -275,6 +332,9 @@ if (
   return;
 }
 
+/*
+ * BACK
+ */
 if (
   lower.includes("go back") ||
   lower.includes("previous") ||
@@ -290,6 +350,9 @@ if (
   return;
 }
 
+/*
+ * Use the existing PACE command system.
+ */
 const result = understandPaceChoice(clean);
 
 setReply(result.reply);
@@ -305,109 +368,137 @@ if (result.path) {
 
 };
 
-if (!started) {
-return ( <div
+/*
+
+* FIRST SCREEN
+*
+* PACE waits for the user to press Start PACE.
+* The button directly triggers browser speech.
+  */
+  if (!started) {
+  return (
+
+   <div
      className="page-voice"
      role="region"
      aria-label="Welcome to PACE"
-   > <div className="page-voice-inner"> <div className="page-voice-welcome"> <Volume2
+   >
+     <div className="page-voice-inner">
+       <div className="page-voice-welcome">
+         <Volume2
            aria-hidden
            className="page-voice-welcome-icon"
          />
 
+  ```
+     <p
+       className="page-voice-reply"
+       aria-live="polite"
+     >
+       Welcome to PACE.
+     </p>
+
+     <p className="page-voice-hint">
+       I'm here to help you enjoy your day, stay connected,
+       and feel supported.
+     </p>
+
+     <Button
+       variant="default"
+       size="xl"
+       className="pace-start-button"
+       onClick={startPace}
+       aria-label="Start PACE and hear welcome"
+     >
+       <Volume2 aria-hidden />
+       Start PACE
+     </Button>
+   </div>
+  ```
+
+     </div>
+   </div>
+
 ```
-        <p
-          className="page-voice-reply"
-          aria-live="polite"
-        >
-          Welcome to PACE.
-        </p>
-
-        <p className="page-voice-hint">
-          I'm here to help you enjoy your day, stay connected,
-          and feel supported.
-        </p>
-
-        <Button
-          variant="default"
-          size="xl"
-          className="pace-start-button"
-          onClick={startPace}
-          aria-label="Start PACE and hear welcome"
-        >
-          <Volume2 aria-hidden />
-          Start PACE
-        </Button>
-      </div>
-    </div>
-  </div>
 );
 ```
 
 }
 
-return ( <div
-   className="page-voice"
-   role="region"
-   aria-label="PACE voice assistant"
- > <div className="page-voice-inner">
-{reply ? ( <p
+/*
+
+* NORMAL PACE SCREEN
+  */
+  return ( <div
+  className="page-voice"
+  role="region"
+  aria-label="PACE voice assistant"
+   >
+
+   <div className="page-voice-inner">
+     {reply ? (
+       <p
          className="page-voice-reply"
          aria-live="polite"
        >
-{reply}
+         {reply}
+
+  ```
+     {heard && (
+       <span className="sr-only">
+         {" "}
+         You said: {heard}.
+       </span>
+     )}
+   </p>
+  ```
+
+  ) : ( <p
+      className="page-voice-hint"
+      aria-live="polite"
+    >
+  {speaking
+  ? "PACE is speaking..."
+  : listening
+  ? "I'm listening... Take your time."
+  : `Good morning, ${name}.`} </p>
+  )}
+
+     <div className="page-voice-actions">
+       <Button
+         variant={listening ? "default" : "amber"}
+         size="xl"
+         onClick={startListening}
+         disabled={listening || speaking}
+         aria-label="Talk to PACE"
+       >
+         <Mic aria-hidden />
+
+  ```
+     {listening
+       ? "Listening..."
+       : "Talk to PACE"}
+   </Button>
+
+   <Button
+     variant="secondary"
+     size="xl"
+     onClick={hearPage}
+     disabled={speaking}
+     aria-label="Hear PACE"
+   >
+     <Volume2 aria-hidden />
+
+     {speaking
+       ? "Speaking..."
+       : "Hear PACE"}
+   </Button>
+  ```
+
+     </div>
+   </div>
 
 ```
-        {heard && (
-          <span className="sr-only">
-            {" "}
-            You said: {heard}.
-          </span>
-        )}
-      </p>
-    ) : (
-      <p
-        className="page-voice-hint"
-        aria-live="polite"
-      >
-        {speaking
-          ? "PACE is speaking..."
-          : listening
-            ? "I'm listening... Take your time."
-            : `Good morning, ${name}.`}
-      </p>
-    )}
-
-    <div className="page-voice-actions">
-      <Button
-        variant={listening ? "default" : "amber"}
-        size="xl"
-        onClick={startListening}
-        disabled={listening || speaking}
-        aria-label="Talk to PACE"
-      >
-        <Mic aria-hidden />
-
-        {listening
-          ? "Listening..."
-          : "Talk to PACE"}
-      </Button>
-
-      <Button
-        variant="secondary"
-        size="xl"
-        onClick={hearPage}
-        disabled={speaking}
-        aria-label="Hear PACE"
-      >
-        <Volume2 aria-hidden />
-
-        {speaking
-          ? "Speaking..."
-          : "Hear PACE"}
-      </Button>
-    </div>
-  </div>
 </div>
 ```
 
