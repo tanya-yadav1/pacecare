@@ -337,7 +337,6 @@ export function PageVoice() {
     const message = introFor(path, name);
     speak(message);
   };
-
   return (
     <div className="page-voice">
       <div className="page-voice-inner">
