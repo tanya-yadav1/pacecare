@@ -59,6 +59,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         ["/connect", "Connect"],
         ["/explore", "Explore"],
         ["/quiet", "Quiet"],
+        ["/progress", "My Moments"],
       ] as const);
   if (isStaff && role === "staff") {
     return (
