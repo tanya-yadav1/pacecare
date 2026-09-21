@@ -12,7 +12,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useLumaStrideWellness } from "@/lib/lumastride-wellness";
 import { understandPaceChoice } from "@/lib/pace-voice";
-import { speakInstructions } from "@/lib/speech";
+import { primeSpeechForGesture, speakInstructions } from "@/lib/speech";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -89,6 +89,7 @@ function SeniorHome() {
   }, [accessibility.voiceInstructions, name]);
 
   const hearWelcome = async () => {
+    primeSpeechForGesture();
     setWelcoming(true);
     try {
       await speakInstructions(`Good morning, ${name}. What would you like right now?`);

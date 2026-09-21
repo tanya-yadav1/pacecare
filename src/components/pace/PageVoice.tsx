@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useLumaStrideWellness } from "@/lib/lumastride-wellness";
 import { understandPaceChoice } from "@/lib/pace-voice";
-import { onSpeechBlocked, speakInstructions } from "@/lib/speech";
+import { onSpeechBlocked, primeSpeechForGesture, speakInstructions } from "@/lib/speech";
 
 type BrowserRecognition = {
   lang: string;
@@ -140,7 +140,10 @@ export function PageVoice() {
           <Button
             variant="secondary"
             size="xl"
-            onClick={() => void speak(introFor(path, name))}
+            onClick={() => {
+              primeSpeechForGesture();
+              void speak(introFor(path, name));
+            }}
             disabled={speaking}
             aria-label="Hear this page"
           >
@@ -151,6 +154,7 @@ export function PageVoice() {
             variant={listening ? "default" : "amber"}
             size="xl"
             onClick={() => {
+              primeSpeechForGesture();
               if (supported) {
                 setListening(true);
                 setHeard("");
