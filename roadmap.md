@@ -61,4 +61,4 @@
 - [x] Demo resident signs in with PIN 1234 (no email needed).
 - [x] Front page shows the PACE logo with a bigger, bold title.
 
-- [ ] Click-by-click QA pass of every page; fix every problem found
+- [x] Click-by-click QA pass of every page; fix every problem found

@@ -12,7 +12,8 @@ export const Route = createFileRoute("/staff-signin")({
       { title: "Staff sign in — PACE" },
       {
         name: "description",
-        content: "Caregivers and staff sign in to plan meaningful moments with the residents they support.",
+        content:
+          "Caregivers and staff sign in to plan meaningful moments with the residents they support.",
       },
       { property: "og:title", content: "Staff sign in — PACE" },
       { property: "og:description", content: "Plan better moments with the people you care for." },
@@ -119,8 +120,8 @@ function StaffSignIn() {
         <p className="eyebrow">Confirm</p>
         <h1>Enter your staff PIN</h1>
         <p className="simple-lead">
-          Staff Mode always asks for a 4-digit PIN, so a resident can never reach it by accident. The
-          first PIN you enter becomes your PIN.
+          Staff Mode always asks for a 4-digit PIN, so a resident can never reach it by accident.
+          The first PIN you enter becomes your PIN.
         </p>
         <form
           className="auth-form"

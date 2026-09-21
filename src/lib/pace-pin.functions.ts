@@ -120,7 +120,10 @@ export const signInAsDemoStaff = createServerFn({ method: "POST" }).handler(asyn
   if (residentId) {
     await supabaseAdmin
       .from("resident_assignments")
-      .upsert({ staff_id: userId, resident_id: residentId }, { onConflict: "staff_id,resident_id" });
+      .upsert(
+        { staff_id: userId, resident_id: residentId },
+        { onConflict: "staff_id,resident_id" },
+      );
   }
 
   const { data: link, error: linkError } = await supabaseAdmin.auth.admin.generateLink({
@@ -258,7 +261,10 @@ export const confirmStaffPin = createServerFn({ method: "POST" })
         set_by: context.userId,
         updated_at: new Date().toISOString(),
       });
-      return { ok: true as const, message: "Staff PIN saved. Use it every time you enter Staff Mode." };
+      return {
+        ok: true as const,
+        message: "Staff PIN saved. Use it every time you enter Staff Mode.",
+      };
     }
 
     if (pinRow.pin_hash !== hashPin(context.userId, data.pin)) {
