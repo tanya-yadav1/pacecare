@@ -83,12 +83,9 @@ function decodeBase64(value: string) {
 }
 
 export async function speakInstructions(text: string) {
-  if (!player) {
-    player = new Audio();
-    player.preload = "auto";
-  }
-  player.pause();
-  player.currentTime = 0;
+  const audio = ensurePlayer();
+  audio.pause();
+  audio.currentTime = 0;
   const audioParts: Uint8Array[] = [];
   let completed = false;
 
