@@ -41,6 +41,11 @@ function asList(value: unknown): string[] {
 }
 
 function StaffMode() {
+  const childMatches = useChildMatches();
+  if (childMatches.length > 0) {
+    return <Outlet />;
+  }
+
   const [residents, setResidents] = useState<ResidentProfile[]>([]);
   const [events, setEvents] = useState<PaceEvent[]>([]);
   const [query, setQuery] = useState("");
