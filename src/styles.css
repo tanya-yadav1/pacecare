@@ -1741,15 +1741,15 @@ html.reduce-motion *::after {
     gap: 0.55rem;
   }
   .welcome-logo {
-    width: 2.25rem;
-    height: 2.25rem;
+    width: 3.5rem;
+    height: 3.5rem;
   }
   .welcome-brand-title {
-    font-size: 1.1rem;
+    font-size: 1.35rem;
   }
   .welcome-brand-subtitle {
-    font-size: 0.55rem;
-    max-width: 11rem;
+    font-size: 0.65rem;
+    max-width: 12rem;
   }
   .welcome-page-title {
     font-size: 1.55rem;
