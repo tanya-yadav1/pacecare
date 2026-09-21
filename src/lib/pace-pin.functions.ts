@@ -118,3 +118,40 @@ export const setResidentPin = createServerFn({ method: "POST" })
 
     return { ok: true as const, message: "PIN saved for this resident." };
   });
+
+/**
+ * Confirms the staff PIN before anyone enters Staff Mode.
+ * The first time a staff member does this, the PIN they type becomes their PIN.
+ */
+export const confirmStaffPin = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: { pin: string }) => z.object({ pin: pinSchema }).parse(input))
+  .handler(async ({ data, context }) => {
+    const { data: isStaff } = await context.supabase.rpc("has_role", {
+      _user_id: context.userId,
+      _role: "staff",
+    });
+    if (!isStaff) return { ok: false as const, message: "This account is not a staff account." };
+
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: pinRow } = await supabaseAdmin
+      .from("senior_pins")
+      .select("pin_hash")
+      .eq("user_id", context.userId)
+      .maybeSingle();
+
+    if (!pinRow) {
+      await supabaseAdmin.from("senior_pins").upsert({
+        user_id: context.userId,
+        pin_hash: hashPin(context.userId, data.pin),
+        set_by: context.userId,
+        updated_at: new Date().toISOString(),
+      });
+      return { ok: true as const, message: "Staff PIN saved. Use it every time you enter Staff Mode." };
+    }
+
+    if (pinRow.pin_hash !== hashPin(context.userId, data.pin)) {
+      return { ok: false as const, message: "That PIN did not match." };
+    }
+    return { ok: true as const, message: "Welcome to Staff Mode." };
+  });
