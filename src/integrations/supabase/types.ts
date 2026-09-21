@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      pace_events: {
+        Row: {
+          created_at: string
+          detail: string | null
+          id: string
+          kind: string
+          label: string
+          resident_id: string
+          staff_note: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          detail?: string | null
+          id?: string
+          kind: string
+          label: string
+          resident_id: string
+          staff_note?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          detail?: string | null
+          id?: string
+          kind?: string
+          label?: string
+          resident_id?: string
+          staff_note?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           accessibility: Json
@@ -23,6 +59,7 @@ export type Database = {
           greeting_name: string
           id: string
           preferences: Json
+          staff_notes: string | null
           updated_at: string
         }
         Insert: {
@@ -33,6 +70,7 @@ export type Database = {
           greeting_name?: string
           id: string
           preferences?: Json
+          staff_notes?: string | null
           updated_at?: string
         }
         Update: {
@@ -43,6 +81,7 @@ export type Database = {
           greeting_name?: string
           id?: string
           preferences?: Json
+          staff_notes?: string | null
           updated_at?: string
         }
         Relationships: []

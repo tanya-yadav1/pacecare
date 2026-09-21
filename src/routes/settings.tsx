@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronLeft } from "lucide-react";
 import { useState } from "react";
+import { deleteMyAccount } from "@/lib/pace-account.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLumaStrideWellness } from "@/lib/lumastride-wellness";
@@ -40,6 +41,7 @@ function toggle(list: string[], value: string) {
 }
 
 function MySettings() {
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const { preferences, savePreferences, saveGreetingName, signOut } = usePaceAuth();
   const { name, accessibility, setAccessibility } = useLumaStrideWellness();
   const [draftName, setDraftName] = useState(name);
@@ -48,6 +50,14 @@ function MySettings() {
   const [saved, setSaved] = useState("");
 
   const people: PacePerson[] = preferences.people;
+
+  const removeEverything = async () => {
+    const result = await deleteMyAccount({});
+    if (result.ok) {
+      await signOut();
+      window.location.href = "/auth";
+    }
+  };
 
   return (
     <div className="simple-page">
@@ -205,6 +215,27 @@ function MySettings() {
         <Button size="xl" variant="outline" onClick={() => void signOut()}>
           Sign out
         </Button>
+        <p className="simple-note">
+          PACE keeps only your name, your choices, and the notes your care team adds. You can delete
+          all of it whenever you like.
+        </p>
+        {!confirmDelete ? (
+          <Button size="xl" variant="outline" onClick={() => setConfirmDelete(true)}>
+            Delete my information
+          </Button>
+        ) : (
+          <div className="senior-confirm">
+            <p>This removes your account and everything saved with it. This cannot be undone.</p>
+            <div className="senior-controls-group">
+              <Button size="xl" variant="destructive" onClick={() => void removeEverything()}>
+                Yes, delete everything
+              </Button>
+              <Button size="xl" variant="outline" onClick={() => setConfirmDelete(false)}>
+                No, keep my information
+              </Button>
+            </div>
+          </div>
+        )}
       </section>
 
       {saved && (

@@ -1225,3 +1225,235 @@ html.reduce-motion *::after {
     gap: 0.9rem;
   }
 }
+
+/* ---- Senior mode: voice bar, controls, accessibility ---- */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  padding: 0.9rem 1.25rem;
+  font-size: 1.15rem;
+  border-radius: 0 0 0.75rem 0;
+}
+.skip-link:focus {
+  left: 0;
+}
+:where(a, button, [role="button"], input, select, textarea):focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 2px;
+}
+.senior-home,
+.simple-page {
+  font-size: 1.25rem;
+}
+.senior-home h1,
+.simple-page h1 {
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
+}
+.senior-home h2,
+.simple-page h2 {
+  font-size: 1.75rem;
+}
+.senior-home .senior-choice,
+.senior-controls .btn,
+.senior-controls button,
+.senior-home button {
+  min-height: 64px;
+}
+
+.voice-bar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  background: var(--background);
+}
+.voice-bar .voice-bar-button {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 68px;
+  font-size: 1.15rem;
+  white-space: nowrap;
+}
+.voice-status {
+  margin: 0.5rem 0 1rem;
+  padding: 0.9rem 1.1rem;
+  border-radius: 1rem;
+  background: var(--muted);
+  font-size: 1.15rem;
+}
+.request-status {
+  margin: 1rem 0;
+  padding: 1rem 1.25rem;
+  border-radius: 1.25rem;
+  background: color-mix(in oklab, var(--accent) 45%, var(--background));
+  font-size: 1.2rem;
+}
+.senior-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.senior-controls-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+}
+.senior-controls-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 1.05rem;
+  color: var(--muted-foreground);
+}
+.senior-confirm {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border-radius: 1.25rem;
+  background: var(--card);
+  border: 2px solid var(--border);
+  font-size: 1.2rem;
+}
+.not-found-page {
+  text-align: center;
+}
+.not-found-home {
+  display: inline-flex;
+  min-height: 64px;
+  align-items: center;
+  padding: 0 2rem;
+  border-radius: 999px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-size: 1.25rem;
+}
+
+/* ---- Staff mode: distinct compact layout ---- */
+.staff-shell {
+  min-height: 100vh;
+  background: oklch(0.96 0.01 240);
+  color: oklch(0.25 0.03 250);
+}
+.staff-banner {
+  background: oklch(0.32 0.07 255);
+  color: oklch(0.98 0.01 250);
+  padding: 0.6rem 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+.staff-body {
+  display: flex;
+  align-items: flex-start;
+}
+.staff-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 15rem;
+  flex: 0 0 15rem;
+  padding: 1rem;
+  border-right: 1px solid oklch(0.88 0.02 250);
+  position: sticky;
+  top: 0;
+}
+.staff-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 1.25rem;
+}
+.staff-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-size: 0.95rem;
+}
+.staff-header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.staff-card {
+  background: white;
+  border: 1px solid oklch(0.9 0.02 250);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+.staff-card h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+.staff-filters,
+.staff-queue-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.staff-queue,
+.staff-resident-list,
+.staff-log {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.staff-queue li,
+.staff-resident-list li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid oklch(0.92 0.02 250);
+  border-radius: 0.6rem;
+  padding: 0.6rem 0.8rem;
+}
+.staff-queue li div,
+.staff-resident-list li div {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.staff-log li {
+  display: flex;
+  gap: 0.6rem;
+  border-bottom: 1px dashed oklch(0.9 0.02 250);
+  padding-bottom: 0.35rem;
+}
+.staff-search {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.staff-textarea {
+  width: 100%;
+  border: 1px solid oklch(0.88 0.02 250);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.7rem;
+}
+@media (max-width: 720px) {
+  .staff-body {
+    flex-direction: column;
+  }
+  .staff-sidebar {
+    width: 100%;
+    flex: 1 1 auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    position: static;
+  }
+}
