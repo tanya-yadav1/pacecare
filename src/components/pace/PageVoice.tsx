@@ -90,6 +90,7 @@ function speakWithBrowser(text: string): boolean {
 }
 
 export function PageVoice() {
+  console.log("PACE PageVoice is rendering");
   const path = useRouterState({
     select: (state) => state.location.pathname,
   });
