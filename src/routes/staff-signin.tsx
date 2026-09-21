@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, BriefcaseBusiness, MonitorPlay, ShieldCheck } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Brand } from "@/components/vitamove/Brand";
+import paceLogo from "@/assets/pace-logo.png";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { usePaceAuth } from "@/lib/pace-auth";
@@ -156,10 +156,14 @@ function StaffSignIn() {
   return (
     <div className="welcome-page staff-welcome-page">
       <header className="welcome-masthead">
-        <Brand />
-        <h1 className="auth-title">Staff access</h1>
-        <p>Resident support, requests, and meaningful moments.</p>
+        <img src={paceLogo} alt="PACE" className="welcome-logo" />
+        <div className="welcome-brand-text">
+          <h1 className="welcome-brand-title">PACE</h1>
+          <p className="welcome-brand-subtitle">Personalized Aging & Connection Experience</p>
+        </div>
       </header>
+      <h2 className="auth-title welcome-page-title">Staff access</h2>
+      <p className="welcome-tagline">Resident support, requests, and meaningful moments.</p>
 
       <main className="welcome-content">
         <Button className="staff-demo-entry" size="xl" disabled={busy} onClick={() => void demoStaff()}>

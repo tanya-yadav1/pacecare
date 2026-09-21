@@ -1507,35 +1507,50 @@ html.reduce-motion *::after {
 }
 .welcome-masthead {
   width: min(100%, 42rem);
-  margin: 0 auto 1rem;
+  margin: 0 auto 0.75rem;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 1rem;
 }
 .welcome-logo {
-  width: 4.5rem;
-  height: 4.5rem;
+  width: 4rem;
+  height: 4rem;
   flex: 0 0 auto;
   object-fit: contain;
 }
-.welcome-spacer {
-  flex: 0 0 4.5rem;
-  width: 4.5rem;
+.welcome-brand-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
 }
-.welcome-masthead .auth-title {
-  flex: 1 1 auto;
-  text-align: center;
-  font-size: clamp(1.8rem, 5vw, 2.6rem);
+.welcome-brand-title {
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 800;
+  line-height: 1;
   margin: 0;
+}
+.welcome-brand-subtitle {
+  font-size: clamp(0.9rem, 2.2vw, 1.05rem);
+  font-weight: 600;
+  color: var(--muted-foreground);
+  margin: 0;
+  line-height: 1.25;
+}
+.welcome-page-title {
+  text-align: center;
+  font-size: clamp(1.7rem, 4.5vw, 2.4rem);
+  margin: 0 auto 0.5rem;
+  width: min(100%, 42rem);
 }
 .welcome-tagline {
   text-align: center;
   color: var(--muted-foreground);
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   font-weight: 700;
-  margin: 0 auto 2rem;
+  margin: 0 auto 1.75rem;
   width: min(100%, 42rem);
 }
 .welcome-content {
@@ -1713,15 +1728,19 @@ html.reduce-motion *::after {
 }
 @media (max-width: 540px) {
   .welcome-page {
-    padding-top: 1.25rem;
+    padding-top: 1rem;
   }
-  .welcome-logo,
-  .welcome-spacer {
-    width: 3.5rem;
-    height: 3.5rem;
-    flex-basis: 3.5rem;
+  .welcome-logo {
+    width: 3.25rem;
+    height: 3.25rem;
   }
-  .welcome-masthead .auth-title {
+  .welcome-brand-title {
+    font-size: 1.7rem;
+  }
+  .welcome-brand-subtitle {
+    font-size: 0.8rem;
+  }
+  .welcome-page-title {
     font-size: 1.55rem;
   }
   .welcome-demo {
