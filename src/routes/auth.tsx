@@ -107,7 +107,6 @@ function SeniorSignIn() {
 
       <main className="welcome-content">
         <section className="welcome-demo" aria-labelledby="demo-heading">
-          <span className="welcome-badge">Competition demo</span>
           <h2 id="demo-heading">Experience PACE as Eleanor</h2>
           <p>Enter the fictional senior experience with one tap. No account details needed.</p>
           <Button className="welcome-demo-button" size="xl" disabled={busy} onClick={() => void submitPin("1234")}>
