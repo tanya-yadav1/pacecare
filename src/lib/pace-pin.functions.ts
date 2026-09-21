@@ -80,6 +80,59 @@ async function ensureDemoResident() {
   return userId;
 }
 
+/** The fictional demonstration staff member anyone can try. */
+const DEMO_STAFF_EMAIL = "sam@pacedemo.app";
+
+/** Signs the visitor into the fictional demo staff account, creating it the first time. */
+export const signInAsDemoStaff = createServerFn({ method: "POST" }).handler(async () => {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+  const { data: existing } = await supabaseAdmin
+    .from("profiles")
+    .select("id")
+    .eq("email", DEMO_STAFF_EMAIL)
+    .maybeSingle();
+
+  let userId = existing?.id ?? null;
+  if (!userId) {
+    const { data: created, error } = await supabaseAdmin.auth.admin.createUser({
+      email: DEMO_STAFF_EMAIL,
+      email_confirm: true,
+      user_metadata: { display_name: "Sam Rivera", role: "staff" },
+    });
+    if (error || !created.user) {
+      return { ok: false as const, message: "PACE could not open the demo staff account." };
+    }
+    userId = created.user.id;
+  }
+
+  await supabaseAdmin.from("profiles").upsert({
+    id: userId,
+    email: DEMO_STAFF_EMAIL,
+    display_name: "Sam Rivera",
+    greeting_name: "Sam",
+  });
+  await supabaseAdmin
+    .from("user_roles")
+    .upsert({ user_id: userId, role: "staff" }, { onConflict: "user_id,role" });
+
+  const residentId = await ensureDemoResident();
+  if (residentId) {
+    await supabaseAdmin
+      .from("resident_assignments")
+      .upsert({ staff_id: userId, resident_id: residentId }, { onConflict: "staff_id,resident_id" });
+  }
+
+  const { data: link, error: linkError } = await supabaseAdmin.auth.admin.generateLink({
+    type: "magiclink",
+    email: DEMO_STAFF_EMAIL,
+  });
+  if (linkError || !link?.properties?.hashed_token) {
+    return { ok: false as const, message: "PACE could not sign you in just now." };
+  }
+  return { ok: true as const, tokenHash: link.properties.hashed_token };
+});
+
 /** Signs a senior in with the 4-digit PIN a caregiver set for them. */
 export const signInWithPin = createServerFn({ method: "POST" })
   .inputValidator((input: { email?: string; pin: string }) =>
