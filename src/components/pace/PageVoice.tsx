@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useLumaStrideWellness } from "@/lib/lumastride-wellness";
 import { understandPaceChoice } from "@/lib/pace-voice";
-import { speakInstructions } from "@/lib/speech";
+import { onSpeechBlocked, speakInstructions } from "@/lib/speech";
 
 type BrowserRecognition = {
   lang: string;
@@ -46,6 +46,9 @@ export function PageVoice() {
   const [heard, setHeard] = useState("");
   const [reply, setReply] = useState("");
   const [supported, setSupported] = useState(false);
+  const [blocked, setBlocked] = useState(false);
+
+  useEffect(() => onSpeechBlocked(setBlocked), []);
 
   useEffect(() => {
     const scope = window as typeof window & {
@@ -121,7 +124,11 @@ export function PageVoice() {
   return (
     <div className="page-voice" role="region" aria-label="Audio companion">
       <div className="page-voice-inner">
-        {reply ? (
+        {blocked ? (
+          <p className="page-voice-reply" aria-live="polite">
+            Tap anywhere on the screen to let PACE speak.
+          </p>
+        ) : reply ? (
           <p className="page-voice-reply" aria-live="polite">
             {reply}
             {heard && <span className="sr-only"> You said: {heard}.</span>}

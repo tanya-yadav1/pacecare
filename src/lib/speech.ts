@@ -2,6 +2,43 @@ type SpeechEvent = { type?: string; audio?: string; message?: string };
 
 let player: HTMLAudioElement | null = null;
 
+// Browsers (and the preview iframe) block audio until the person interacts with
+// the page. We remember what PACE wanted to say and speak it on the first tap.
+let unlocked = false;
+let pendingText: string | null = null;
+let armed = false;
+const blockedListeners = new Set<(blocked: boolean) => void>();
+
+export function onSpeechBlocked(listener: (blocked: boolean) => void) {
+  blockedListeners.add(listener);
+  return () => {
+    blockedListeners.delete(listener);
+  };
+}
+
+function setBlocked(blocked: boolean) {
+  blockedListeners.forEach((listener) => listener(blocked));
+}
+
+function armUnlock() {
+  if (armed || typeof window === "undefined") return;
+  armed = true;
+  const release = () => {
+    armed = false;
+    unlocked = true;
+    setBlocked(false);
+    window.removeEventListener("pointerdown", release);
+    window.removeEventListener("keydown", release);
+    window.removeEventListener("touchstart", release);
+    const text = pendingText;
+    pendingText = null;
+    if (text) void speakInstructions(text).catch(() => {});
+  };
+  window.addEventListener("pointerdown", release, { once: true });
+  window.addEventListener("keydown", release, { once: true });
+  window.addEventListener("touchstart", release, { once: true });
+}
+
 function decodeBase64(value: string) {
   const binary = atob(value);
   const bytes = new Uint8Array(binary.length);
@@ -61,7 +98,17 @@ export async function speakInstructions(text: string) {
   const url = URL.createObjectURL(new Blob([wav], { type: "audio/wav" }));
   player.src = url;
   player.volume = 1;
-  await player.play().catch(() => { throw new Error("Your browser blocked sound. Tap Hear instructions once more."); });
+  try {
+    await player.play();
+    unlocked = true;
+    setBlocked(false);
+  } catch {
+    URL.revokeObjectURL(url);
+    pendingText = text;
+    setBlocked(true);
+    armUnlock();
+    return;
+  }
   await new Promise<void>((resolve, reject) => {
     if (!player) return reject(new Error("Audio playback is unavailable."));
     player.onended = () => resolve();
