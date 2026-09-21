@@ -48,7 +48,7 @@ function greetingFor(hour: number) {
 
 function SeniorHome() {
   const { name } = useLumaStrideWellness();
-  const { loading, session, user, preferences, savePreferences } = usePaceAuth();
+  const { loading, session, user, profile, preferences, savePreferences } = usePaceAuth();
   const navigate = useNavigate();
   const [greeting] = useState(() => greetingFor(new Date().getHours()));
   const [myEvents, setMyEvents] = useState<PaceEvent[]>([]);
