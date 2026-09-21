@@ -95,16 +95,19 @@ function SeniorHome() {
     const greetFromTap = () => {
       if (greetedRef.current) return;
       greetedRef.current = true;
+      // Use the same speaking path as the "Hear welcome" button, which is
+      // known to work: device voice first, generated voice as backup.
       if (speakImmediatelyOnGesture(text)) return;
       primeSpeechForGesture();
       void speakInstructions(text).catch(() => {
         greetedRef.current = false;
       });
     };
-    window.addEventListener("pointerdown", greetFromTap, { once: true });
-    window.addEventListener("keydown", greetFromTap, { once: true });
+    // Listen for the same event type as the working button: a real click.
+    window.addEventListener("click", greetFromTap);
+    window.addEventListener("keydown", greetFromTap);
     return () => {
-      window.removeEventListener("pointerdown", greetFromTap);
+      window.removeEventListener("click", greetFromTap);
       window.removeEventListener("keydown", greetFromTap);
     };
   }, [accessibility.voiceInstructions, name]);
