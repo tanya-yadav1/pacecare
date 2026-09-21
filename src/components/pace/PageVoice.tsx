@@ -47,4 +47,450 @@ const pageIntros: Record<string, string> = {
 "Explore. Here you can discover gentle movement, stretching, or breathing activities.",
 
 "/relax":
-"Quiet. Take a calm minute to rest. Choose a peaceful sound or simply bre
+"Quiet. Take a calm minute to rest. Choose a peaceful sound or simply breathe.",
+
+"/progress":
+"My Journey. Look back at moments you enjoyed and add a short note if you like.",
+
+"/accessibility":
+"Accessibility settings. Here you can make text larger, turn on high contrast, and adjust voice settings.",
+
+"/staff":
+"Staff overview. This screen shows residents and thoughtful connection ideas.",
+
+"/pace-demo":
+"PACE demo. This is a short sample walk-through with pretend data.",
+};
+
+function introFor(path: string, name: string) {
+const base =
+pageIntros[path] ??
+"I'm PACE. You can talk to me or choose something on the screen.";
+
+if (path === "/") {
+return base.replace(
+"Good morning.",
+Good morning, ${name}.
+);
+}
+
+return base;
+}
+
+function speakWithBrowser(text: string): boolean {
+if (typeof window === "undefined") {
+return false;
+}
+
+if (!("speechSynthesis" in window)) {
+return false;
+}
+
+if (typeof window.SpeechSynthesisUtterance === "undefined") {
+return false;
+}
+
+try {
+window.speechSynthesis.cancel();
+
+const utterance =
+  new window.SpeechSynthesisUtterance(text);
+
+utterance.rate = 0.82;
+utterance.pitch = 1;
+utterance.volume = 1;
+
+window.speechSynthesis.speak(utterance);
+
+return true;
+
+} catch {
+return false;
+}
+}
+
+export function PageVoice() {
+const path = useRouterState({
+select: (state) => state.location.pathname,
+});
+
+const navigate = useNavigate();
+
+const { name } = useLumaStrideWellness();
+
+const recognition =
+useRef<SpeechRecognitionLike | null>(null);
+
+const speechTimer =
+useRef<number | null>(null);
+
+const speechSafetyTimer =
+useRef<number | null>(null);
+
+const [speaking, setSpeaking] =
+useState(false);
+
+const [listening, setListening] =
+useState(false);
+
+const [heard, setHeard] =
+useState("");
+
+const [reply, setReply] =
+useState("");
+
+const [supported, setSupported] =
+useState(false);
+
+const [started, setStarted] =
+useState(false);
+
+const speak = (text: string) => {
+if (typeof window === "undefined") {
+return;
+}
+
+if (speechTimer.current !== null) {
+  window.clearTimeout(speechTimer.current);
+  speechTimer.current = null;
+}
+
+if (speechSafetyTimer.current !== null) {
+  window.clearTimeout(speechSafetyTimer.current);
+  speechSafetyTimer.current = null;
+}
+
+const worked = speakWithBrowser(text);
+
+if (!worked) {
+  setSpeaking(false);
+  return;
+}
+
+setSpeaking(true);
+
+const checkSpeech = () => {
+  if (!window.speechSynthesis.speaking) {
+    setSpeaking(false);
+    speechTimer.current = null;
+    return;
+  }
+
+  speechTimer.current =
+    window.setTimeout(checkSpeech, 200);
+};
+
+speechTimer.current =
+  window.setTimeout(checkSpeech, 200);
+
+speechSafetyTimer.current =
+  window.setTimeout(() => {
+    setSpeaking(false);
+    speechSafetyTimer.current = null;
+  }, 15000);
+
+};
+
+const handleWords = (words: string) => {
+const clean = words.trim();
+
+setListening(false);
+
+if (!clean) {
+  return;
+}
+
+const lower = clean.toLowerCase();
+
+setHeard(clean);
+
+if (
+  lower.includes("home") ||
+  lower.includes("start over") ||
+  lower.includes("main page")
+) {
+  setReply("Going home.");
+
+  speak("Going home.");
+
+  window.setTimeout(() => {
+    void navigate({ to: "/" });
+  }, 900);
+
+  return;
+}
+
+if (
+  lower.includes("go back") ||
+  lower.includes("previous") ||
+  lower === "back"
+) {
+  setReply("Going back.");
+
+  speak("Going back.");
+
+  window.setTimeout(() => {
+    window.history.back();
+  }, 900);
+
+  return;
+}
+
+const result =
+  understandPaceChoice(clean);
+
+setReply(result.reply);
+
+speak(result.reply);
+
+if (result.path) {
+  window.setTimeout(() => {
+    void navigate({
+      to: result.path,
+    });
+  }, 1200);
+}
+
+};
+
+useEffect(() => {
+if (typeof window === "undefined") {
+return;
+}
+
+const speechWindow =
+  window as SpeechWindow;
+
+const Recognition =
+  speechWindow.SpeechRecognition ??
+  speechWindow.webkitSpeechRecognition;
+
+if (!Recognition) {
+  setSupported(false);
+  return;
+}
+
+setSupported(true);
+
+const instance =
+  new Recognition();
+
+instance.lang = "en-US";
+instance.interimResults = false;
+instance.continuous = false;
+
+instance.onresult = (event) => {
+  const transcript =
+    event.results?.[0]?.[0]?.transcript ?? "";
+
+  handleWords(transcript);
+};
+
+instance.onerror = () => {
+  setListening(false);
+
+  setReply(
+    "I couldn't hear that. Please try again, or choose something on the screen."
+  );
+};
+
+instance.onend = () => {
+  setListening(false);
+};
+
+recognition.current = instance;
+
+return () => {
+  if (speechTimer.current !== null) {
+    window.clearTimeout(
+      speechTimer.current
+    );
+
+    speechTimer.current = null;
+  }
+
+  if (
+    speechSafetyTimer.current !== null
+  ) {
+    window.clearTimeout(
+      speechSafetyTimer.current
+    );
+
+    speechSafetyTimer.current = null;
+  }
+
+  try {
+    instance.stop();
+  } catch {
+    // Ignore cleanup errors.
+  }
+
+  recognition.current = null;
+
+  if ("speechSynthesis" in window) {
+    window.speechSynthesis.cancel();
+  }
+};
+
+}, []);
+
+const startPace = () => {
+const message =
+introFor(path, name);
+
+setStarted(true);
+setReply("");
+setHeard("");
+
+speak(message);
+
+};
+
+const startListening = () => {
+if (
+!supported ||
+!recognition.current
+) {
+const message =
+"Voice listening isn't available on this device. You can choose an option on the screen instead.";
+
+  setReply(message);
+
+  speak(message);
+
+  return;
+}
+
+if (listening || speaking) {
+  return;
+}
+
+setListening(true);
+setHeard("");
+setReply("");
+
+try {
+  recognition.current.start();
+} catch {
+  setListening(false);
+
+  const message =
+    "Let's try that again. Please tap Talk to PACE once more.";
+
+  setReply(message);
+
+  speak(message);
+}
+
+};
+
+const hearPage = () => {
+const message =
+introFor(path, name);
+
+speak(message);
+
+};
+
+if (!started) {
+return (
+<div className="page-voice" role="region" aria-label="Welcome to PACE" >
+<div className="page-voice-inner">
+<div className="page-voice-welcome">
+<Volume2 aria-hidden className="page-voice-welcome-icon" />
+
+        <p
+          className="page-voice-reply"
+          aria-live="polite"
+        >
+          Welcome to PACE.
+        </p>
+
+        <p className="page-voice-hint">
+          I'm here to help you enjoy your day,
+          stay connected, and feel supported.
+        </p>
+
+        <Button
+          variant="default"
+          size="xl"
+          className="pace-start-button"
+          onClick={startPace}
+          aria-label="Start PACE and hear welcome"
+        >
+          <Volume2 aria-hidden />
+          Start PACE
+        </Button>
+      </div>
+    </div>
+  </div>
+);
+
+}
+
+return (
+<div className="page-voice" role="region" aria-label="PACE voice assistant" >
+<div className="page-voice-inner">
+{reply ? (
+<p className="page-voice-reply" aria-live="polite" >
+{reply}
+
+        {heard ? (
+          <span className="sr-only">
+            You said: {heard}.
+          </span>
+        ) : null}
+      </p>
+    ) : (
+      <p
+        className="page-voice-hint"
+        aria-live="polite"
+      >
+        {speaking
+          ? "PACE is speaking..."
+          : listening
+            ? "I'm listening... Take your time."
+            : `Good morning, ${name}.`}
+      </p>
+    )}
+
+    <div className="page-voice-actions">
+      <Button
+        variant={
+          listening
+            ? "default"
+            : "amber"
+        }
+        size="xl"
+        onClick={startListening}
+        disabled={
+          listening || speaking
+        }
+        aria-label="Talk to PACE"
+      >
+        <Mic aria-hidden />
+
+        {listening
+          ? "Listening..."
+          : "Talk to PACE"}
+      </Button>
+
+      <Button
+        variant="secondary"
+        size="xl"
+        onClick={hearPage}
+        disabled={speaking}
+        aria-label="Hear PACE"
+      >
+        <Volume2 aria-hidden />
+
+        {speaking
+          ? "Speaking..."
+          : "Hear PACE"}
+      </Button>
+    </div>
+  </div>
+</div>
+
+);
+}
