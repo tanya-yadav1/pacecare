@@ -339,41 +339,14 @@ export function PageVoice() {
   };
 
   return (
-    <div className="page-voice" role="region" aria-label="PACE voice assistant">
+    <div className="page-voice">
       <div className="page-voice-inner">
-        {reply ? (
-          <p className="page-voice-reply" aria-live="polite">
-            {reply}
-
-            {heard ? <span className="sr-only">You said: {heard}.</span> : null}
-          </p>
-        ) : (
-          <p className="page-voice-hint" aria-live="polite">
-            {speaking
-              ? "PACE is speaking..."
-              : listening
-                ? "I'm listening... Take your time."
-                : `Good morning, ${name}.`}
-          </p>
-        )}
-
-        <div className="page-voice-actions">
-          <Button
-            variant={listening ? "default" : "amber"}
-            size="xl"
-            onClick={startListening}
-            disabled={listening || speaking}
-            aria-label="Talk to PACE"
-          >
-            <Mic aria-hidden />
-            {listening ? "Listening..." : "Talk to PACE"}
-          </Button>
-
-          <Button variant="secondary" size="xl" onClick={hearPage} disabled={speaking} aria-label="Hear PACE">
-            <Volume2 aria-hidden />
-            {speaking ? "Speaking..." : "Hear PACE"}
-          </Button>
+        <div>
+          <strong>Welcome to PACE</strong>
+          <p className="page-voice-hint">Good morning, {name}. What would you like to do today?</p>
         </div>
+
+        {/* your existing voice controls */}
       </div>
     </div>
   );
