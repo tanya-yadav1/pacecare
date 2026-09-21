@@ -34,4 +34,4 @@
 - [x] Add a polished no-sign-in Caregiver / Staff demo with sample residents, planning, handoffs, and connection insights.
 - [x] Reframe saved activity, notes, preferences, feedback, and trusted-circle data around discovery and connection.
 - [x] Update navigation, accessibility, metadata, logo, favicon, and every visible route to the new PACE meaning.
-- [ ] Verify senior and staff journeys on desktop and mobile, including browser-supported voice behavior.
+- [x] Verify senior and staff journeys on desktop and mobile, including browser-supported voice behavior.
