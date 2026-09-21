@@ -262,6 +262,8 @@ export function PageVoice() {
     instance.onresult = (event) => {
       const transcript = event.results?.[0]?.[0]?.transcript ?? "";
 
+      console.log("PACE heard:", transcript);
+
       handleWordsRef.current(transcript);
     };
 
