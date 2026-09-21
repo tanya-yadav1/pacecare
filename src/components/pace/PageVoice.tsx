@@ -53,11 +53,7 @@ function introFor(path: string, name: string): string {
   const base = pageIntros[path] ?? "I'm PACE. You can talk to me or choose something on the screen.";
 
   if (path === "/") {
-    return (
-      "Good morning, " +
-      name +
-      ". I'm PACE. I'm here to help you enjoy your day and stay connected. What would you like to do today? You can say listen, connect, explore, or quiet."
-    );
+    return base.replace("Good morning.", `Good morning, ${name}.`);
   }
 
   return base;
