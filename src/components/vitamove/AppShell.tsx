@@ -16,7 +16,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const [mobile, setMobile] = useState(false);
   const isDemo = path === "/pace-demo";
   const isStaffArea = path === "/staff";
-  const isStaff = isStaffArea || mode === "staff";
+  const isStaff = isStaffArea;
   const legacyPaths = new Set([
     "/assessment",
     "/care",
@@ -52,12 +52,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   if (isStaffArea && role !== "staff") return <Navigate to="/" replace />;
 
   const links = isStaff
-    ? ([
-        ["/staff", "Overview"],
-        ["/connect", "Connections"],
-        ["/progress", "Moments"],
-        ["/button-audit", "Button audit"],
-      ] as const)
+    ? ([["/staff", "Residents"]] as const)
     : ([
         ["/", "Home"],
         ["/listen", "Listen"],
