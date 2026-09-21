@@ -81,7 +81,9 @@ function SeniorSignIn() {
     return (
       <div className="simple-page auth-page">
         <header className="welcome-masthead">
-          <img src={paceLogo} alt="PACE" className="welcome-logo" />
+          <div className="welcome-logo-wrap">
+            <img src={paceLogo} alt="PACE" className="welcome-logo" />
+          </div>
           <div className="welcome-brand-text">
             <h1 className="welcome-brand-title">PACE</h1>
             <p className="welcome-brand-subtitle">Personalized Aging & Connection Experience</p>
@@ -104,7 +106,9 @@ function SeniorSignIn() {
   return (
     <div className="welcome-page">
       <header className="welcome-masthead">
-        <img src={paceLogo} alt="PACE" className="welcome-logo" />
+        <div className="welcome-logo-wrap">
+          <img src={paceLogo} alt="PACE" className="welcome-logo" />
+        </div>
         <div className="welcome-brand-text">
           <h1 className="welcome-brand-title">PACE</h1>
           <p className="welcome-brand-subtitle">Personalized Aging & Connection Experience</p>
