@@ -157,6 +157,12 @@ function SeniorSignIn() {
       </Button>
 
       <p className="simple-note">
+        <strong>Your privacy:</strong> PACE saves only your name, what you choose, and how you say it
+        felt. Nothing is sold or shared outside your care team, and you can delete everything at any
+        time from My Settings.
+      </p>
+
+      <p className="simple-note">
         Are you a caregiver or staff member? <a href="/staff-signin">Staff sign in</a>
       </p>
     </div>
