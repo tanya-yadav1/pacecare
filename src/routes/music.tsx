@@ -27,11 +27,9 @@ const catalog: MusicFavorite[] = [
 function Music() {
   const state = useLumaStrideWellness();
   const [query, setQuery] = useState("");
-  const [targetText, setTargetText] = useState(state.targetCadence?.toString() ?? "");
   const [playing, setPlaying] = useState<string | null>(null);
   const target = state.targetCadence ?? state.cadence;
   const results = useMemo(() => catalog.filter((song) => `${song.title} ${song.artist} ${song.genre}`.toLowerCase().includes(query.toLowerCase())), [query]);
-  const matching = catalog.filter((song) => target && song.bpm && Math.abs(song.bpm - target) <= 8);
 
   return <div className="simple-page wide">
     <Link to="/" className="simple-back"><ChevronLeft /> Home</Link>
