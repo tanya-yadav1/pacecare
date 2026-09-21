@@ -1507,35 +1507,36 @@ html.reduce-motion *::after {
 }
 .welcome-masthead {
   width: min(100%, 42rem);
-  margin: 0 auto 2rem;
+  margin: 0 auto 1rem;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.welcome-logo {
+  width: 4.5rem;
+  height: 4.5rem;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+.welcome-spacer {
+  flex: 0 0 4.5rem;
+  width: 4.5rem;
+}
+.welcome-masthead .auth-title {
+  flex: 1 1 auto;
   text-align: center;
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  margin: 0;
 }
-.welcome-masthead > div:first-child {
-  flex-direction: column;
-  gap: 0.7rem;
-}
-.welcome-masthead > div:first-child > div {
+.welcome-tagline {
   text-align: center;
-}
-.welcome-masthead img {
-  width: 7.25rem;
-  height: 7.25rem;
-}
-.welcome-masthead strong {
-  font-size: 2.25rem;
-}
-.welcome-masthead small,
-.welcome-masthead span {
-  display: block;
-}
-.welcome-masthead > p {
-  margin-top: 0.6rem;
   color: var(--muted-foreground);
   font-size: 1.2rem;
   font-weight: 700;
+  margin: 0 auto 2rem;
+  width: min(100%, 42rem);
 }
 .welcome-content {
   width: min(100%, 39rem);
