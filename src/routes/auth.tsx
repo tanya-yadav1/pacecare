@@ -80,10 +80,11 @@ function SeniorSignIn() {
   if (sent) {
     return (
       <div className="simple-page auth-page">
-        <div className="auth-brand">
-          <Brand />
-        </div>
-        <h1 className="auth-title">Check your email</h1>
+        <header className="welcome-masthead">
+          <img src={paceLogo} alt="PACE" className="welcome-logo" />
+          <h1 className="auth-title">Check your email</h1>
+          <div className="welcome-spacer" aria-hidden="true" />
+        </header>
         <p className="simple-lead">
           PACE sent a sign-in link to {email}. Open the email and tap the big link.
         </p>
