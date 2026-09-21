@@ -1502,7 +1502,7 @@ html.reduce-motion *::after {
 /* ---- Sign-in front page: big bold brand ---- */
 .welcome-page {
   min-height: 100vh;
-  padding: 2rem 1.25rem 4rem;
+  padding: 0.5rem 1.25rem 3rem;
   background: linear-gradient(180deg, var(--background) 0%, var(--surface) 100%);
 }
 .welcome-masthead {
