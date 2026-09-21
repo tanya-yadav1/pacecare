@@ -295,17 +295,15 @@ export function PageVoice() {
       }
     };
   }, []);
-
   const startPace = () => {
-    const message = introFor(path, name);
+    console.log("START PACE CLICKED");
 
     setStarted(true);
-    setReply("");
+    setReply("PACE has started.");
     setHeard("");
 
-    speak(message);
+    console.log("STARTED SET TO TRUE");
   };
-
   const startListening = () => {
     if (!supported || !recognition.current) {
       const message = "Voice listening isn't available on this device. You can choose an option on the screen instead.";
