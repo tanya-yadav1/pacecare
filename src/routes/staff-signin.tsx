@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, BriefcaseBusiness, MonitorPlay, ShieldCheck } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Brand } from "@/components/vitamove/Brand";
+import paceLogo from "@/assets/pace-logo.png";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { usePaceAuth } from "@/lib/pace-auth";
