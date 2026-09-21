@@ -114,7 +114,8 @@ export function PageVoice() {
     setReply(result.reply);
     setListening(false);
     void speak(result.reply);
-    if (result.path) window.setTimeout(() => void navigate({ to: result.path }), 1100);
+    const destination = result.path;
+    if (destination) window.setTimeout(() => void navigate({ to: destination }), 1100);
   };
 
   return (
