@@ -243,7 +243,13 @@ function StaffMode() {
       </section>
 
       {selected && (
-        <section className="staff-card" aria-labelledby="edit-heading">
+        <section
+          className="staff-card"
+          aria-labelledby="edit-heading"
+          ref={(node) => {
+            editRef.current = node;
+          }}
+        >
           <h2 id="edit-heading">Edit {selected.display_name || selected.email}</h2>
           <label htmlFor="resident-name">Preferred name</label>
           <Input id="resident-name" value={nameDraft} onChange={(event) => setNameDraft(event.target.value)} />
