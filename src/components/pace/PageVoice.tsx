@@ -343,9 +343,37 @@ export function PageVoice() {
   console.log("PACE START SCREEN SHOULD SHOW");
   if (!started) {
     return (
-      <div style={{ padding: 40, background: "white", color: "black" }}>
-        <h1>PACE START SCREEN</h1>
-        <button onClick={startPace}>Start PACE</button>
+      <div
+        style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: 99999,
+          backgroundColor: "red",
+          color: "white",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          fontSize: "40px",
+        }}
+      >
+        <div>PACE START SCREEN</div>
+
+        <button
+          onClick={startPace}
+          style={{
+            marginTop: "30px",
+            padding: "20px 40px",
+            fontSize: "30px",
+            backgroundColor: "white",
+            color: "black",
+            border: "3px solid black",
+            borderRadius: "10px",
+            cursor: "pointer",
+          }}
+        >
+          Start PACE
+        </button>
       </div>
     );
   }
