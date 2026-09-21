@@ -62,6 +62,7 @@ function StaffSignIn() {
       setMessage(result.message);
       return;
     }
+    setStage("pin");
     const { error } = await supabase.auth.verifyOtp({
       type: "email",
       token_hash: result.tokenHash,
