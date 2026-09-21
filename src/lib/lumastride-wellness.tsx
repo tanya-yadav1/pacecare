@@ -113,7 +113,7 @@ export function LumaStrideWellnessProvider({ children }: { children: ReactNode }
   const [accessibility, setAccessibilityState] = useState<AccessibilityPreferences>({
     textSize: "standard",
     highContrast: false,
-    voiceInstructions: false,
+    voiceInstructions: true,
     reducedMotion: false,
     screenReaderSupport: true,
   });

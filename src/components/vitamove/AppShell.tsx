@@ -2,6 +2,7 @@ import { Link, Navigate, useRouterState } from "@tanstack/react-router";
 import { Accessibility, Home, Menu, Settings, UsersRound, X } from "lucide-react";
 import { useState } from "react";
 import { Brand } from "./Brand";
+import { PageVoice } from "@/components/pace/PageVoice";
 import { Button } from "@/components/ui/button";
 import { useLumaStrideWellness } from "@/lib/lumastride-wellness";
 
@@ -111,6 +112,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         )}
       </header>
       <main className="pace-main">{children}</main>
+      {!isDemo && path !== "/" && <PageVoice />}
       <footer className="pace-disclaimer">
         PACE supports personal choice and connection. It does not diagnose, cure, or treat any
         medical or mental-health condition.

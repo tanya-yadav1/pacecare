@@ -802,7 +802,7 @@
     @apply lg:hidden;
   }
   .pace-main {
-    @apply pt-20;
+    @apply pt-20 pb-36;
   }
   .pace-disclaimer {
     @apply border-t border-border bg-surface px-5 py-5 text-center text-sm font-semibold text-muted-foreground;
@@ -1148,4 +1148,21 @@ html.reduce-motion *::after {
   --color-surface: oklch(0.99 0.005 255);
   --color-success: oklch(0.627 0.194 149.214);
   --color-success-foreground: oklch(0.988 0.005 149.214);
+}
+
+.page-voice {
+  @apply fixed bottom-20 left-4 right-4 z-40 sm:bottom-6 sm:left-1/2 sm:right-auto sm:w-full sm:max-w-2xl sm:-translate-x-1/2;
+}
+.page-voice-inner {
+  @apply flex flex-col items-center gap-3 rounded-2xl border-2 border-primary bg-surface/95 p-4 shadow-2xl backdrop-blur-sm sm:flex-row sm:justify-between;
+}
+.page-voice-hint,
+.page-voice-reply {
+  @apply m-0 text-center text-lg font-semibold text-foreground sm:text-left;
+}
+.page-voice-actions {
+  @apply flex shrink-0 flex-wrap items-center justify-center gap-3;
+}
+.page-voice-actions button {
+  @apply min-h-14 px-6 text-lg;
 }

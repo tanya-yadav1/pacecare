@@ -70,7 +70,7 @@ const choices = [
 ];
 
 function SeniorHome() {
-  const { name, setMode } = useLumaStrideWellness();
+  const { name, setMode, accessibility } = useLumaStrideWellness();
   const navigate = useNavigate();
   const recognition = useRef<BrowserRecognition | null>(null);
   const [listening, setListening] = useState(false);
@@ -79,6 +79,14 @@ function SeniorHome() {
   const [typed, setTyped] = useState("");
   const [supported, setSupported] = useState(false);
   const [welcoming, setWelcoming] = useState(false);
+
+  useEffect(() => {
+    if (!accessibility.voiceInstructions) return;
+    const timer = window.setTimeout(() => {
+      void speakInstructions(`Good morning, ${name}. What would you like right now?`).catch(() => {});
+    }, 900);
+    return () => window.clearTimeout(timer);
+  }, [accessibility.voiceInstructions, name]);
 
   const hearWelcome = async () => {
     setWelcoming(true);
