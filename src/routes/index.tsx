@@ -70,7 +70,6 @@ function SeniorHome() {
   const [reply, setReply] = useState("");
   const [typed, setTyped] = useState("");
   const [supported, setSupported] = useState(false);
-  const [welcoming, setWelcoming] = useState(false);
   const [blocked, setBlocked] = useState(false);
 
   useEffect(() => onSpeechBlocked(setBlocked), []);
@@ -81,12 +80,9 @@ function SeniorHome() {
     const text = `Good morning, ${name}. What would you like right now? Listen, for music you enjoy. Connect, with family, friends, and neighbors. Explore, to find something meaningful. Or Quiet, to rest and unwind.`;
 
     const timer = window.setTimeout(() => {
-      if (!speakImmediatelyOnGesture(text)) {
-        primeSpeechForGesture();
-        void speakInstructions(text).catch(() => {
-          console.log("PACE welcome could not be spoken automatically.");
-        });
-      }
+      void speakInstructions(text).catch((error) => {
+        console.error("PACE welcome failed:", error);
+      });
     }, 500);
 
     return () => {
@@ -156,10 +152,7 @@ function SeniorHome() {
               <Settings />
             </Link>
           </Button>
-          <Button variant="outline" size="lg" onClick={() => void hearWelcome()} disabled={welcoming}>
-            <Mic />
-            {welcoming ? "Speaking…" : "Hear welcome"}
-          </Button>
+
           <Button variant="outline" size="lg" asChild onClick={() => setMode("staff")}>
             <Link to="/staff">
               <UsersRound />
