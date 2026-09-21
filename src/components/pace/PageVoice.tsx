@@ -1,4 +1,3 @@
-```tsx
 import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { Mic, Volume2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
