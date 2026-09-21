@@ -67,20 +67,20 @@
 
 :root {
   --radius: 0.5rem;
-  --background: oklch(0.985 0.006 185);
-  --foreground: oklch(0.19 0.055 245);
-  --card: oklch(1 0 0);
+  --background: oklch(0.975 0.018 88);
+  --foreground: oklch(0.25 0.035 153);
+  --card: oklch(0.995 0.008 90);
   --card-foreground: oklch(0.129 0.042 264.695);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.37 0.09 190);
+  --primary: oklch(0.43 0.075 151);
   --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
+  --secondary: oklch(0.92 0.037 148);
   --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.79 0.15 83);
-  --accent-foreground: oklch(0.2 0.05 250);
+  --muted: oklch(0.94 0.018 220);
+  --muted-foreground: oklch(0.43 0.04 220);
+  --accent: oklch(0.79 0.095 54);
+  --accent-foreground: oklch(0.25 0.04 40);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
   --border: oklch(0.73 0.025 245);
@@ -99,17 +99,17 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
-  --surface: oklch(1 0 0);
+  --surface: oklch(0.995 0.008 90);
   --success: oklch(0.52 0.15 150);
   --success-foreground: oklch(1 0 0);
-  --walk: oklch(0.47 0.11 185);
-  --walk-foreground: oklch(0.99 0.01 150);
-  --exercise: oklch(0.31 0.09 245);
-  --exercise-foreground: oklch(0.99 0.01 245);
-  --voice: oklch(0.77 0.15 82);
-  --voice-foreground: oklch(0.18 0.04 55);
-  --relax: oklch(0.60 0.10 173);
-  --relax-foreground: oklch(0.16 0.04 210);
+  --walk: oklch(0.84 0.06 220);
+  --walk-foreground: oklch(0.25 0.05 230);
+  --exercise: oklch(0.88 0.065 150);
+  --exercise-foreground: oklch(0.25 0.05 150);
+  --voice: oklch(0.88 0.075 52);
+  --voice-foreground: oklch(0.28 0.05 40);
+  --relax: oklch(0.9 0.035 280);
+  --relax-foreground: oklch(0.3 0.04 280);
 }
 
 .dark {
@@ -360,6 +360,72 @@
   .help-panel { @apply w-[min(92vw,28rem)] space-y-4 rounded-lg border-2 border-destructive bg-surface p-5 shadow-2xl; }
   .help-panel > div:first-child { @apply border-b border-border pb-3; }
   .quick-setup { @apply mt-8 space-y-7 border-t-4 border-primary bg-surface p-5 sm:p-7; }
+  .pace-header { @apply fixed inset-x-0 top-0 z-40 border-b border-border bg-surface/95 shadow-sm backdrop-blur; }
+  .pace-header-inner { @apply mx-auto flex min-h-20 max-w-screen-xl items-center gap-4 px-4 lg:px-7; }
+  .pace-nav { @apply ml-auto hidden items-stretch self-stretch lg:flex; }
+  .header-actions { @apply ml-auto flex items-center gap-2 lg:ml-2; }
+  .mobile-menu-button { @apply lg:hidden; }
+  .pace-main { @apply pt-20; }
+  .pace-disclaimer { @apply border-t border-border bg-surface px-5 py-5 text-center text-sm font-semibold text-muted-foreground; }
+  .senior-home { @apply mx-auto max-w-6xl px-5 py-8 sm:px-8 sm:py-12; }
+  .senior-topline { @apply mb-8 flex items-start justify-between gap-6; }
+  .senior-topline p { @apply text-xl font-bold text-primary sm:text-2xl; }
+  .senior-topline p span { @apply text-destructive; }
+  .senior-topline h1 { @apply mt-2 max-w-3xl text-4xl sm:text-6xl; }
+  .home-tools { @apply flex shrink-0 items-center gap-2; }
+  .senior-choice-grid { @apply grid gap-5 sm:grid-cols-2; }
+  .senior-choice { @apply flex min-h-44 items-center gap-5 rounded-lg border-2 border-transparent p-6 text-foreground shadow-sm transition-transform focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring sm:min-h-52 sm:p-8; }
+  .senior-choice:hover { transform: translateY(-3px); }
+  .senior-choice svg { @apply h-16 w-16 shrink-0 sm:h-20 sm:w-20; }
+  .senior-choice span { @apply flex min-w-0 flex-col; }
+  .senior-choice strong { @apply text-3xl sm:text-4xl; }
+  .senior-choice small { @apply mt-2 text-lg font-bold sm:text-xl; }
+  .senior-choice-listen { background: var(--walk); color: var(--walk-foreground); }
+  .senior-choice-connect { background: var(--voice); color: var(--voice-foreground); }
+  .senior-choice-explore { background: var(--exercise); color: var(--exercise-foreground); }
+  .senior-choice-quiet { background: var(--relax); color: var(--relax-foreground); }
+  .voice-choice { @apply mt-7 grid items-center gap-4 border-y-2 border-primary bg-surface p-5 sm:grid-cols-[auto_1fr_auto] sm:p-7; }
+  .voice-choice > svg { @apply h-14 w-14 text-primary; }
+  .voice-choice h2 { @apply text-3xl; }
+  .voice-choice p { @apply mt-1 text-lg text-muted-foreground; }
+  .voice-choice .voice-confirm, .voice-choice .pace-reply { @apply mt-3 text-foreground; }
+  .voice-fallback { @apply mt-5; }
+  .voice-fallback label { @apply block text-lg font-bold; }
+  .voice-fallback > div { @apply mt-2 flex flex-col gap-3 sm:flex-row; }
+  .voice-fallback input { @apply min-h-14 min-w-0 flex-1 rounded-md border-2 border-input bg-surface px-4 text-lg; }
+  .mission-line { @apply mx-auto mt-8 max-w-3xl text-center text-lg font-bold text-primary; }
+  .connection-grid { @apply grid gap-4 sm:grid-cols-2; }
+  .connection-grid > * { @apply h-auto min-h-32 justify-start whitespace-normal p-5 text-left; }
+  .connection-grid svg { @apply h-10 w-10; }
+  .connection-grid span { @apply flex flex-col; }
+  .connection-grid strong { @apply text-xl; }
+  .connection-grid small { @apply mt-1 text-base; }
+  .connection-confirm { @apply mt-7 grid items-center gap-5 border-y-4 border-primary bg-surface p-6 sm:grid-cols-[auto_1fr_auto]; }
+  .connection-confirm > svg { @apply h-14 w-14 text-primary; }
+  .feedback-panel { @apply mt-8 flex flex-col gap-5 border-t-4 border-accent bg-surface p-6; }
+  .feedback-panel > svg { @apply h-12 w-12 text-primary; }
+  .feedback-choices { @apply flex flex-wrap gap-3; }
+  .staff-page { @apply mx-auto max-w-screen-2xl px-5 py-8 sm:px-8; }
+  .staff-heading { @apply flex flex-wrap items-end justify-between gap-5 border-b-2 border-border pb-6; }
+  .staff-heading p:last-child { @apply mt-2 text-muted-foreground; }
+  .staff-principle { @apply my-6 border-l-4 border-accent bg-surface p-5 text-xl font-bold; }
+  .staff-layout { @apply grid gap-6 lg:grid-cols-[19rem_minmax(0,1fr)]; }
+  .resident-list { @apply space-y-3; }
+  .resident-list > button { @apply h-auto min-h-20 w-full justify-start whitespace-normal p-4 text-left; }
+  .resident-list span { @apply flex min-w-0 flex-col; }
+  .resident-list small { @apply mt-1 text-sm opacity-80; }
+  .resident-detail { @apply min-w-0; }
+  .resident-banner { @apply flex items-center gap-5 border-y-2 border-border bg-surface p-6; }
+  .resident-avatar { @apply grid h-20 w-20 shrink-0 place-items-center rounded-full bg-primary text-2xl font-black text-primary-foreground; }
+  .staff-grid { @apply my-6 grid gap-5 xl:grid-cols-2; }
+  .staff-grid article { @apply min-w-0 border-t-4 border-primary bg-surface p-5; }
+  .staff-grid article > svg { @apply mb-3 h-9 w-9 text-primary; }
+  .staff-grid article > p { @apply my-3; }
+  .interest-row { @apply my-3 flex flex-wrap gap-2; }
+  .interest-row span, .consent-label { @apply rounded-md bg-secondary px-3 py-2 font-bold text-secondary-foreground; }
+  .handoff-panel { @apply grid gap-4 border-y-2 border-border bg-surface p-6 sm:grid-cols-[auto_1fr]; }
+  .handoff-panel > svg { @apply h-10 w-10 text-primary; }
+  .staff-footer { @apply mt-6 flex items-center justify-center gap-2 text-sm font-semibold text-muted-foreground; }
   @media print { header, .simple-back, .activity-actions, .help-panel, .fixed { display: none !important; } main { padding-top: 0 !important; } .simple-page { max-width: none; } }
 }
 html[data-text-size="large"] { font-size: 112.5%; }
@@ -369,6 +435,13 @@ html.reduce-motion *, html.reduce-motion *::before, html.reduce-motion *::after 
 @keyframes slide-down { from { transform: translateY(-100%); opacity: 0; } }
 @keyframes breathe { 0%, 100% { transform: scale(.88); } 50% { transform: scale(1.05); } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+@media (max-width: 639px) {
+  .senior-topline { align-items: flex-start; }
+  .home-tools > a:first-child { display: none; }
+  .senior-choice { min-height: 9rem; }
+  .senior-choice svg { width: 3.5rem; height: 3.5rem; }
+  .senior-choice strong { font-size: 2rem; }
+}
 
 @layer components {
   .nav-link {
