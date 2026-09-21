@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { Brand } from "@/components/vitamove/Brand";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { usePaceAuth } from "@/lib/pace-auth";
@@ -127,9 +128,12 @@ function StaffSignIn() {
   }
 
   return (
-    <div className="simple-page">
+    <div className="simple-page auth-page">
+      <div className="auth-brand">
+        <Brand />
+      </div>
       <p className="eyebrow">Caregiver &amp; Staff</p>
-      <h1>{mode === "in" ? "Staff sign in" : "Create a staff account"}</h1>
+      <h1 className="auth-title">{mode === "in" ? "Staff sign in" : "Create a staff account"}</h1>
       <p className="simple-lead">
         Staff accounts see only the residents assigned to them. All resident content in this
         demonstration is fictional.

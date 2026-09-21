@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { KeyRound, Mail } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Brand } from "@/components/vitamove/Brand";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { usePaceAuth } from "@/lib/pace-auth";
@@ -78,8 +79,11 @@ function SeniorSignIn() {
 
   if (sent) {
     return (
-      <div className="simple-page">
-        <h1>Check your email</h1>
+      <div className="simple-page auth-page">
+        <div className="auth-brand">
+          <Brand />
+        </div>
+        <h1 className="auth-title">Check your email</h1>
         <p className="simple-lead">
           PACE sent a sign-in link to {email}. Open the email and tap the big link.
         </p>
@@ -94,10 +98,11 @@ function SeniorSignIn() {
   }
 
   return (
-    <div className="simple-page">
-      <p className="eyebrow">PACE</p>
-      <h1>Welcome back</h1>
-      <p className="simple-lead">Your voice. Your choice. Your moment.</p>
+    <div className="simple-page auth-page">
+      <div className="auth-brand">
+        <Brand />
+      </div>
+      <h1 className="auth-title">Welcome to PACE</h1>
 
       <form
         className="auth-form"
@@ -107,12 +112,12 @@ function SeniorSignIn() {
           else void sendLink();
         }}
       >
-        <label htmlFor="pace-email">Your email</label>
+        <label htmlFor="pace-email">Your email{usePin ? " (not needed for the demo PIN)" : ""}</label>
         <input
           id="pace-email"
           type="email"
           autoComplete="email"
-          required
+          required={!usePin}
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           placeholder="eleanor@example.com"
@@ -133,11 +138,18 @@ function SeniorSignIn() {
           </>
         )}
 
-        <Button size="xl" type="submit" disabled={busy || !email.trim()}>
+        <Button size="xl" type="submit" disabled={busy || (usePin ? pin.length !== 4 : !email.trim())}>
           {usePin ? <KeyRound /> : <Mail />}
           {usePin ? "Sign in" : "Send my sign-in link"}
         </Button>
       </form>
+
+      {usePin && (
+        <p className="simple-note">
+          Trying the demonstration? Leave the email empty and enter PIN <strong>1234</strong> to sign
+          in as Eleanor, our fictional resident.
+        </p>
+      )}
 
       {message && (
         <p className="pace-reply" role="status">
