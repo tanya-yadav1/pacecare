@@ -67,5 +67,5 @@
 
 ## New Tasks
 
-- [ ] Build senior dashboard with calendar, daily schedule, reminders, and simple profile
-- [ ] Add senior mode back in staff mode as a safe preview option
+- [x] Build senior dashboard with calendar, daily schedule, reminders, and simple profile
+- [x] Add senior mode back in staff mode as a safe preview option
