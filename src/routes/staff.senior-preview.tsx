@@ -90,7 +90,7 @@ function SeniorPreview() {
     <div className="senior-preview-page">
       <div className="senior-preview-banner" role="banner">
         <ShieldCheck aria-hidden />
-        <span>You are previewing senior mode with fictional demo data (Eleanor).</span>
+        <span>You are previewing senior mode with fictional demo data.</span>
         <Button asChild variant="secondary" size="sm">
           <Link to="/staff">Back to staff dashboard</Link>
         </Button>
@@ -110,7 +110,7 @@ function SeniorPreview() {
 
         {view === "home" ? (
           <>
-            <p className="senior-preview-greeting">Good afternoon, Eleanor</p>
+            <p className="senior-preview-greeting">Good afternoon, {resident.name}</p>
             <h1>What would you like right now?</h1>
             <div className="senior-choice-grid">
               {demoChoices.map(({ label, detail, Icon, tone }) => (
