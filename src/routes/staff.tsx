@@ -42,9 +42,12 @@ function asList(value: unknown): string[] {
 
 function StaffMode() {
   const childMatches = useChildMatches();
-  if (childMatches.length > 0) {
-    return <Outlet />;
-  }
+  if (childMatches.length > 0) return <Outlet />;
+  return <StaffDashboard />;
+}
+
+function StaffDashboard() {
+
 
   const [residents, setResidents] = useState<ResidentProfile[]>([]);
   const [events, setEvents] = useState<PaceEvent[]>([]);
