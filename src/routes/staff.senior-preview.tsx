@@ -127,17 +127,34 @@ function SeniorPreview() {
           </>
         ) : (
           <div className="my-day-page">
+            <section aria-label="Choose a resident to preview">
+              <h2 className="my-day-section-title"><UserRound aria-hidden /> Choose a resident</h2>
+              <div className="flex flex-wrap gap-3 mb-6" role="tablist" aria-label="Residents">
+                {demoResidents.map((r) => (
+                  <Button
+                    key={r.id}
+                    size="lg"
+                    variant={residentId === r.id ? "default" : "outline"}
+                    role="tab"
+                    aria-selected={residentId === r.id}
+                    onClick={() => { setResidentId(r.id); setNote(""); }}
+                  >
+                    {r.name}
+                  </Button>
+                ))}
+              </div>
+            </section>
             <section className="my-day-profile" aria-label="Profile">
               <div className="my-day-avatar" aria-hidden><UserRound /></div>
               <div>
-                <h1 className="my-day-greeting">Good afternoon, Eleanor</h1>
+                <h1 className="my-day-greeting">Good afternoon, {resident.name}</h1>
                 <p className="my-day-date">{today.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}</p>
               </div>
             </section>
             <section className="my-day-schedule" aria-labelledby="pv-schedule">
               <h2 id="pv-schedule" className="my-day-section-title"><CalendarDays aria-hidden /> Today's schedule</h2>
               <ul className="my-day-list">
-                {demoSchedule.map((item) => (
+                {schedule.map((item) => (
                   <li key={item.time}>
                     <button type="button" className={`my-day-card my-day-card-${item.tone}`} onClick={() => tap(item.title)}>
                       <span className="my-day-time">{item.time}</span>
@@ -151,10 +168,10 @@ function SeniorPreview() {
             <section className="my-day-profile-card" aria-labelledby="pv-profile">
               <h2 id="pv-profile" className="my-day-section-title">My simple profile</h2>
               <dl className="my-day-dl">
-                <div><dt>Name</dt><dd>Eleanor Brooks</dd></div>
-                <div><dt>Favorite music</dt><dd>Gospel, Country, Big Band</dd></div>
-                <div><dt>People I care about</dt><dd>Maya (Daughter), Samuel (Neighbor)</dd></div>
-                <div><dt>Things I enjoy</dt><dd>Gardening, Stories, Birds</dd></div>
+                <div><dt>Name</dt><dd>{resident.fullName}</dd></div>
+                <div><dt>Favorite music</dt><dd>{resident.music.join(", ")}</dd></div>
+                <div><dt>People I care about</dt><dd>{resident.people.join(", ")}</dd></div>
+                <div><dt>Things I enjoy</dt><dd>{resident.interests.join(", ")}</dd></div>
               </dl>
             </section>
           </div>
