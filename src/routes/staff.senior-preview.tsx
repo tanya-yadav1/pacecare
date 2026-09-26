@@ -27,17 +27,61 @@ const demoChoices = [
   { label: "Quiet", detail: "Rest and unwind", Icon: Moon, tone: "quiet" },
 ];
 
-const demoSchedule = [
-  { time: "9:00 AM", title: "Listen", detail: "Enjoy some gospel", tone: "listen", Icon: Headphones },
-  { time: "11:00 AM", title: "Connect", detail: "Say hello to Maya", tone: "connect", Icon: MessageCircleHeart },
-  { time: "2:00 PM", title: "Explore", detail: "Spend time with gardening", tone: "explore", Icon: Leaf },
-  { time: "4:00 PM", title: "Gentle movement", detail: "A comfortable seated stretch", tone: "explore", Icon: Music },
-  { time: "7:00 PM", title: "Quiet time", detail: "Rest and unwind", tone: "quiet", Icon: Moon },
+type DemoResident = {
+  id: string;
+  name: string;
+  fullName: string;
+  music: string[];
+  people: string[];
+  interests: string[];
+};
+
+const demoResidents: DemoResident[] = [
+  {
+    id: "eleanor",
+    name: "Eleanor",
+    fullName: "Eleanor Brooks",
+    music: ["Gospel", "Country", "Big Band"],
+    people: ["Maya (Daughter)", "Samuel (Neighbor)"],
+    interests: ["Gardening", "Stories", "Birds"],
+  },
+  {
+    id: "walter",
+    name: "Walter",
+    fullName: "Walter Hayes",
+    music: ["Jazz", "Classical"],
+    people: ["Ruth (Wife)", "David (Son)"],
+    interests: ["Chess", "History", "Radio"],
+  },
+  {
+    id: "rosa",
+    name: "Rosa",
+    fullName: "Rosa Alvarez",
+    music: ["Soul", "Folk"],
+    people: ["Carmen (Sister)", "Luis (Grandson)"],
+    interests: ["Cooking", "Flowers", "Dancing"],
+  },
 ];
+
+function scheduleFor(resident: DemoResident) {
+  const genre = resident.music[0]?.toLowerCase() ?? "music they love";
+  const person = resident.people[0]?.split(" (")[0] ?? "someone they care about";
+  const interest = resident.interests[0]?.toLowerCase() ?? "something meaningful";
+  return [
+    { time: "9:00 AM", title: "Listen", detail: `Enjoy some ${genre}`, tone: "listen", Icon: Headphones },
+    { time: "11:00 AM", title: "Connect", detail: `Say hello to ${person}`, tone: "connect", Icon: MessageCircleHeart },
+    { time: "2:00 PM", title: "Explore", detail: `Spend time with ${interest}`, tone: "explore", Icon: Leaf },
+    { time: "4:00 PM", title: "Gentle movement", detail: "A comfortable seated stretch", tone: "explore", Icon: Music },
+    { time: "7:00 PM", title: "Quiet time", detail: "Rest and unwind", tone: "quiet", Icon: Moon },
+  ];
+}
 
 function SeniorPreview() {
   const [view, setView] = useState<"home" | "myday">("home");
+  const [residentId, setResidentId] = useState("eleanor");
   const [note, setNote] = useState("");
+  const resident = demoResidents.find((r) => r.id === residentId) ?? demoResidents[0];
+  const schedule = scheduleFor(resident);
   const tap = (label: string) =>
     setNote(`Preview only: a resident tapping "${label}" would open that activity. Staff stay in Staff Mode.`);
   const today = new Date();
