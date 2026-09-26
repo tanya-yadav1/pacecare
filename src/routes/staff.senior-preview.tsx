@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Headphones, Leaf, MessageCircleHeart, Moon, ShieldCheck } from "lucide-react";
+import { CalendarDays, Headphones, Home, Leaf, MessageCircleHeart, Moon, Music, ShieldCheck, UserRound } from "lucide-react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/staff/senior-preview")({
@@ -20,45 +21,100 @@ export const Route = createFileRoute("/staff/senior-preview")({
 });
 
 const demoChoices = [
-  { to: "/listen" as const, label: "Listen", detail: "Music I enjoy", Icon: Headphones, tone: "listen" },
-  { to: "/connect" as const, label: "Connect", detail: "Family, friends & neighbors", Icon: MessageCircleHeart, tone: "connect" },
-  { to: "/explore" as const, label: "Explore", detail: "Find something meaningful", Icon: Leaf, tone: "explore" },
-  { to: "/quiet" as const, label: "Quiet", detail: "Rest and unwind", Icon: Moon, tone: "quiet" },
+  { label: "Listen", detail: "Music I enjoy", Icon: Headphones, tone: "listen" },
+  { label: "Connect", detail: "Family, friends & neighbors", Icon: MessageCircleHeart, tone: "connect" },
+  { label: "Explore", detail: "Find something meaningful", Icon: Leaf, tone: "explore" },
+  { label: "Quiet", detail: "Rest and unwind", Icon: Moon, tone: "quiet" },
+];
+
+const demoSchedule = [
+  { time: "9:00 AM", title: "Listen", detail: "Enjoy some gospel", tone: "listen", Icon: Headphones },
+  { time: "11:00 AM", title: "Connect", detail: "Say hello to Maya", tone: "connect", Icon: MessageCircleHeart },
+  { time: "2:00 PM", title: "Explore", detail: "Spend time with gardening", tone: "explore", Icon: Leaf },
+  { time: "4:00 PM", title: "Gentle movement", detail: "A comfortable seated stretch", tone: "explore", Icon: Music },
+  { time: "7:00 PM", title: "Quiet time", detail: "Rest and unwind", tone: "quiet", Icon: Moon },
 ];
 
 function SeniorPreview() {
+  const [view, setView] = useState<"home" | "myday">("home");
+  const [note, setNote] = useState("");
+  const tap = (label: string) =>
+    setNote(`Preview only: a resident tapping "${label}" would open that activity. Staff stay in Staff Mode.`);
+  const today = new Date();
+
   return (
     <div className="senior-preview-page">
       <div className="senior-preview-banner" role="banner">
         <ShieldCheck aria-hidden />
-        <span>You are previewing senior mode. Residents do not see staff tools.</span>
+        <span>You are previewing senior mode with fictional demo data (Eleanor).</span>
         <Button asChild variant="secondary" size="sm">
           <Link to="/staff">Back to staff dashboard</Link>
         </Button>
       </div>
 
       <div className="senior-preview-inner">
-        <p className="senior-preview-greeting">Good afternoon, Eleanor</p>
-        <h1>What would you like right now?</h1>
-
-        <div className="senior-choice-grid">
-          {demoChoices.map(({ to, label, detail, Icon, tone }) => (
-            <Link
-              key={to}
-              to={to}
-              className={`senior-choice senior-choice-${tone}`}
-              aria-label={`${label}: ${detail}`}
-            >
-              <Icon aria-hidden />
-              <span>
-                <strong>{label}</strong>
-                <small>{detail}</small>
-              </span>
-            </Link>
-          ))}
+        <div className="flex flex-wrap gap-3 mb-6" role="tablist" aria-label="Preview screens">
+          <Button size="lg" variant={view === "home" ? "default" : "outline"} role="tab" aria-selected={view === "home"} onClick={() => { setView("home"); setNote(""); }}>
+            <Home aria-hidden /> Home
+          </Button>
+          <Button size="lg" variant={view === "myday" ? "default" : "outline"} role="tab" aria-selected={view === "myday"} onClick={() => { setView("myday"); setNote(""); }}>
+            <CalendarDays aria-hidden /> My Day
+          </Button>
         </div>
 
-        <p className="mission-line">PACE doesn’t decide what matters to you. PACE helps you show us what matters.</p>
+        {note && <p className="simple-note" role="status">{note}</p>}
+
+        {view === "home" ? (
+          <>
+            <p className="senior-preview-greeting">Good afternoon, Eleanor</p>
+            <h1>What would you like right now?</h1>
+            <div className="senior-choice-grid">
+              {demoChoices.map(({ label, detail, Icon, tone }) => (
+                <button key={label} type="button" onClick={() => tap(label)} className={`senior-choice senior-choice-${tone}`} aria-label={`${label}: ${detail}`}>
+                  <Icon aria-hidden />
+                  <span>
+                    <strong>{label}</strong>
+                    <small>{detail}</small>
+                  </span>
+                </button>
+              ))}
+            </div>
+            <p className="mission-line">PACE doesn’t decide what matters to you. PACE helps you show us what matters.</p>
+          </>
+        ) : (
+          <div className="my-day-page">
+            <section className="my-day-profile" aria-label="Profile">
+              <div className="my-day-avatar" aria-hidden><UserRound /></div>
+              <div>
+                <h1 className="my-day-greeting">Good afternoon, Eleanor</h1>
+                <p className="my-day-date">{today.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}</p>
+              </div>
+            </section>
+            <section className="my-day-schedule" aria-labelledby="pv-schedule">
+              <h2 id="pv-schedule" className="my-day-section-title"><CalendarDays aria-hidden /> Today's schedule</h2>
+              <ul className="my-day-list">
+                {demoSchedule.map((item) => (
+                  <li key={item.time}>
+                    <button type="button" className={`my-day-card my-day-card-${item.tone}`} onClick={() => tap(item.title)}>
+                      <span className="my-day-time">{item.time}</span>
+                      <span className="my-day-card-title"><item.Icon aria-hidden /> {item.title}</span>
+                      <span className="my-day-card-detail">{item.detail}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </section>
+            <section className="my-day-profile-card" aria-labelledby="pv-profile">
+              <h2 id="pv-profile" className="my-day-section-title">My simple profile</h2>
+              <dl className="my-day-dl">
+                <div><dt>Name</dt><dd>Eleanor Brooks</dd></div>
+                <div><dt>Favorite music</dt><dd>Gospel, Country, Big Band</dd></div>
+                <div><dt>People I care about</dt><dd>Maya (Daughter), Samuel (Neighbor)</dd></div>
+                <div><dt>Things I enjoy</dt><dd>Gardening, Stories, Birds</dd></div>
+              </dl>
+            </section>
+          </div>
+        )}
       </div>
     </div>
   );
