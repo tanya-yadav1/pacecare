@@ -2396,3 +2396,78 @@ html.reduce-motion *::after {
     width: 100%;
   }
 }
+
+/* Staff senior preview: resident dropdown + recent choices */
+.preview-resident-picker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--surface) 78%, var(--sage));
+}
+
+.preview-resident-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.preview-resident-select {
+  flex: 1 1 14rem;
+  min-height: 48px;
+  padding: 0.5rem 0.85rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--surface);
+  border: 2px solid color-mix(in srgb, var(--sage-deep) 55%, var(--ink));
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.preview-resident-select:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.preview-recent-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.preview-recent-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--surface) 80%, var(--blue));
+}
+
+.preview-recent-label {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.preview-recent-meta {
+  font-size: 0.95rem;
+  color: color-mix(in srgb, var(--ink) 75%, transparent);
+}
+
+.my-day-empty {
+  font-size: 1.05rem;
+  color: color-mix(in srgb, var(--ink) 78%, transparent);
+}
