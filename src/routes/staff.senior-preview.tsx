@@ -86,8 +86,8 @@ function peopleList(value: unknown): string[] {
       if (typeof entry === "string") return entry;
       if (entry && typeof entry === "object") {
         const record = entry as Record<string, unknown>;
-        const name = typeof record.name === "string" ? record.name : "";
-        const relationship = typeof record.relationship === "string" ? record.relationship : "";
+        const name = typeof record["name"] === "string" ? record["name"] : "";
+        const relationship = typeof record["relationship"] === "string" ? record["relationship"] : "";
         if (name) return relationship ? `${name} (${relationship})` : name;
       }
       return "";
