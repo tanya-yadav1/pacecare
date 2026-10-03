@@ -136,9 +136,9 @@ function SeniorPreview() {
           id: row.id,
           name,
           fullName: row.display_name || name,
-          music: asList(prefs.music).length ? asList(prefs.music) : asList(prefs.favorite_genres),
-          people: peopleList(prefs.people),
-          interests: asList(prefs.interests),
+          music: asList(prefs["music"]).length ? asList(prefs["music"]) : asList(prefs["favorite_genres"]),
+          people: peopleList(prefs["people"]),
+          interests: asList(prefs["interests"]),
           notes: row.staff_notes,
         };
       });
