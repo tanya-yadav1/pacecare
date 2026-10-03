@@ -80,7 +80,7 @@ function SeniorPreview() {
   const [view, setView] = useState<"home" | "myday">("home");
   const [residentId, setResidentId] = useState("eleanor");
   const [note, setNote] = useState("");
-  const resident = demoResidents.find((r) => r.id === residentId) ?? demoResidents[0];
+  const resident = demoResidents.find((r) => r.id === residentId) ?? demoResidents[0]!;
   const schedule = scheduleFor(resident);
   const tap = (label: string) =>
     setNote(`Preview only: a resident tapping "${label}" would open that activity. Staff stay in Staff Mode.`);
