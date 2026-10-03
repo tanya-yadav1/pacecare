@@ -69,3 +69,4 @@
 
 - [x] Build senior dashboard with calendar, daily schedule, reminders, and simple profile
 - [x] Add senior mode back in staff mode as a safe preview option
+- [x] Staff senior preview: resident dropdown that scales to many residents, staff-focused day view (no senior Home screen)
