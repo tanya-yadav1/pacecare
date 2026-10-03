@@ -2405,9 +2405,9 @@ html.reduce-motion *::after {
   gap: 0.75rem;
   margin-bottom: 1.25rem;
   padding: 0.85rem 1rem;
-  border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+  border: 2px solid var(--color-border);
   border-radius: 16px;
-  background: color-mix(in srgb, var(--surface) 78%, var(--sage));
+  background: var(--color-muted);
 }
 
 .preview-resident-label {
@@ -2416,7 +2416,7 @@ html.reduce-motion *::after {
   gap: 0.45rem;
   font-size: 1.05rem;
   font-weight: 700;
-  color: var(--ink);
+  color: var(--foreground);
 }
 
 .preview-resident-select {
@@ -2425,15 +2425,15 @@ html.reduce-motion *::after {
   padding: 0.5rem 0.85rem;
   font-size: 1.05rem;
   font-weight: 600;
-  color: var(--ink);
-  background: var(--surface);
-  border: 2px solid color-mix(in srgb, var(--sage-deep) 55%, var(--ink));
+  color: var(--foreground);
+  background: var(--color-card);
+  border: 2px solid var(--color-primary);
   border-radius: 12px;
   cursor: pointer;
 }
 
 .preview-resident-select:focus-visible {
-  outline: 3px solid var(--gold);
+  outline: 3px solid var(--color-ring);
   outline-offset: 2px;
 }
 
@@ -2453,21 +2453,22 @@ html.reduce-motion *::after {
   gap: 0.5rem;
   padding: 0.7rem 0.9rem;
   border-radius: 12px;
-  background: color-mix(in srgb, var(--surface) 80%, var(--blue));
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
 }
 
 .preview-recent-label {
   font-size: 1.05rem;
   font-weight: 700;
-  color: var(--ink);
+  color: var(--foreground);
 }
 
 .preview-recent-meta {
   font-size: 0.95rem;
-  color: color-mix(in srgb, var(--ink) 75%, transparent);
+  color: var(--color-muted-foreground);
 }
 
 .my-day-empty {
   font-size: 1.05rem;
-  color: color-mix(in srgb, var(--ink) 78%, transparent);
+  color: var(--color-muted-foreground);
 }
