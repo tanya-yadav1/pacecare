@@ -26,6 +26,10 @@ Connect	Stay socially engaged by reaching friends, family, and other residents. 
 Explore	Interactive activities including puzzles, games, and gentle exercise to stay mentally and physically engaged.
 Your Voice Matters	Available in every feature. After an activity, residents share quick feedback about what they did.
 My Moments	Every piece of feedback is saved here, building the resident's profile over time and personalizing the app.
+Spoken guidance
+
+PACE can read instructions aloud, so residents do not have to rely on reading small text. It streams a generated voice from a server route, can use the device's built in voice for an instant response to a tap, and handles browsers that block sound until the first tap. When running locally, the AI generated voice needs a LOVABLE_API_KEY (see Environment variables). The live demo has it configured.
+
 Staff Mode
 Feature	What it does
 Resident overview	See each resident's interests, preferences, and needs in one place.
@@ -41,15 +45,17 @@ Staff sign in: separate staff login.
 During account setup, residents can share a little about themselves, which PACE uses to personalize Connect.
 Tech stack
 Layer	Technology
-Language	TypeScript / JavaScript
-Frontend	React, Vite
-Styling	Tailwind CSS, shadcn/ui
-Backend and database	Supabase (PostgreSQL and Auth) through Lovable Cloud
+Language	TypeScript
+Framework	TanStack Start (React 19, TanStack Router, TanStack Query), built with Vite
+UI	Tailwind CSS v4, Radix UI components, Lucide icons
+Forms and validation	React Hook Form, Zod
+Backend and database	Supabase (PostgreSQL and Auth)
+Voice	Browser speech synthesis, plus AI generated speech through the Lovable AI Gateway (Google Gemini text to speech)
 Platform	Web (desktop, tablet, and mobile browsers)
 Hosting	Lovable
 Run it locally
 Prerequisites
-Node.js 18 or newer
+Node.js 20.19 or newer (the current LTS release is recommended)
 npm (included with Node.js)
 Steps
 bash
@@ -63,28 +69,38 @@ npm install
 # 3. Start the development server
 npm run dev
 
-Open the local address printed in your terminal (usually http://localhost:8080 or http://localhost:5173).
+Open the local address printed in your terminal.
 
 Environment variables
 
-PACE connects to a Supabase backend. If your clone does not already include a .env file, create one in the project root:
+PACE connects to a Supabase backend. The repository includes a .env file with the public settings for the PACE backend, so you can run the project without extra setup. To connect your own Supabase project instead, copy .env.example to .env and replace the values with ones from your Supabase dashboard (Project Settings, then API):
 
 bash
-VITE_SUPABASE_URL=your-supabase-project-url
-VITE_SUPABASE_PUBLISHABLE_KEY=your-supabase-public-anon-key
+cp .env.example .env
+Variable	Used by	What it is
+VITE_SUPABASE_URL	Browser	Your Supabase project URL
+VITE_SUPABASE_PUBLISHABLE_KEY	Browser	Your Supabase publishable (public) key
+VITE_SUPABASE_PROJECT_ID	Browser	Your Supabase project ID
+SUPABASE_URL	Server	Same project URL
+SUPABASE_PUBLISHABLE_KEY	Server	Same publishable key
+SUPABASE_PROJECT_ID	Server	Same project ID
+LOVABLE_API_KEY	Server (optional)	Key for the AI generated voice. It is provided automatically when the app is hosted on Lovable. Without it, AI generated speech is unavailable.
 
-Only use the public (anon) key in the frontend. Never commit a service role key.
+The publishable key is designed to be used in the browser, and access to data is controlled by the database's own rules. Never put a Supabase service role key in the frontend or commit it to this repository. LOVABLE_API_KEY is also a secret: it stays on the server and must never be committed.
 
 Other commands
 bash
-npm run build     # create a production build
-npm run preview   # preview the production build locally
-npm run lint      # check code quality
+npm run build      # create a production build
+npm run build:dev  # build in development mode
+npm run preview    # preview the production build locally
+npm run lint       # check code quality with ESLint
+npm run format     # format the code with Prettier
 Accessibility and design choices
 
 PACE is designed around how people with memory loss and age related changes actually use technology:
 
 Large text and large, easy to tap buttons
+Instructions that can be read aloud
 One clear action at a time, instead of dense menus
 Familiar things (music, people) instead of open ended questions
 Calm, uncluttered screens with warm, high contrast colors
@@ -93,6 +109,7 @@ Privacy
 The senior demo uses fictional data only.
 Residents and staff have separate modes, and staff tools are kept out of the resident experience.
 Account information is only used to personalize the experience. It is not sold.
+When PACE reads text aloud with its generated voice, that text is sent to an AI speech service (through the Lovable AI Gateway) to create the audio.
 If you try PACE with real people, please get permission from the facility and the residents or their families first.
 Project status
 
